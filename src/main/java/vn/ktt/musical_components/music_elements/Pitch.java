@@ -1,4 +1,4 @@
-package vn.ktt.musical_components;
+package vn.ktt.musical_components.music_elements;
 
 public class Pitch implements Comparable<Pitch> {
     private final Note note;

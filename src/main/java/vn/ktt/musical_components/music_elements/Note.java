@@ -1,4 +1,4 @@
-package vn.ktt.musical_components;
+package vn.ktt.musical_components.music_elements;
 
 public enum Note {
     C(1),
