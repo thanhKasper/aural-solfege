@@ -1,0 +1,18 @@
+[
+  {
+    "instrument": "piano",
+    "rootDir": "piano",
+    "sounds": [
+      {
+        "note": "C",
+        "accidental": "none",
+        "octavePosition": "4",
+        "soundFile": "do/c_4.mp3"
+      }
+    ]
+  },
+  {
+    "instrument": "guitar",
+    "sounds": []
+  }
+]
