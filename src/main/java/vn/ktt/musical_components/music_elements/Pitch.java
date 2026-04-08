@@ -1,14 +1,15 @@
 package vn.ktt.musical_components.music_elements;
 
-public class Pitch implements Comparable<Pitch> {
-    private final Note note;
-    private final Accidental accidental;
-    private final Octave octave;
+import vn.ktt.musical_components.sound_generator.ISoundRepository;
 
-    public Pitch(Note note, Accidental accidental, Octave octave) {
-        this.note = note;
-        this.accidental = accidental;
-        this.octave = octave;
+public class Pitch implements Comparable<Pitch> {
+    private Note note;
+    private Accidental accidental;
+    private Octave octave;
+    private final ISoundRepository soundRepository;
+
+    public Pitch(ISoundRepository soundRepo) {
+        this.soundRepository = soundRepo;
     }
 
     @Override
@@ -26,6 +27,18 @@ public class Pitch implements Comparable<Pitch> {
 
     public Octave getOctave() {
         return octave;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
+    }
+
+    public void setOctave(Octave octave) {
+        this.octave = octave;
+    }
+
+    public void setAccidental(Accidental accidental) {
+        this.accidental = accidental;
     }
 
     public void makeSound() {
