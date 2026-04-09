@@ -5,7 +5,7 @@
     "sounds": [
       {
         "note": "C",
-        "accidental": "none",
+        "accidental": "NONE",
         "octavePosition": "4",
         "soundFile": "do/c_4.mp3"
       }

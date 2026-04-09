@@ -16,7 +16,7 @@ public enum Octave {
         this.octavePosition = octavePosition;
     }
 
-    int getIntegerOctave() {
+    public int getIntegerOctave() {
         return octavePosition;
     }
 }
