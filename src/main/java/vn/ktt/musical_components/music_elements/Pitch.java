@@ -1,6 +1,5 @@
 package vn.ktt.musical_components.music_elements;
 
-import vn.ktt.musical_components.sound_generator.ISoundRepository;
 import vn.ktt.shared.SoundPlayer;
 
 public class Pitch implements Comparable<Pitch> {
