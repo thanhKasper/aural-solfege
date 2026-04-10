@@ -1,14 +1,14 @@
 package vn.ktt.musical_components.music_elements;
 
-import vn.ktt.shared.SoundPlayer;
+import vn.ktt.shared.ISoundPlayer;
 
 public class Pitch implements Comparable<Pitch> {
     private final Note note;
     private final Accidental accidental;
     private final Octave octave;
-    private final SoundPlayer soundPlayer;
+    private final ISoundPlayer soundPlayer;
 
-    public Pitch(Note note, Accidental accidental, Octave octave, SoundPlayer soundPlayer) {
+    public Pitch(Note note, Accidental accidental, Octave octave, ISoundPlayer soundPlayer) {
         this.note = note;
         this.accidental = accidental;
         this.octave = octave;

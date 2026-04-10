@@ -3,7 +3,7 @@ package vn.ktt.shared;
 import javax.sound.sampled.*;
 import java.io.InputStream;
 
-public class SoundPlayer {
+public class SoundPlayer implements ISoundPlayer {
     private Clip soundClip;
 
     public SoundPlayer(InputStream inputStream) {
@@ -19,6 +19,7 @@ public class SoundPlayer {
         }
     }
 
+    @Override
     public void play() {
         this.soundClip.start();
         // Wait for clip duration in milliseconds
