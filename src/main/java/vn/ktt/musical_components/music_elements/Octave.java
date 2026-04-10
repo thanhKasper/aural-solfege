@@ -19,4 +19,14 @@ public enum Octave {
     public int getIntegerOctave() {
         return octavePosition;
     }
+
+    // Add this method
+    public static Octave fromInt(int octavePosition) {
+        for (Octave octave : values()) {
+            if (octave.octavePosition == octavePosition) {
+                return octave;
+            }
+        }
+        throw new IllegalArgumentException("No octave found for position: " + octavePosition);
+    }
 }

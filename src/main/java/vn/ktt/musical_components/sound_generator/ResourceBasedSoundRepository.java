@@ -6,6 +6,7 @@ import vn.ktt.musical_components.music_elements.Accidental;
 import vn.ktt.musical_components.music_elements.Note;
 import vn.ktt.musical_components.music_elements.Octave;
 import vn.ktt.musical_components.music_elements.Pitch;
+import vn.ktt.shared.SoundPlayer;
 
 import java.io.InputStream;
 
@@ -43,8 +44,21 @@ public class ResourceBasedSoundRepository implements ISoundRepository {
                                 .equals(sound.get("accidental").asString())
                                 && octave.getIntegerOctave() == sound.get("octavePosition").asInt())
                 .findFirst().orElseThrow();
-        System.out.println(selectedSound.get("soundFile").asString());
-        return null;
+        var soundFileLocation = selectedSound.get("soundFile").asString();
+        var soundPlayer = new SoundPlayer(getClass().getClassLoader().getResourceAsStream(rootPath + "/" + soundFileLocation));
+        return new Pitch(getNote(selectedSound), getAccidental(selectedSound), getOctave(selectedSound), soundPlayer);
+    }
+
+    private Note getNote(JsonNode node) {
+        return Note.valueOf(node.get("note").asString());
+    }
+
+    private Accidental getAccidental(JsonNode node) {
+        return Accidental.valueOf(node.get("accidental").asString());
+    }
+
+    private Octave getOctave(JsonNode node) {
+        return Octave.fromInt(node.get("octavePosition").asInt());
     }
 }
 

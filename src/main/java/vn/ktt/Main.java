@@ -9,5 +9,6 @@ public class Main {
     static void main() {
         ResourceBasedSoundRepository repo = new ResourceBasedSoundRepository();
         var result = repo.getSound(Note.C, Accidental.NONE, Octave.FOURTH);
+        result.makeSound();
     }
 }

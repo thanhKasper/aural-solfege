@@ -1,15 +1,19 @@
 package vn.ktt.musical_components.music_elements;
 
 import vn.ktt.musical_components.sound_generator.ISoundRepository;
+import vn.ktt.shared.SoundPlayer;
 
 public class Pitch implements Comparable<Pitch> {
-    private Note note;
-    private Accidental accidental;
-    private Octave octave;
-    private final ISoundRepository soundRepository;
+    private final Note note;
+    private final Accidental accidental;
+    private final Octave octave;
+    private final SoundPlayer soundPlayer;
 
-    public Pitch(ISoundRepository soundRepo) {
-        this.soundRepository = soundRepo;
+    public Pitch(Note note, Accidental accidental, Octave octave, SoundPlayer soundPlayer) {
+        this.note = note;
+        this.accidental = accidental;
+        this.octave = octave;
+        this.soundPlayer = soundPlayer;
     }
 
     @Override
@@ -29,20 +33,8 @@ public class Pitch implements Comparable<Pitch> {
         return octave;
     }
 
-    public void setNote(Note note) {
-        this.note = note;
-    }
-
-    public void setOctave(Octave octave) {
-        this.octave = octave;
-    }
-
-    public void setAccidental(Accidental accidental) {
-        this.accidental = accidental;
-    }
-
     public void makeSound() {
-        System.out.println("Make sound for " + this.toString());
+        soundPlayer.play();
     }
 
     @Override
