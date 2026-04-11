@@ -7,30 +7,46 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
         return note.toString() + accidental.getAccidental() + octave.getIntegerOctave();
     }
 
-    public static boolean isValid(String pitchNotation) {
-        if (pitchNotation.isBlank()) return false;
-        else if (pitchNotation.length() > 3) return false;
+    public static boolean isNotValid(String pitchNotation) {
+        if (pitchNotation.isBlank()) return true;
+        else if (pitchNotation.length() > 3) return true;
 
         var note = pitchNotation.substring(0, 1);
-        if (!Note.isNote(note.toUpperCase())) return false;
+        if (!Note.isNote(note.toUpperCase())) return true;
         if (pitchNotation.length() == 2) {
             var octavePos = pitchNotation.substring(pitchNotation.length() - 1);
-            return isOctavePositionValid(octavePos);
+            return isOctavePositionInvalid(octavePos);
         } else {
             var accidental = pitchNotation.substring(1, 2);
             var octavePos = pitchNotation.substring(pitchNotation.length() - 1);
-            if (!accidental.equals("#") && !accidental.equals("b")) return false;
-            return isOctavePositionValid(octavePos);
+            if (!accidental.equals("#") && !accidental.equals("b")) return true;
+            return isOctavePositionInvalid(octavePos);
         }
     }
 
-    private static boolean isOctavePositionValid(String octavePosition) {
+    private static boolean isOctavePositionInvalid(String octavePosition) {
         try {
             int intOctavePos = Integer.parseInt(octavePosition);
-            return Octave.isValid(intOctavePos);
+            return !Octave.isValid(intOctavePos);
         } catch (NumberFormatException ex) {
-            return false;
+            return true;
         }
+    }
+
+    public static Note extractNote(String pitchNotation) {
+        if (isNotValid(pitchNotation)) throw new IllegalArgumentException("Unknown pitch notation " + pitchNotation);
+        return Note.valueOf(pitchNotation.substring(0, 1).toUpperCase());
+    }
+
+    public static Accidental extractAccidental(String pitchNotation) {
+        if (isNotValid(pitchNotation)) throw new IllegalArgumentException("Unknown pitch notation " + pitchNotation);
+        return Accidental.FLAT;
+    }
+
+    public static Octave extractOctave(String pitchNotation) {
+        if (isNotValid(pitchNotation)) throw new IllegalArgumentException("Unknown pitch notation " + pitchNotation);
+        int intOctavePosition = Integer.parseInt(pitchNotation.substring(pitchNotation.length() - 1));
+        return Octave.fromInt(intOctavePosition);
     }
 
     @Override
@@ -65,11 +81,11 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
     }
 
     private int compareAccidental(Pitch pitch) {
-        if (pitch.accidental == pitch.accidental()) {
+        if (this.accidental == pitch.accidental) {
             return 0;
-        } else if (this.accidental == Accidental.FLAT && pitch.accidental != Accidental.FLAT) {
+        } else if (this.accidental == Accidental.FLAT) {
             return -1;
-        } else if (this.accidental == Accidental.SHARP && pitch.accidental != Accidental.SHARP) {
+        } else if (this.accidental == Accidental.SHARP) {
             return 1;
         } else if (this.accidental == Accidental.NONE) {
             if (pitch.accidental == Accidental.SHARP) {
