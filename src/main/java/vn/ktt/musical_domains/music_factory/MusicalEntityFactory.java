@@ -1,28 +1,21 @@
-package vn.ktt.musical_domains.sound_generator;
+package vn.ktt.musical_domains.music_factory;
 
 import vn.ktt.musical_domains.music_compositions.Chord;
 import vn.ktt.musical_domains.music_compositions.Interval;
 import vn.ktt.musical_domains.music_elements.Pitch;
-import vn.ktt.sound_controller.ISoundPlayer;
+import vn.ktt.musical_domains.music_services.MusicalValidator;
 
-public class MidiSoundRepository implements ISoundRepository{
-    private final ISoundPlayer soundPlayer;
-
-    public MidiSoundRepository(ISoundPlayer soundPlayer) {
-        this.soundPlayer = soundPlayer;
+public class MusicalEntityFactory {
+    private final MusicalValidator validator;
+    public MusicalEntityFactory(MusicalValidator validator) {
+        this.validator = validator;
     }
-
-    @Override
     public Pitch getPitch(String noteNotation) {
         return null;
     }
-
-    @Override
     public Chord getChord(String chordNotation) {
         return null;
     }
-
-    @Override
     public Interval getInterval(String intervalNotation) {
         return null;
     }
