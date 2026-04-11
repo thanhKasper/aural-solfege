@@ -98,7 +98,6 @@ public class Pitch implements Comparable<Pitch> {
             return octavePosition;
         }
 
-        // Add this method
         public static Octave fromInt(int octavePosition) {
             for (Octave octave : values()) {
                 if (octave.octavePosition == octavePosition) {
@@ -106,6 +105,15 @@ public class Pitch implements Comparable<Pitch> {
                 }
             }
             throw new IllegalArgumentException("No octave found for position: " + octavePosition);
+        }
+
+        public static boolean isValid(int checkOctavePos) {
+            for (Octave octave : values()) {
+                if (checkOctavePos == octave.getIntegerOctave()) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
@@ -126,6 +134,15 @@ public class Pitch implements Comparable<Pitch> {
 
         public int getIntegerNote() {
             return this.noteNumber;
+        }
+
+        public static boolean isNote(String note) {
+            try {
+                Note.valueOf(note);
+                return true;
+            } catch(IllegalArgumentException ex) {
+                return false;
+            }
         }
     }
 
