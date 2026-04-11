@@ -1,4 +1,4 @@
-package vn.ktt.shared.sound_player;
+package vn.ktt.sound_controller;
 
 import vn.ktt.musical_components.music_compositions.Chord;
 import vn.ktt.musical_components.music_compositions.Interval;

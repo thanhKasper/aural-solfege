@@ -1,7 +1,7 @@
 package vn.ktt.musical_components.music_compositions;
 
 import vn.ktt.musical_components.music_elements.Pitch;
-import vn.ktt.shared.sound_player.ISoundPlayer;
+import vn.ktt.sound_controller.ISoundPlayer;
 
 public class Chord {
     private final Pitch rootKey;
@@ -15,7 +15,7 @@ public class Chord {
     }
 
     public void makeSound() {
-        soundPlayer.play();
+        soundPlayer.playTriad(this);
     };
 
     public String toString() {

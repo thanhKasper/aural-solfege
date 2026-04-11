@@ -1,6 +1,6 @@
 package vn.ktt.musical_components.music_elements;
 
-import vn.ktt.shared.sound_player.ISoundPlayer;
+import vn.ktt.sound_controller.ISoundPlayer;
 
 public class Pitch implements Comparable<Pitch> {
     private final Note note;
@@ -33,7 +33,7 @@ public class Pitch implements Comparable<Pitch> {
     }
 
     public void makeSound() {
-        soundPlayer.play();
+        soundPlayer.playPitch(this);
     }
 
     @Override
