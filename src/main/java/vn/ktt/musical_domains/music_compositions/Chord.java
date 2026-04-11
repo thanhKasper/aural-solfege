@@ -1,22 +1,15 @@
 package vn.ktt.musical_domains.music_compositions;
 
 import vn.ktt.musical_domains.music_elements.Pitch;
-import vn.ktt.sound_controller.ISoundPlayer;
 
 public class Chord {
     private final Pitch rootKey;
     private final Quality quality;
-    private final ISoundPlayer soundPlayer;
 
-    public Chord(Pitch rootKey, Quality quality, ISoundPlayer soundPlayer) {
+    public Chord(Pitch rootKey, Quality quality) {
         this.rootKey = rootKey;
         this.quality = quality;
-        this.soundPlayer =  soundPlayer;
     }
-
-    public void makeSound() {
-        soundPlayer.playTriad(this);
-    };
 
     public String toString() {
         return rootKey.toString() + quality.getStringNotation();
