@@ -1,33 +1,36 @@
 package vn.ktt.musical_domains.music_elements;
 
-import vn.ktt.sound_controller.ISoundPlayer;
-
-public class Pitch implements Comparable<Pitch> {
-    private final Note note;
-    private final Accidental accidental;
-    private final Octave octave;
-
-    public Pitch(Note note, Accidental accidental, Octave octave) {
-        this.note = note;
-        this.accidental = accidental;
-        this.octave = octave;
-    }
+public record Pitch(Note note, Accidental accidental, Octave octave) implements Comparable<Pitch> {
 
     @Override
     public String toString() {
         return note.toString() + accidental.getAccidental() + octave.getIntegerOctave();
     }
 
-    public Note getNote() {
-        return note;
+    public static boolean isValid(String pitchNotation) {
+        if (pitchNotation.isBlank()) return false;
+        else if (pitchNotation.length() > 3) return false;
+
+        var note = pitchNotation.substring(0, 1);
+        if (!Note.isNote(note.toUpperCase())) return false;
+        if (pitchNotation.length() == 2) {
+            var octavePos = pitchNotation.substring(pitchNotation.length() - 1);
+            return isOctavePositionValid(octavePos);
+        } else {
+            var accidental = pitchNotation.substring(1, 2);
+            var octavePos = pitchNotation.substring(pitchNotation.length() - 1);
+            if (!accidental.equals("#") && !accidental.equals("b")) return false;
+            return isOctavePositionValid(octavePos);
+        }
     }
 
-    public Accidental getAccidental() {
-        return accidental;
-    }
-
-    public Octave getOctave() {
-        return octave;
+    private static boolean isOctavePositionValid(String octavePosition) {
+        try {
+            int intOctavePos = Integer.parseInt(octavePosition);
+            return Octave.isValid(intOctavePos);
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 
     @Override
@@ -44,25 +47,25 @@ public class Pitch implements Comparable<Pitch> {
     }
 
     private int compareOctavePosition(Pitch pitch) {
-        if (this.octave.getIntegerOctave() > pitch.getOctave().getIntegerOctave()) {
+        if (this.octave.getIntegerOctave() > pitch.octave().getIntegerOctave()) {
             return 1;
-        } else if (this.octave.getIntegerOctave() < pitch.getOctave().getIntegerOctave()) {
+        } else if (this.octave.getIntegerOctave() < pitch.octave().getIntegerOctave()) {
             return -1;
         }
         return 0;
     }
 
     private int compareNote(Pitch pitch) {
-        if (this.note.getIntegerNote() > pitch.getNote().getIntegerNote()) {
+        if (this.note.getIntegerNote() > pitch.note().getIntegerNote()) {
             return 1;
-        } else if (this.note.getIntegerNote() < pitch.getNote().getIntegerNote()) {
+        } else if (this.note.getIntegerNote() < pitch.note().getIntegerNote()) {
             return -1;
         }
         return 0;
     }
 
     private int compareAccidental(Pitch pitch) {
-        if (pitch.accidental == pitch.getAccidental()) {
+        if (pitch.accidental == pitch.accidental()) {
             return 0;
         } else if (this.accidental == Accidental.FLAT && pitch.accidental != Accidental.FLAT) {
             return -1;
@@ -90,6 +93,7 @@ public class Pitch implements Comparable<Pitch> {
         EIGHT(8);
 
         private final int octavePosition;
+
         Octave(int octavePosition) {
             this.octavePosition = octavePosition;
         }
@@ -140,7 +144,7 @@ public class Pitch implements Comparable<Pitch> {
             try {
                 Note.valueOf(note);
                 return true;
-            } catch(IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) {
                 return false;
             }
         }
