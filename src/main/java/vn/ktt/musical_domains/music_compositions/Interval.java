@@ -6,19 +6,11 @@ import vn.ktt.sound_controller.ISoundPlayer;
 public class Interval {
     private IntervalNumber intervalNumber;
     private Pitch basePitch;
-    private ISoundPlayer soundPlayer;
 
-    public Interval(Pitch basePitch, IntervalNumber intervalNumber, ISoundPlayer soundPlayer) {
+    public Interval(Pitch basePitch, IntervalNumber intervalNumber) {
         this.basePitch = basePitch;
         this.intervalNumber =  intervalNumber;
-        this.soundPlayer = soundPlayer;
     }
-
-    public void makeUpwardSound() {
-
-    }
-
-    public void makeDownwardSound() {}
 
     public enum IntervalNumber {
         UNISON(0),

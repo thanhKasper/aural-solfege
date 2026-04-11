@@ -6,13 +6,11 @@ public class Pitch implements Comparable<Pitch> {
     private final Note note;
     private final Accidental accidental;
     private final Octave octave;
-    private final ISoundPlayer soundPlayer;
 
-    public Pitch(Note note, Accidental accidental, Octave octave, ISoundPlayer soundPlayer) {
+    public Pitch(Note note, Accidental accidental, Octave octave) {
         this.note = note;
         this.accidental = accidental;
         this.octave = octave;
-        this.soundPlayer = soundPlayer;
     }
 
     @Override
@@ -30,10 +28,6 @@ public class Pitch implements Comparable<Pitch> {
 
     public Octave getOctave() {
         return octave;
-    }
-
-    public void makeSound() {
-        soundPlayer.playPitch(this);
     }
 
     @Override
