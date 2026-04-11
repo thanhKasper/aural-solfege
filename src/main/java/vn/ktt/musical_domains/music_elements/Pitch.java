@@ -9,7 +9,7 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
 
     public static boolean isNotValid(String pitchNotation) {
         if (pitchNotation.isBlank()) return true;
-        else if (pitchNotation.length() > 3) return true;
+        else if (pitchNotation.length() > 3 || pitchNotation.length() == 1) return true;
 
         var note = pitchNotation.substring(0, 1);
         if (!Note.isNote(note.toUpperCase())) return true;
@@ -40,7 +40,8 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
 
     public static Accidental extractAccidental(String pitchNotation) {
         if (isNotValid(pitchNotation)) throw new IllegalArgumentException("Unknown pitch notation " + pitchNotation);
-        return Accidental.FLAT;
+        String accidental = pitchNotation.substring(1, pitchNotation.length() - 1);
+        return Accidental.getFromString(accidental);
     }
 
     public static Octave extractOctave(String pitchNotation) {
@@ -167,7 +168,7 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
     }
 
     public enum Accidental {
-        SHARP("#"), FLAT("♭"), NONE("");
+        SHARP("♯"), FLAT("♭"), NONE("");
         private final String accidental;
 
         Accidental(String accidental) {
@@ -176,6 +177,15 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
 
         public String getAccidental() {
             return accidental;
+        }
+
+        public static Accidental getFromString(String stringAccidental) {
+            return switch (stringAccidental) {
+                case "#" -> Accidental.SHARP;
+                case "b" -> Accidental.FLAT;
+                case "" -> Accidental.NONE;
+                default -> throw new IllegalArgumentException("Unknown accidental " + stringAccidental);
+            };
         }
     }
 }
