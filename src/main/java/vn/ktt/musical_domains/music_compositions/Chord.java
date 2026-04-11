@@ -1,6 +1,6 @@
-package vn.ktt.musical_components.music_compositions;
+package vn.ktt.musical_domains.music_compositions;
 
-import vn.ktt.musical_components.music_elements.Pitch;
+import vn.ktt.musical_domains.music_elements.Pitch;
 import vn.ktt.sound_controller.ISoundPlayer;
 
 public class Chord {

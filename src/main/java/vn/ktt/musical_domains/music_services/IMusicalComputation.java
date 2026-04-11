@@ -1,6 +1,6 @@
-package vn.ktt.musical_components.music_calculation;
+package vn.ktt.musical_domains.music_services;
 
-import vn.ktt.musical_components.music_elements.Pitch;
+import vn.ktt.musical_domains.music_elements.Pitch;
 
 public interface IMusicalComputation {
     Pitch getPitchWithHalfStep(Pitch basePitch, int halfStepCount);

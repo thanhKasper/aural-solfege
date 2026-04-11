@@ -1,4 +1,4 @@
-package vn.ktt.musical_components.music_elements;
+package vn.ktt.musical_domains.music_elements;
 
 import vn.ktt.sound_controller.ISoundPlayer;
 

@@ -1,8 +1,8 @@
 package vn.ktt.sound_controller;
 
-import vn.ktt.musical_components.music_compositions.Chord;
-import vn.ktt.musical_components.music_compositions.Interval;
-import vn.ktt.musical_components.music_elements.Pitch;
+import vn.ktt.musical_domains.music_compositions.Chord;
+import vn.ktt.musical_domains.music_compositions.Interval;
+import vn.ktt.musical_domains.music_elements.Pitch;
 
 import javax.sound.midi.*;
 import java.io.IOException;
