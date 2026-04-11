@@ -1,4 +1,4 @@
-package vn.ktt.shared;
+package vn.ktt.shared.sound_player;
 
 import javax.sound.sampled.*;
 import java.io.InputStream;

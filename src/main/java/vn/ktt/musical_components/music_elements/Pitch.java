@@ -1,6 +1,6 @@
 package vn.ktt.musical_components.music_elements;
 
-import vn.ktt.shared.ISoundPlayer;
+import vn.ktt.shared.sound_player.ISoundPlayer;
 
 public class Pitch implements Comparable<Pitch> {
     private final Note note;
@@ -82,5 +82,69 @@ public class Pitch implements Comparable<Pitch> {
             }
         }
         return 0;
+    }
+
+    public enum Octave {
+        ZEROTH(0),
+        FIRST(1),
+        SECOND(2),
+        THIRD(3),
+        FOURTH(4),
+        FIFTH(5),
+        SIXTH(6),
+        SEVENTH(7),
+        EIGHT(8);
+
+        private final int octavePosition;
+        Octave(int octavePosition) {
+            this.octavePosition = octavePosition;
+        }
+
+        public int getIntegerOctave() {
+            return octavePosition;
+        }
+
+        // Add this method
+        public static Octave fromInt(int octavePosition) {
+            for (Octave octave : values()) {
+                if (octave.octavePosition == octavePosition) {
+                    return octave;
+                }
+            }
+            throw new IllegalArgumentException("No octave found for position: " + octavePosition);
+        }
+    }
+
+    public enum Note {
+        C(1),
+        D(2),
+        E(3),
+        F(4),
+        G(5),
+        A(6),
+        B(7);
+
+        private final int noteNumber;
+
+        Note(int noteNumber) {
+            this.noteNumber = noteNumber;
+        }
+
+        public int getIntegerNote() {
+            return this.noteNumber;
+        }
+    }
+
+    public enum Accidental {
+        SHARP("#"), FLAT("♭"), NONE("");
+        private final String accidental;
+
+        Accidental(String accidental) {
+            this.accidental = accidental;
+        }
+
+        public String getAccidental() {
+            return accidental;
+        }
     }
 }

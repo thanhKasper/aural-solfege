@@ -2,11 +2,8 @@ package vn.ktt.musical_components.sound_generator;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
-import vn.ktt.musical_components.music_elements.Accidental;
-import vn.ktt.musical_components.music_elements.Note;
-import vn.ktt.musical_components.music_elements.Octave;
 import vn.ktt.musical_components.music_elements.Pitch;
-import vn.ktt.shared.SoundPlayer;
+import vn.ktt.shared.sound_player.SoundPlayer;
 
 import java.io.InputStream;
 
@@ -34,7 +31,7 @@ public class ResourceBasedSoundRepository implements ISoundRepository {
     }
 
     @Override
-    public Pitch getSound(Note note, Accidental accidental, Octave octave) {
+    public Pitch getSound(Pitch.Note note, Pitch.Accidental accidental, Pitch.Octave octave) {
         String rootPath = chosenInstrumentNode.get("rootDir").asString();
         JsonNode selectedSound = sounds.valueStream()
                 .filter(sound ->
@@ -49,16 +46,16 @@ public class ResourceBasedSoundRepository implements ISoundRepository {
         return new Pitch(getNote(selectedSound), getAccidental(selectedSound), getOctave(selectedSound), soundPlayer);
     }
 
-    private Note getNote(JsonNode node) {
-        return Note.valueOf(node.get("note").asString());
+    private Pitch.Note getNote(JsonNode node) {
+        return Pitch.Note.valueOf(node.get("note").asString());
     }
 
-    private Accidental getAccidental(JsonNode node) {
-        return Accidental.valueOf(node.get("accidental").asString());
+    private Pitch.Accidental getAccidental(JsonNode node) {
+        return Pitch.Accidental.valueOf(node.get("accidental").asString());
     }
 
-    private Octave getOctave(JsonNode node) {
-        return Octave.fromInt(node.get("octavePosition").asInt());
+    private Pitch.Octave getOctave(JsonNode node) {
+        return Pitch.Octave.fromInt(node.get("octavePosition").asInt());
     }
 }
 
