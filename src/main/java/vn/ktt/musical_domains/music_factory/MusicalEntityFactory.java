@@ -2,7 +2,7 @@ package vn.ktt.musical_domains.music_factory;
 
 import vn.ktt.musical_domains.music_elements.Pitch;
 
-public class MusicalEntityFactory {
+public class MusicalEntityFactory implements IMusicalEntityFactory{
 
     public Pitch getPitch(String noteNotation) {
         if (Pitch.isNotValid(noteNotation)) {

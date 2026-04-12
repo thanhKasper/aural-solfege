@@ -2,9 +2,16 @@ package vn.ktt.musical_domains.music_elements;
 
 public record Pitch(Note note, Accidental accidental, Octave octave) implements Comparable<Pitch> {
 
+    private static final int BASE_MIDI_NOTE = 12;
+    private static final int SOUND_PER_OCTAVE = 12;
+
     @Override
     public String toString() {
         return note.toString() + accidental.getAccidental() + octave.getIntegerOctave();
+    }
+
+    public int toMidiNumber() {
+        return BASE_MIDI_NOTE + SOUND_PER_OCTAVE * this.octave.getIntegerOctave() + this.note.getHalfStepDistanceFromDo() + this.accidental.getIntegerAccidental();
     }
 
     public static boolean isNotValid(String pitchNotation) {
@@ -73,9 +80,9 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
     }
 
     private int compareNote(Pitch pitch) {
-        if (this.note.getIntegerNote() > pitch.note().getIntegerNote()) {
+        if (this.note.getHalfStepDistanceFromDo() > pitch.note().getHalfStepDistanceFromDo()) {
             return 1;
-        } else if (this.note.getIntegerNote() < pitch.note().getIntegerNote()) {
+        } else if (this.note.getHalfStepDistanceFromDo() < pitch.note().getHalfStepDistanceFromDo()) {
             return -1;
         }
         return 0;
@@ -139,22 +146,22 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
     }
 
     public enum Note {
-        C(1),
+        C(0),
         D(2),
-        E(3),
-        F(4),
-        G(5),
-        A(6),
-        B(7);
+        E(4),
+        F(5),
+        G(7),
+        A(9),
+        B(11);
 
-        private final int noteNumber;
+        private final int halfStepDistance;
 
-        Note(int noteNumber) {
-            this.noteNumber = noteNumber;
+        Note(int halfStepDistance) {
+            this.halfStepDistance = halfStepDistance;
         }
 
-        public int getIntegerNote() {
-            return this.noteNumber;
+        public int getHalfStepDistanceFromDo() {
+            return this.halfStepDistance;
         }
 
         public static boolean isNote(String note) {
@@ -185,6 +192,14 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
                 case "b" -> Accidental.FLAT;
                 case "" -> Accidental.NONE;
                 default -> throw new IllegalArgumentException("Unknown accidental " + stringAccidental);
+            };
+        }
+
+        public int getIntegerAccidental() {
+            return switch (this) {
+                case SHARP -> 1;
+                case FLAT -> -1;
+                case NONE -> 0;
             };
         }
     }

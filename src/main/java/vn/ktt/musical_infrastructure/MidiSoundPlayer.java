@@ -1,15 +1,16 @@
-package vn.ktt.musical_application.sound_controller;
+package vn.ktt.musical_infrastructure;
 
-import vn.ktt.musical_domains.music_compositions.Chord;
-import vn.ktt.musical_domains.music_compositions.Interval;
+import vn.ktt.musical_application.sound_controller.outbound.ISoundPlayer;
 import vn.ktt.musical_domains.music_elements.Pitch;
+import vn.ktt.musical_domains.music_factory.IMusicalEntityFactory;
 
 import javax.sound.midi.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MidiSoundPlayer implements ISoundPlayer, ISoundConfiguration {
+public class MidiSoundPlayer implements ISoundPlayer {
     private Synthesizer synthesizer;
+    private IMusicalEntityFactory factory;
     public MidiSoundPlayer() {
         try {
             this.synthesizer = MidiSystem.getSynthesizer();
@@ -34,30 +35,16 @@ public class MidiSoundPlayer implements ISoundPlayer, ISoundConfiguration {
             throw new RuntimeException(e);
         }
     }
-    @Override
-    public void changeInstrument(Instrument instrument) {
-
-    }
 
     @Override
     public void playPitch(Pitch pitch) {
         try {
             MidiChannel channel = synthesizer.getChannels()[3];
-            channel.noteOn(60, 100);
+            channel.noteOn(pitch.toMidiNumber(), 100);
             Thread.sleep(1000);
             channel.noteOff(60);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void playTriad(Chord chord) {
-
-    }
-
-    @Override
-    public void playInterval(Interval interval) {
-
     }
 }
