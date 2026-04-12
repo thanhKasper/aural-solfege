@@ -1,9 +1,15 @@
 package vn.ktt.musical_domains.music_elements;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public record Pitch(Note note, Accidental accidental, Octave octave) implements Comparable<Pitch> {
 
     private static final int BASE_MIDI_NOTE = 12;
     private static final int SOUND_PER_OCTAVE = 12;
+    private static final int HALF_STEP = 1;
 
     @Override
     public String toString() {
@@ -12,6 +18,27 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
 
     public int toMidiNumber() {
         return BASE_MIDI_NOTE + SOUND_PER_OCTAVE * this.octave.getIntegerOctave() + this.note.getHalfStepDistanceFromDo() + this.accidental.getIntegerAccidental();
+    }
+
+    public Pitch getPitchAfterHalfSteps(int halfSteps) {
+        var newMidiNumber = this.toMidiNumber() + halfSteps;
+        return Pitch.convertFromMidiNumber(newMidiNumber);
+    }
+
+    public static Pitch convertFromMidiNumber(int currentMidiNumber) {
+        var starterMidiNumber = currentMidiNumber - BASE_MIDI_NOTE;
+        var octavePosition = starterMidiNumber / SOUND_PER_OCTAVE;
+        var octave = Octave.fromInt(octavePosition);
+        var halfStepsFromDo = starterMidiNumber % SOUND_PER_OCTAVE;
+        if (Note.isValidHalfStepFromDo(halfStepsFromDo)) {
+            var note = Note.getNoteFromHalfStepDistanceFromDo(halfStepsFromDo);
+            return new Pitch(note, Accidental.NONE, octave);
+        }
+        else {
+            var validHalfStepFromDo = halfStepsFromDo - HALF_STEP;
+            var note = Note.getNoteFromHalfStepDistanceFromDo(validHalfStepFromDo);
+            return new Pitch(note, Accidental.SHARP, octave);
+        }
     }
 
     public static boolean isNotValid(String pitchNotation) {
@@ -164,13 +191,27 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
             return this.halfStepDistance;
         }
 
+        private static final Set<String> NOTE_NAMES = Arrays.stream(Note.values())
+                .map(Note::name)
+                .collect(Collectors.toUnmodifiableSet());
+
+        private static final Map<Integer, Note> DISTANCE_MAP = Arrays.stream(Note.values())
+                .collect(Collectors.toMap(n -> n.halfStepDistance, n -> n));
+
         public static boolean isNote(String note) {
-            try {
-                Note.valueOf(note);
-                return true;
-            } catch (IllegalArgumentException ex) {
-                return false;
+            return note != null && NOTE_NAMES.contains(note);
+        }
+
+        public static Note getNoteFromHalfStepDistanceFromDo(int halfStepDistance) {
+            Note note = DISTANCE_MAP.get(halfStepDistance);
+            if (note == null) {
+                throw new IllegalArgumentException("No natural note exists at distance: " + halfStepDistance);
             }
+            return note;
+        }
+
+        public static boolean isValidHalfStepFromDo(int distance) {
+            return DISTANCE_MAP.containsKey(distance);
         }
     }
 
