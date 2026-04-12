@@ -2,13 +2,33 @@ package vn.ktt.musical_domains.music_compositions;
 
 import vn.ktt.musical_domains.music_elements.Pitch;
 
-public class Interval {
-    private IntervalNumber intervalNumber;
-    private Pitch basePitch;
+public class Interval implements Comparable<Interval> {
+    private final IntervalNumber intervalNumber;
 
-    public Interval(Pitch basePitch, IntervalNumber intervalNumber) {
-        this.basePitch = basePitch;
-        this.intervalNumber =  intervalNumber;
+    public Interval(IntervalNumber intervalNumber) {
+        this.intervalNumber = intervalNumber;
+    }
+
+    public String toString() {
+        return intervalNumber.toNotation();
+    }
+
+    public Pitch upwardPitch(Pitch basePitch) {
+        return basePitch.getPitchAfterHalfSteps(this.intervalNumber.getHalfSteps());
+    }
+
+    public Pitch downwardPitch(Pitch basePitch) {
+        return basePitch.getPitchAfterHalfSteps(-this.intervalNumber.getHalfSteps());
+    }
+
+    @Override
+    public int compareTo(Interval interval) {
+        if (this.intervalNumber.getHalfSteps() > interval.intervalNumber.getHalfSteps()) {
+            return 1;
+        } else if (this.intervalNumber.getHalfSteps() < interval.intervalNumber.getHalfSteps()) {
+            return -1;
+        }
+        return 0;
     }
 
     public enum IntervalNumber {
@@ -35,6 +55,24 @@ public class Interval {
 
         public int getHalfSteps() {
             return halfSteps;
+        }
+
+        public String toNotation() {
+            return switch (this) {
+                case UNISON -> "P0";
+                case PERFECT_4TH -> "P4";
+                case PERFECT_5TH -> "P5";
+                case PERFECT_OCTAVE -> "P8";
+                case MAJOR_2ND -> "M2";
+                case MINOR_2ND -> "m2";
+                case MINOR_3RD -> "m3";
+                case MAJOR_3RD -> "M3";
+                case MINOR_6TH -> "m6";
+                case MAJOR_6TH -> "M6";
+                case MINOR_7TH -> "m7";
+                case MAJOR_7TH -> "M7";
+                default -> "A4";
+            };
         }
     }
 }
