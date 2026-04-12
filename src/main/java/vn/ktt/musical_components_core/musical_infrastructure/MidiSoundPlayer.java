@@ -1,7 +1,7 @@
-package vn.ktt.musical_infrastructure;
+package vn.ktt.musical_components_core.musical_infrastructure;
 
-import vn.ktt.musical_application.sound_controller.outbound.ISoundPlayer;
-import vn.ktt.musical_domains.music_factory.IMusicalEntityFactory;
+import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.ISoundPlayer;
+import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 
 import javax.sound.midi.*;
 import java.io.IOException;

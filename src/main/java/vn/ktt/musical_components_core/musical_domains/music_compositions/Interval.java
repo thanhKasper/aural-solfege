@@ -1,6 +1,6 @@
-package vn.ktt.musical_domains.music_compositions;
+package vn.ktt.musical_components_core.musical_domains.music_compositions;
 
-import vn.ktt.musical_domains.music_atom.Pitch;
+import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 
 public class Interval implements Comparable<Interval> {
     private final IntervalNumber intervalNumber;

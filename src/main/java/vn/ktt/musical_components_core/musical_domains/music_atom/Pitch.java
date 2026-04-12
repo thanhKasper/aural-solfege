@@ -1,4 +1,4 @@
-package vn.ktt.musical_domains.music_atom;
+package vn.ktt.musical_components_core.musical_domains.music_atom;
 
 import java.util.Arrays;
 import java.util.Map;

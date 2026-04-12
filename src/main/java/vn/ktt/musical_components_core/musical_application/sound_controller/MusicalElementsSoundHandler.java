@@ -1,8 +1,8 @@
-package vn.ktt.musical_application.sound_controller;
+package vn.ktt.musical_components_core.musical_application.sound_controller;
 
-import vn.ktt.musical_application.sound_controller.inbound.IMusicalElementsSoundHandler;
-import vn.ktt.musical_application.sound_controller.outbound.ISoundPlayer;
-import vn.ktt.musical_domains.music_factory.IMusicalEntityFactory;
+import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IMusicalElementsSoundHandler;
+import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.ISoundPlayer;
+import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 
 public class MusicalElementsSoundHandler implements IMusicalElementsSoundHandler {
     private final ISoundPlayer soundPlayer;
