@@ -41,6 +41,10 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
         }
     }
 
+    public String toNotation() {
+        return this.note.toString() + this.accidental.toNotation() + this.octave.getIntegerOctave();
+    }
+
     public static boolean isNotValid(String pitchNotation) {
         if (pitchNotation.isBlank()) return true;
         else if (pitchNotation.length() > 3 || pitchNotation.length() == 1) return true;
@@ -241,6 +245,14 @@ public record Pitch(Note note, Accidental accidental, Octave octave) implements 
                 case SHARP -> 1;
                 case FLAT -> -1;
                 case NONE -> 0;
+            };
+        }
+
+        public String toNotation() {
+            return switch (this) {
+                case SHARP -> "#";
+                case FLAT -> "b";
+                case NONE -> "";
             };
         }
     }
