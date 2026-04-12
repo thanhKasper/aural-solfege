@@ -1,7 +1,6 @@
 package vn.ktt.musical_infrastructure;
 
 import vn.ktt.musical_application.sound_controller.outbound.ISoundPlayer;
-import vn.ktt.musical_domains.music_elements.Pitch;
 import vn.ktt.musical_domains.music_factory.IMusicalEntityFactory;
 
 import javax.sound.midi.*;
@@ -10,8 +9,9 @@ import java.io.InputStream;
 
 public class MidiSoundPlayer implements ISoundPlayer {
     private Synthesizer synthesizer;
-    private IMusicalEntityFactory factory;
-    public MidiSoundPlayer() {
+    private final IMusicalEntityFactory factory;
+    public MidiSoundPlayer(IMusicalEntityFactory musicalEntityFactory) {
+        this.factory = musicalEntityFactory;
         try {
             this.synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
@@ -37,10 +37,11 @@ public class MidiSoundPlayer implements ISoundPlayer {
     }
 
     @Override
-    public void playPitch(Pitch pitch) {
+    public void playPitch(String pitch) {
+        var domainPitch = this.factory.getPitch(pitch);
         try {
             MidiChannel channel = synthesizer.getChannels()[3];
-            channel.noteOn(pitch.toMidiNumber(), 100);
+            channel.noteOn(domainPitch.toMidiNumber(), 100);
             Thread.sleep(1000);
             channel.noteOff(60);
         } catch (InterruptedException e) {
