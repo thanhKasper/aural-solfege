@@ -1,11 +1,13 @@
 package vn.ktt.musical_components_core.musical_infrastructure;
 
 import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.ISoundPlayer;
+import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 
 import javax.sound.midi.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class MidiSoundPlayer implements ISoundPlayer {
     private Synthesizer synthesizer;
@@ -43,7 +45,20 @@ public class MidiSoundPlayer implements ISoundPlayer {
             MidiChannel channel = synthesizer.getChannels()[3];
             channel.noteOn(domainPitch.toMidiNumber(), 100);
             Thread.sleep(1000);
-            channel.noteOff(60);
+            channel.noteOff(domainPitch.toMidiNumber());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void playStackedSound(List<String> pitches) {
+        List<Pitch> domainPitches = pitches.stream().map(this.factory::getPitch).toList();
+        try {
+            MidiChannel channel = synthesizer.getChannels()[3];
+            domainPitches.forEach(domainPitch -> channel.noteOn(domainPitch.toMidiNumber(), 100));
+            Thread.sleep(1000);
+            domainPitches.forEach(domainPitch -> channel.noteOff(domainPitch.toMidiNumber()));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
