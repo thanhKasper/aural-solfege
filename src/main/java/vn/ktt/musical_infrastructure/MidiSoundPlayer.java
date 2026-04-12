@@ -37,7 +37,7 @@ public class MidiSoundPlayer implements ISoundPlayer {
     }
 
     @Override
-    public void playPitch(String pitch) {
+    public void playSingleSound(String pitch) {
         var domainPitch = this.factory.getPitch(pitch);
         try {
             MidiChannel channel = synthesizer.getChannels()[3];
