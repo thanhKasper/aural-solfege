@@ -9,6 +9,10 @@ public class Interval implements Comparable<Interval> {
         this.intervalNumber = intervalNumber;
     }
 
+    public Interval(String intervalNotation) {
+        this.intervalNumber = IntervalNumber.fromNotation(intervalNotation);
+    }
+
     public String toString() {
         return intervalNumber.toNotation();
     }
@@ -71,7 +75,30 @@ public class Interval implements Comparable<Interval> {
                 case MAJOR_6TH -> "M6";
                 case MINOR_7TH -> "m7";
                 case MAJOR_7TH -> "M7";
-                default -> "A4";
+                case DIMINISHED_5TH -> "d5";
+                case AUGMENTED_4TH  -> "A4";
+            };
+        }
+
+        public static IntervalNumber fromNotation(String notation) {
+            return switch (notation) {
+                case "P0" -> UNISON;
+                case "P4" -> PERFECT_4TH;
+                case "P5" -> PERFECT_5TH;
+                case "P8" -> PERFECT_OCTAVE;
+                case "M2" -> MAJOR_2ND;
+                case "m2" -> MINOR_2ND;
+                case "m3" -> MINOR_3RD;
+                case "M3" -> MAJOR_3RD;
+                case "m6" -> MINOR_6TH;
+                case "M6" -> MAJOR_6TH;
+                case "m7" -> MINOR_7TH;
+                case "M7" -> MAJOR_7TH;
+                case "A4" -> AUGMENTED_4TH;
+                case "d5" -> DIMINISHED_5TH;
+                default -> throw new IllegalArgumentException(
+                        "Unknown interval notation: " + notation
+                );
             };
         }
     }

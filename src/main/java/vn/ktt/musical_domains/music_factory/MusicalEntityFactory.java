@@ -1,5 +1,6 @@
 package vn.ktt.musical_domains.music_factory;
 
+import vn.ktt.musical_domains.music_compositions.Interval;
 import vn.ktt.musical_domains.music_elements.Pitch;
 
 public class MusicalEntityFactory implements IMusicalEntityFactory{
@@ -13,5 +14,10 @@ public class MusicalEntityFactory implements IMusicalEntityFactory{
                 Pitch.extractAccidental(noteNotation),
                 Pitch.extractOctave(noteNotation)
         );
+    }
+
+    @Override
+    public Interval getInterval(String intervalNotation) {
+        return new Interval(intervalNotation);
     }
 }
