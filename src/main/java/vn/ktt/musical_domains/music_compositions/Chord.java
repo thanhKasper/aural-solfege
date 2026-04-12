@@ -1,6 +1,6 @@
 package vn.ktt.musical_domains.music_compositions;
 
-import vn.ktt.musical_domains.music_elements.Pitch;
+import vn.ktt.musical_domains.music_atom.Pitch;
 
 public class Chord {
     private final Pitch rootKey;

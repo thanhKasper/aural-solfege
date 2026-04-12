@@ -1,6 +1,6 @@
 package vn.ktt.musical_domains.music_services;
 
-import vn.ktt.musical_domains.music_elements.Pitch;
+import vn.ktt.musical_domains.music_atom.Pitch;
 
 public class MusicalComputation {
     public Pitch getPitchWithHalfStep(Pitch basePitch, int halfStepCount) {

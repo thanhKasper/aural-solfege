@@ -1,7 +1,7 @@
 package vn.ktt.musical_domains.music_factory;
 
 import vn.ktt.musical_domains.music_compositions.Interval;
-import vn.ktt.musical_domains.music_elements.Pitch;
+import vn.ktt.musical_domains.music_atom.Pitch;
 
 public class MusicalEntityFactory implements IMusicalEntityFactory{
 
