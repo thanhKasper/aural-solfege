@@ -1,4 +1,4 @@
-package vn.ktt.sound_controller;
+package vn.ktt.musical_application.sound_controller;
 
 public interface ISoundConfiguration {
     void changeInstrument(Instrument instrument);

@@ -1,4 +1,4 @@
-package vn.ktt.sound_controller;
+package vn.ktt.musical_application.sound_controller;
 
 import vn.ktt.musical_domains.music_compositions.Chord;
 import vn.ktt.musical_domains.music_compositions.Interval;
