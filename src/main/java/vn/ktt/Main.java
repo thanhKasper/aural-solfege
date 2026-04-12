@@ -10,6 +10,8 @@ public class Main {
         var musicFactory = new MusicalEntityFactory();
         var soundPlayer = new MidiSoundPlayer(musicFactory);
         IMusicalElementsSoundHandler soundElementHandler = new MusicalElementsSoundHandler(soundPlayer, musicFactory);
-        soundElementHandler.playBrokenInterval("M6", "C4", false);
+        soundElementHandler.playStackedInterval("P5", "D3");
+        soundElementHandler.playStackedInterval("P5", "D3");
+        soundElementHandler.playBrokenInterval("P5", "D3", true);
     }
 }

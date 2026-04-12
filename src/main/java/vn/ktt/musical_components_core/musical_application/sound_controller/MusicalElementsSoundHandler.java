@@ -4,6 +4,8 @@ import vn.ktt.musical_components_core.musical_application.sound_controller.inbou
 import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.ISoundPlayer;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 
+import java.util.Arrays;
+
 public class MusicalElementsSoundHandler implements IMusicalElementsSoundHandler {
     private final ISoundPlayer soundPlayer;
     private final IMusicalEntityFactory musicalElementFactory;
@@ -14,8 +16,11 @@ public class MusicalElementsSoundHandler implements IMusicalElementsSoundHandler
 
 
     @Override
-    public void playStackedInterval(String interval) {
+    public void playStackedInterval(String interval, String pitch) {
         var selectedInterval = this.musicalElementFactory.getInterval(interval);
+        var firstPitch = this.musicalElementFactory.getPitch(pitch);
+        var secondPitch = selectedInterval.upwardPitch(firstPitch);
+        this.soundPlayer.playStackedSound(Arrays.asList(firstPitch.toNotation(), secondPitch.toNotation()));
     }
 
     @Override
