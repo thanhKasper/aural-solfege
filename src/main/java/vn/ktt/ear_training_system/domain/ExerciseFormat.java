@@ -1,6 +1,8 @@
 package vn.ktt.ear_training_system.domain;
 
-public class ExerciseFormat {
+import java.util.Map;
+
+public abstract class ExerciseFormat {
     private final TrainingMethodology trainingMethodology;
 
     public ExerciseFormat(TrainingMethodology trainingMethodology) {
@@ -10,4 +12,6 @@ public class ExerciseFormat {
     public TrainingMethodology getTrainingMethodology() {
         return trainingMethodology;
     }
+
+    public abstract void buildExercise(Map<String, String> configurationVariables);
 }
