@@ -26,6 +26,7 @@ public abstract class Exercise {
     }
 
     public void updateDescription(String description) {
+        validateDescription(description);
         this.description = description;
     }
 
