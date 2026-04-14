@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Exercise {
+    private final String exerciseId;
     private TrainingMethodology trainingMethodology;
     private ArrayList<ExerciseFormat> exerciseFormats;
     private String title;
@@ -11,12 +12,17 @@ public class Exercise {
     private Integer repetitions;
     private static final Integer INFINITE_REPETITIONS = Integer.MAX_VALUE;
 
-    public Exercise(TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, ArrayList<ExerciseFormat> exerciseFormats) {
+    public Exercise(String exerciseId, TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, ArrayList<ExerciseFormat> exerciseFormats) {
         updateTitle(title);
         updateDescription(description);
         updateTrainingMethodology(trainingMethodology);
         updateExerciseFormats(exerciseFormats);
         updateRepetitions(repetitions);
+        this.exerciseId = exerciseId;
+    }
+
+    public String getExerciseId() {
+        return this.exerciseId;
     }
 
     public String getTitle() {
