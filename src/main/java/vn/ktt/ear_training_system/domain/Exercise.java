@@ -1,6 +1,8 @@
 package vn.ktt.ear_training_system.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Exercise {
@@ -29,6 +31,18 @@ public class Exercise {
         return title;
     }
 
+    public int getRepetitions() {
+        return this.repetitions;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<ExerciseFormat> getExerciseFormats() {
+        return Collections.unmodifiableList(this.exerciseFormats);
+    }
+
     public void updateTitle(String title) {
         validateTitle(title);
         this.title = title;
@@ -41,11 +55,7 @@ public class Exercise {
 
     public void updateRepetitions(Integer newRepetition) {
         validateRepetition(newRepetition);
-        this.repetitions = Objects.requireNonNullElse(repetitions, INFINITE_REPETITIONS);
-    }
-
-    public String getDescription() {
-        return description;
+        this.repetitions = Objects.requireNonNullElse(newRepetition, INFINITE_REPETITIONS);
     }
 
     public void updateDescription(String description) {
@@ -55,11 +65,7 @@ public class Exercise {
 
     public void updateExerciseFormats(ArrayList<ExerciseFormat> exerciseFormats) {
         validateExerciseFormatList(exerciseFormats);
-        this.exerciseFormats = exerciseFormats;
-    }
-
-    public ArrayList<ExerciseFormat> getExerciseFormats() {
-        return this.exerciseFormats;
+        this.exerciseFormats = new ArrayList<>(exerciseFormats); // defensive copy
     }
 
     private void validateTitle(String title) {
