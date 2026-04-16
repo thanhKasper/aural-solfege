@@ -8,13 +8,13 @@ import java.util.Objects;
 public class Exercise {
     private final String exerciseId;
     private TrainingMethodology trainingMethodology;
-    private ArrayList<ExerciseFormat> exerciseFormats;
+    private List<ExerciseFormat> exerciseFormats;
     private String title;
     private String description;
     private Integer repetitions;
     private static final Integer INFINITE_REPETITIONS = Integer.MAX_VALUE;
 
-    public Exercise(String exerciseId, TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, ArrayList<ExerciseFormat> exerciseFormats) {
+    public Exercise(String exerciseId, TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, List<ExerciseFormat> exerciseFormats) {
         updateTitle(title);
         updateDescription(description);
         updateTrainingMethodology(trainingMethodology);
@@ -63,7 +63,7 @@ public class Exercise {
         this.description = description;
     }
 
-    public void updateExerciseFormats(ArrayList<ExerciseFormat> exerciseFormats) {
+    public void updateExerciseFormats(List<ExerciseFormat> exerciseFormats) {
         validateExerciseFormatList(exerciseFormats);
         this.exerciseFormats = new ArrayList<>(exerciseFormats); // defensive copy
     }
@@ -86,7 +86,7 @@ public class Exercise {
         if (method == null) throw new IllegalArgumentException("Method must not be null");
     }
 
-    private void validateExerciseFormatList(ArrayList<ExerciseFormat> exerciseFormats) {
+    private void validateExerciseFormatList(List<ExerciseFormat> exerciseFormats) {
         if (exerciseFormats.isEmpty()) {
             throw new IllegalArgumentException("Exercise must have at least one exercise format");
         }
