@@ -1,11 +1,14 @@
 package vn.ktt.ear_training_system.application;
 
+import org.springframework.stereotype.Service;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.PassiveExerciseFormatDTO;
+import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
 import vn.ktt.ear_training_system.domain.ExerciseBuilder;
 import vn.ktt.ear_training_system.domain.IExerciseRepository;
 
-public class CreateExerciseUseCase {
+@Service
+public class CreateExerciseUseCase implements ExerciseCreationPort {
     private final IExerciseRepository exerciseRepository;
     private final ExerciseBuilder exerciseBuilder;
 

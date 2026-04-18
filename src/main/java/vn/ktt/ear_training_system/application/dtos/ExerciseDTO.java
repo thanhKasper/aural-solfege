@@ -48,4 +48,9 @@ public class ExerciseDTO {
     public void setExerciseFormats(List<ExerciseFormatDTO> exerciseFormats) {
         this.exerciseFormats = exerciseFormats;
     }
+
+    @Override
+    public String toString() {
+        return String.format("ExerciseDTO:\n\tTitle: %s\n\tDescription:  %s\n\tTraining method: %s", title, description, trainingMethodology);
+    }
 }
