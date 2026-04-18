@@ -10,7 +10,7 @@ public class ExerciseBuilder {
                                                             String intervalProperty) {
         return new PassiveExerciseFormat(
                 TrainingMethodology.valueOf(trainingMethod),
-                PassiveExerciseFormat.IntervalSoundProperty.valueOf(intervalProperty),
+                PassiveExerciseFormat.IntervalSoundTexture.valueOf(intervalProperty),
                 PassiveExerciseFormat.MusicalInterval.valueOf(interval));
     }
 

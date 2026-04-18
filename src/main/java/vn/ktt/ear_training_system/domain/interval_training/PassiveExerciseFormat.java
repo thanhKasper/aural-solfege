@@ -4,16 +4,16 @@ import vn.ktt.ear_training_system.domain.ExerciseFormat;
 import vn.ktt.ear_training_system.domain.TrainingMethodology;
 
 public class PassiveExerciseFormat extends ExerciseFormat {
-    private final IntervalSoundProperty soundProperty;
+    private final IntervalSoundTexture soundProperty;
     private final MusicalInterval interval;
 
-    public PassiveExerciseFormat(TrainingMethodology trainingMethodology, IntervalSoundProperty intervalProperty, MusicalInterval interval) {
+    public PassiveExerciseFormat(TrainingMethodology trainingMethodology, IntervalSoundTexture intervalSoundTexture, MusicalInterval interval) {
         super(trainingMethodology);
         this.interval = interval;
-        this.soundProperty = intervalProperty;
+        this.soundProperty = intervalSoundTexture;
     }
 
-    public IntervalSoundProperty getSoundProperty() {
+    public IntervalSoundTexture getSoundProperty() {
         return soundProperty;
     }
 
@@ -21,7 +21,7 @@ public class PassiveExerciseFormat extends ExerciseFormat {
         return interval;
     }
 
-    public enum IntervalSoundProperty {
+    public enum IntervalSoundTexture {
         ASCENDING,
         DESCENDING,
         STACKED

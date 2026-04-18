@@ -24,7 +24,7 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
                 return exerciseBuilder.buildPassiveExerciseFormat(
                         exerciseDTO.getTrainingMethodology(),
                         passiveExerciseDTO.getInterval(),
-                        passiveExerciseDTO.getIntervalProperty());
+                        passiveExerciseDTO.getTexture());
             }
             return null;
         }).toList();

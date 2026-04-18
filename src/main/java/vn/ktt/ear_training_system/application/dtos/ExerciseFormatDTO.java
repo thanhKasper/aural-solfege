@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "type" // This matches the field in your JSON
+        property = "type"
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PassiveExerciseFormatDTO.class, name = "passive")

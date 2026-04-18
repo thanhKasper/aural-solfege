@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.application.dtos;
 
 public final class PassiveExerciseFormatDTO implements ExerciseFormatDTO {
     private String interval;
-    private String intervalProperty;
+    private String texture;
     @Override
     public String type() {
         return "passive";
@@ -16,11 +16,11 @@ public final class PassiveExerciseFormatDTO implements ExerciseFormatDTO {
         this.interval = interval;
     }
 
-    public String getIntervalProperty() {
-        return intervalProperty;
+    public String getTexture() {
+        return texture;
     }
 
-    public void setIntervalProperty(String intervalProperty) {
-        this.intervalProperty = intervalProperty;
+    public void setTexture(String texture) {
+        this.texture = texture;
     }
 }
