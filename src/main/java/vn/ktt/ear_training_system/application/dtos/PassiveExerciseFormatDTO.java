@@ -3,6 +3,7 @@ package vn.ktt.ear_training_system.application.dtos;
 public final class PassiveExerciseFormatDTO implements ExerciseFormatDTO {
     private String interval;
     private String texture;
+
     @Override
     public String type() {
         return "passive";
