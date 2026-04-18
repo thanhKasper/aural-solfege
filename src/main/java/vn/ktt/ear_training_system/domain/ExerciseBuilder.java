@@ -1,5 +1,7 @@
 package vn.ktt.ear_training_system.domain;
 
+import vn.ktt.ear_training_system.domain.interval_training.IntervalTexture;
+import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
 import vn.ktt.ear_training_system.domain.interval_training.PassiveExerciseFormat;
 
 import java.util.List;
@@ -10,8 +12,8 @@ public class ExerciseBuilder {
                                                             String intervalProperty) {
         return new PassiveExerciseFormat(
                 TrainingMethodology.valueOf(trainingMethod),
-                PassiveExerciseFormat.IntervalSoundTexture.valueOf(intervalProperty),
-                PassiveExerciseFormat.MusicalInterval.valueOf(interval));
+                IntervalTexture.valueOf(intervalProperty),
+                MusicalInterval.valueOf(interval));
     }
 
     public Exercise buildExercise(
