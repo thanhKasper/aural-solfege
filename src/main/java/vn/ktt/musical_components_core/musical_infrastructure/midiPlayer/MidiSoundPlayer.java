@@ -1,5 +1,6 @@
 package vn.ktt.musical_components_core.musical_infrastructure.midiPlayer;
 
+import org.springframework.stereotype.Component;
 import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.ISoundPlayer;
 import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+@Component
 public class MidiSoundPlayer implements ISoundPlayer {
     private Synthesizer synthesizer;
     private final IMusicalEntityFactory factory;

@@ -6,4 +6,5 @@ import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 public interface IMusicalEntityFactory {
     Pitch getPitch(String pitchNotation);
     Interval getInterval(String intervalNotation);
+
 }
