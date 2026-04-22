@@ -7,4 +7,5 @@ public interface IMusicalOperation {
     Pitch getLowestPitch();
     Pitch getHighestPitch();
     Pitch getHighestLowerBoundIntervalPitch(IntervalNumber intervalNumber);
+    Pitch getLowestUpperBoundIntervalPitch(IntervalNumber intervalNumber);
 }

@@ -16,4 +16,9 @@ public class MusicalOperation implements IMusicalOperation {
     public Pitch getHighestLowerBoundIntervalPitch(Interval.IntervalNumber intervalNumber) {
         return getHighestPitch().getPitchAfterHalfSteps(-intervalNumber.getHalfSteps());
     }
+
+    @Override
+    public Pitch getLowestUpperBoundIntervalPitch(Interval.IntervalNumber intervalNumber) {
+        return getLowestPitch().getPitchAfterHalfSteps(intervalNumber.getHalfSteps());
+    }
 }

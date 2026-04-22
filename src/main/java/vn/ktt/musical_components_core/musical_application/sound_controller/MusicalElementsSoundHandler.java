@@ -58,7 +58,19 @@ public class MusicalElementsSoundHandler implements IMusicalElementsSoundHandler
 
     @Override
     public void playDescendingSequentially(String interval) {
-
+        Pitch lowestPitch = musicalOperation.getLowestUpperBoundIntervalPitch(IntervalNumber.fromNotation(interval));
+        Pitch highestIntervalBasePitch = musicalOperation.getHighestPitch();
+        while (lowestPitch.compareTo(highestIntervalBasePitch) <= 0) {
+            var intervalDomain = musicalElementFactory.getInterval(interval);
+            soundPlayer.playSingleSound(lowestPitch.toNotation());
+            soundPlayer.playSingleSound(intervalDomain.downwardPitch(lowestPitch).toNotation());
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException exception) {
+                System.out.println("Cannot sleep. ZZZZZ");
+            }
+            lowestPitch = lowestPitch.getPitchAfterHalfSteps(1);
+        }
     }
 
     @Override

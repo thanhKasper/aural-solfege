@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         var context = SpringApplication.run(Main.class);
         var musicController = context.getBean(SoundController.class, "SoundController");
-        musicController.playInterval("M6", "ASCENDING");
+        musicController.playInterval("P5", "DESCENDING");
     }
 
     @Bean
