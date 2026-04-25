@@ -9,7 +9,7 @@ import vn.ktt.ear_training_system.application.inbound.ExerciseRetrievalPort;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/exercises")
+@RequestMapping(path = "api/exercises")
 public class ExerciseController {
     private final ExerciseCreationPort exerciseCreationService;
     private final ExerciseRetrievalPort exerciseRetrievalService;
