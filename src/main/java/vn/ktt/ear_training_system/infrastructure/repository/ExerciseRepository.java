@@ -1,30 +1,26 @@
 package vn.ktt.ear_training_system.infrastructure.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import vn.ktt.ear_training_system.domain.Exercise;
 import vn.ktt.ear_training_system.domain.IExerciseRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class ExerciseRepository implements IExerciseRepository {
+public interface ExerciseRepository extends JpaRepository<Exercise, String>, IExerciseRepository {
     @Override
-    public void save(Exercise exercise) {
-        System.out.println("Storing new exercise...");
+    default void saveExercise(Exercise exercise) {
+        this.save(exercise);
     }
 
     @Override
-    public void delete(Exercise exercise) {
-
+    default void deleteExercise(Exercise exercise) {
+        this.delete(exercise);
     }
 
     @Override
-    public List<Exercise> findByTitle(String title) {
-        return List.of();
-    }
-
-    @Override
-    public Exercise findById(String id) {
-        return null;
+    default Optional<Exercise> findExerciseById(String exerciseId) {
+        return this.findById(exerciseId);
     }
 }

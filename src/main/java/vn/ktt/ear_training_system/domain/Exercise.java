@@ -1,17 +1,33 @@
 package vn.ktt.ear_training_system.domain;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name="exercise")
 public class Exercise {
-    private final String exerciseId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name="id")
+    private String exerciseId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="training_methodology")
     private TrainingMethodology trainingMethodology;
-    private List<ExerciseFormat> exerciseFormats;
+    @Column(name="title")
     private String title;
+    @Column(name = "description")
     private String description;
+    @Column(name="repetitions")
     private Integer repetitions;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "exercise_id")
+    private List<ExerciseFormat> exerciseFormats;
     private static final Integer INFINITE_REPETITIONS = Integer.MAX_VALUE;
 
     public Exercise(String exerciseId, TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, List<ExerciseFormat> exerciseFormats) {
@@ -23,12 +39,18 @@ public class Exercise {
         this.exerciseId = exerciseId;
     }
 
+    protected Exercise() {}
+
     public String getExerciseId() {
         return this.exerciseId;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public String getTrainingMethodology() {
+        return this.trainingMethodology.toString();
     }
 
     public int getRepetitions() {

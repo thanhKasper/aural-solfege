@@ -9,6 +9,14 @@ public class ExerciseDTO {
     private Integer reps;
     private List<ExerciseFormatDTO> exerciseFormats;
 
+    public ExerciseDTO(String title, String description, String trainingMethodology, Integer reps, List<ExerciseFormatDTO> exerciseFormats) {
+        this.title = title;
+        this.description = description;
+        this.trainingMethodology = trainingMethodology;
+        this.reps = reps;
+        this.exerciseFormats = exerciseFormats;
+    }
+
     public String getTitle() {
         return title;
     }

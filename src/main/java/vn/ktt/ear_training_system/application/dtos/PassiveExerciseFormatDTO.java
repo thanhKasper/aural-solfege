@@ -4,6 +4,11 @@ public final class PassiveExerciseFormatDTO implements ExerciseFormatDTO {
     private String interval;
     private String texture;
 
+    public PassiveExerciseFormatDTO(String interval, String texture) {
+        this.interval = interval;
+        this.texture = texture;
+    }
+
     @Override
     public String type() {
         return "passive";

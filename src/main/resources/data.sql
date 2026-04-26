@@ -1,22 +1,10 @@
-INSERT INTO training_methodology
-values (1,
-        'INTERVAL_TRAINING');
-
 SET @target_id = random_uuid();
 
-INSERT INTO training_methodology
-values (2,
-        'FUNCTIONAL_EAR_TRAINING');
+INSERT INTO exercise (id, title, description, training_methodology, repetitions)
+values (@target_id, 'Practice interval perfect 5th', null, 'INTERVAL_TRAINING', 2);
 
-INSERT INTO exercise
-values (@target_id,
-        'Practice interval perfect 5th',
-        null,
-        1,
-        2);
-
-INSERT INTO passive_training
-values (random_uuid(),
-        'P5',
+INSERT INTO passive_training (id, musical_interval, training_methodology, sound_texture, exercise_id)
+values (DEFAULT, 'PERFECT_5TH',
+        'INTERVAL_TRAINING',
         'ASCENDING',
         @target_id);
