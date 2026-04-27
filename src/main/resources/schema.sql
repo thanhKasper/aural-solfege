@@ -12,7 +12,7 @@ create table if not exists exercise
 
 create table if not exists passive_training
 (
-    id                   BIGINT AUTO_INCREMENT,
+    id                   UUID,
     musical_interval     VARCHAR(20)  not null,
     sound_texture        VARCHAR(10) not null,
     training_methodology TEXT        not null,

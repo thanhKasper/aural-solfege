@@ -2,10 +2,7 @@ package vn.ktt.ear_training_system.domain;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name="exercise")
@@ -13,7 +10,7 @@ public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="id")
-    private String exerciseId;
+    private UUID exerciseId;
 
     @Enumerated(EnumType.STRING)
     @Column(name="training_methodology")
@@ -30,19 +27,18 @@ public class Exercise {
     private List<ExerciseFormat> exerciseFormats;
     private static final Integer INFINITE_REPETITIONS = Integer.MAX_VALUE;
 
-    public Exercise(String exerciseId, TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, List<ExerciseFormat> exerciseFormats) {
+    public Exercise(TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, List<ExerciseFormat> exerciseFormats) {
         updateTitle(title);
         updateDescription(description);
         updateTrainingMethodology(trainingMethodology);
         updateExerciseFormats(exerciseFormats);
         updateRepetitions(repetitions);
-        this.exerciseId = exerciseId;
     }
 
     protected Exercise() {}
 
     public String getExerciseId() {
-        return this.exerciseId;
+        return this.exerciseId.toString();
     }
 
     public String getTitle() {

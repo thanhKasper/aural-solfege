@@ -23,6 +23,6 @@ public class ExerciseBuilder {
             Integer reps,
             List<ExerciseFormat> exerciseFormats
     ) {
-        return new Exercise("", TrainingMethodology.valueOf(trainingMethod), title, description, reps, exerciseFormats);
+        return new Exercise(TrainingMethodology.valueOf(trainingMethod), title, description, reps, exerciseFormats);
     }
 }

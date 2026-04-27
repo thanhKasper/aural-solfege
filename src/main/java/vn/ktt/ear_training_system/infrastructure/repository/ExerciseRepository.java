@@ -6,9 +6,10 @@ import vn.ktt.ear_training_system.domain.Exercise;
 import vn.ktt.ear_training_system.domain.IExerciseRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface ExerciseRepository extends JpaRepository<Exercise, String>, IExerciseRepository {
+public interface ExerciseRepository extends JpaRepository<Exercise, UUID>, IExerciseRepository {
     @Override
     default void saveExercise(Exercise exercise) {
         this.save(exercise);
@@ -20,7 +21,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, String>, IEx
     }
 
     @Override
-    default Optional<Exercise> findExerciseById(String exerciseId) {
+    default Optional<Exercise> findExerciseById(UUID exerciseId) {
         return this.findById(exerciseId);
     }
 }
