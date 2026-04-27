@@ -1,7 +1,6 @@
 package vn.ktt.ear_training_system.domain;
 
 import jakarta.persistence.*;
-
 import java.util.*;
 
 @Entity

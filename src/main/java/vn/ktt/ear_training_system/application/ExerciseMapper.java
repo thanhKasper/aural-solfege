@@ -12,6 +12,7 @@ import vn.ktt.ear_training_system.domain.interval_training.PassiveExerciseFormat
 public class ExerciseMapper {
     public ExerciseDTO toExerciseDTO(Exercise exercise) {
         return new ExerciseDTO(
+                exercise.getExerciseId(),
                 exercise.getTitle(),
                 exercise.getDescription(),
                 exercise.getTrainingMethodology(),

@@ -3,18 +3,28 @@ package vn.ktt.ear_training_system.application.dtos;
 import java.util.List;
 
 public class ExerciseDTO {
+    private String exerciseId;
     private String title;
     private String description;
     private String trainingMethodology;
     private Integer reps;
     private List<ExerciseFormatDTO> exerciseFormats;
 
-    public ExerciseDTO(String title, String description, String trainingMethodology, Integer reps, List<ExerciseFormatDTO> exerciseFormats) {
+    public ExerciseDTO(String exerciseId, String title, String description, String trainingMethodology, Integer reps, List<ExerciseFormatDTO> exerciseFormats) {
+        this.exerciseId = exerciseId;
         this.title = title;
         this.description = description;
         this.trainingMethodology = trainingMethodology;
         this.reps = reps;
         this.exerciseFormats = exerciseFormats;
+    }
+
+    public String getExerciseId() {
+        return exerciseId;
+    }
+
+    public void setExerciseId(String exerciseId) {
+        this.exerciseId = exerciseId;
     }
 
     public String getTitle() {
