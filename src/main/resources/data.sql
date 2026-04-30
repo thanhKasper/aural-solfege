@@ -10,7 +10,8 @@ values (RANDOM_UUID(), 'PERFECT_5TH',
         @target_id);
 
 SET @active_training_id = RANDOM_UUID();
-INSERT INTO active_training (id, exercise_amounts) VALUES (@active_training_id, 5);
+INSERT INTO active_training (id, exercise_amounts, training_methodology, exercise_id)
+VALUES (@active_training_id, 5, 'INTERVAL_TRAINING', @target_id);
 
 INSERT INTO ACTIVE_EXERCISE_FORMAT_PRACTICE_INTERVALS (ACTIVE_EXERCISE_FORMAT_ID, PRACTICE_INTERVALS)
 VALUES (@active_training_id, 'PERFECT_5TH');

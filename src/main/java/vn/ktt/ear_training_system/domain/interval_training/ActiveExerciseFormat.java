@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.domain.interval_training;
 
 import jakarta.persistence.*;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
-
+import vn.ktt.ear_training_system.domain.TrainingMethodology;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +18,8 @@ public class ActiveExerciseFormat extends ExerciseFormat {
     private int exerciseAmounts;
     private static final int PRACTICE_PER_INTERVAL = 5;
 
-    public ActiveExerciseFormat(List<MusicalInterval> intervals) {
+    public ActiveExerciseFormat(TrainingMethodology trainingMethodology, List<MusicalInterval> intervals) {
+        super(trainingMethodology);
         validateSelectedIntervals(intervals);
         this.practiceIntervals = new HashSet<>(intervals);
         exerciseAmounts = this.practiceIntervals.size() * PRACTICE_PER_INTERVAL;
@@ -26,8 +27,8 @@ public class ActiveExerciseFormat extends ExerciseFormat {
 
     public ActiveExerciseFormat() {}
 
-    public Set<MusicalInterval> getPracticeIntervals() {
-        return practiceIntervals;
+    public List<MusicalInterval> getPracticeIntervals() {
+        return practiceIntervals.stream().toList();
     }
 
     public int getExerciseAmounts() {

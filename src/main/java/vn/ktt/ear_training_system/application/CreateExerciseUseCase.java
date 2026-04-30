@@ -1,6 +1,7 @@
 package vn.ktt.ear_training_system.application;
 
 import org.springframework.stereotype.Service;
+import vn.ktt.ear_training_system.application.dtos.ActiveExerciseFormatDTO;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.PassiveExerciseFormatDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
@@ -26,7 +27,16 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
                         passiveExerciseDTO.getInterval(),
                         passiveExerciseDTO.getTexture());
             }
-            return null;
+            else if (exerciseFormatDTO.type().equals("active")) {
+                ActiveExerciseFormatDTO activeExerciseDTO = (ActiveExerciseFormatDTO) exerciseFormatDTO;
+                return exerciseBuilder.buildActiveExerciseFormat(
+                        exerciseDTO.getTrainingMethodology(),
+                        activeExerciseDTO.getTrainingIntervals()
+                );
+            }
+            else {
+                throw new RuntimeException("Unknown exercise format, it should be 'active' or 'passive'");
+            }
         }).toList();
 
         var domainExercise = exerciseBuilder.buildExercise(

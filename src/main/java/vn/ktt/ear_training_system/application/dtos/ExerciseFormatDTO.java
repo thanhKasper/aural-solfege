@@ -9,9 +9,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = PassiveExerciseFormatDTO.class, name = "passive")
+        @JsonSubTypes.Type(value = PassiveExerciseFormatDTO.class, name = "passive"),
+        @JsonSubTypes.Type(value = ActiveExerciseFormatDTO.class, name = "active")
 })
 public sealed interface ExerciseFormatDTO
-        permits PassiveExerciseFormatDTO {
+        permits PassiveExerciseFormatDTO, ActiveExerciseFormatDTO {
     String type();
 }

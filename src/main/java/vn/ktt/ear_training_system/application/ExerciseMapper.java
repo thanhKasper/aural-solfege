@@ -1,11 +1,14 @@
 package vn.ktt.ear_training_system.application;
 
 import org.springframework.stereotype.Component;
+import vn.ktt.ear_training_system.application.dtos.ActiveExerciseFormatDTO;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
 import vn.ktt.ear_training_system.application.dtos.PassiveExerciseFormatDTO;
 import vn.ktt.ear_training_system.domain.Exercise;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
+import vn.ktt.ear_training_system.domain.interval_training.ActiveExerciseFormat;
+import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
 import vn.ktt.ear_training_system.domain.interval_training.PassiveExerciseFormat;
 
 @Component
@@ -24,7 +27,7 @@ public class ExerciseMapper {
     public ExerciseFormatDTO toExerciseFormatDTO(ExerciseFormat domain) {
         return switch (domain) {
             case PassiveExerciseFormat p -> mapPassive(p);
-//            case ActiveExerciseFormat a -> mapActive(a);
+            case ActiveExerciseFormat a -> mapActive(a);
             default -> throw new IllegalStateException("Unexpected value: " + domain);
         };
     }
@@ -33,6 +36,13 @@ public class ExerciseMapper {
         return new PassiveExerciseFormatDTO(
                 exerciseFormat.getInterval().toString(),
                 exerciseFormat.getSoundProperty().toString()
+        );
+    }
+
+    private ExerciseFormatDTO mapActive(ActiveExerciseFormat exerciseFormat) {
+        return new ActiveExerciseFormatDTO(
+                exerciseFormat.getPracticeIntervals().stream().map(MusicalInterval::toString).toList(),
+                exerciseFormat.getExerciseAmounts()
         );
     }
 }
