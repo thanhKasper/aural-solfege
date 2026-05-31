@@ -10,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SingleIntervalExerciseFormatDTO.class, name = "SINGLE_INTERVAL"),
-        @JsonSubTypes.Type(value = ActiveExerciseFormatDTO.class, name = "active")
 })
 public sealed interface ExerciseFormatDTO
-        permits SingleIntervalExerciseFormatDTO, ActiveExerciseFormatDTO {
-    String type();
+        permits SingleIntervalExerciseFormatDTO {
+    Integer position();
+    ExerciseFormatType type();
 }

@@ -12,12 +12,13 @@ public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO 
     }
 
     @Override
-    public String type() {
-        return "SINGLE_INTERVAL";
-    }
-
     public Integer position() {
         return this.position;
+    }
+
+    @Override
+    public ExerciseFormatType type() {
+        return ExerciseFormatType.SINGLE_INTERVAL;
     }
 
     public String getInterval() {
