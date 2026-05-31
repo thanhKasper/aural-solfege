@@ -4,6 +4,8 @@ import vn.ktt.ear_training_system.domain.interval_training.IntervalTexture;
 import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
 import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
 
+import java.util.List;
+
 public class ExerciseBuilder {
     public ExerciseFormat buildSingleIntervalExerciseFormat(String trainingMethod,
                                                             String interval,

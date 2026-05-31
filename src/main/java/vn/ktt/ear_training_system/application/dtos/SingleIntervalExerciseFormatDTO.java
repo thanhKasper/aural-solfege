@@ -3,7 +3,9 @@ package vn.ktt.ear_training_system.application.dtos;
 public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO {
     private String interval;
     private String texture;
-    private final Integer position;
+    private Integer position;
+
+    public SingleIntervalExerciseFormatDTO() {}
 
     public SingleIntervalExerciseFormatDTO(String interval, String texture, Integer position) {
         this.interval = interval;
@@ -35,5 +37,13 @@ public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO 
 
     public void setTexture(String texture) {
         this.texture = texture;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }

@@ -10,6 +10,8 @@ public class ExerciseDTO {
     private Integer reps;
     private List<ExerciseFormatDTO> exerciseFormats;
 
+    public ExerciseDTO() {}
+
     public ExerciseDTO(String exerciseId, String title, String description, String trainingMethodology, Integer reps, List<ExerciseFormatDTO> exerciseFormats) {
         this.exerciseId = exerciseId;
         this.title = title;
