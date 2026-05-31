@@ -3,18 +3,19 @@ package vn.ktt.ear_training_system.domain;
 import vn.ktt.ear_training_system.domain.interval_training.ActiveExerciseFormat;
 import vn.ktt.ear_training_system.domain.interval_training.IntervalTexture;
 import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
-import vn.ktt.ear_training_system.domain.interval_training.PassiveExerciseFormat;
+import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
 
 import java.util.List;
 
 public class ExerciseBuilder {
-    public ExerciseFormat buildPassiveExerciseFormat(String trainingMethod,
+    public ExerciseFormat buildSingleIntervalExerciseFormat(String trainingMethod,
                                                             String interval,
-                                                            String intervalProperty) {
-        return new PassiveExerciseFormat(
+                                                            String intervalProperty, Integer position) {
+        return new SingleIntervalExerciseFormat(
                 TrainingMethodology.valueOf(trainingMethod),
                 IntervalTexture.valueOf(intervalProperty),
-                MusicalInterval.valueOf(interval));
+                MusicalInterval.valueOf(interval),
+                position);
     }
 
     public ExerciseFormat buildActiveExerciseFormat(String trainingMethod, List<String> trainingIntervals) {

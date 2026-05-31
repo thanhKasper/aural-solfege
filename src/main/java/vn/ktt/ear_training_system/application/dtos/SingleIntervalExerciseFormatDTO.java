@@ -1,17 +1,23 @@
 package vn.ktt.ear_training_system.application.dtos;
 
-public final class PassiveExerciseFormatDTO implements ExerciseFormatDTO {
+public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO {
     private String interval;
     private String texture;
+    private final Integer position;
 
-    public PassiveExerciseFormatDTO(String interval, String texture) {
+    public SingleIntervalExerciseFormatDTO(String interval, String texture, Integer position) {
         this.interval = interval;
         this.texture = texture;
+        this.position = position;
     }
 
     @Override
     public String type() {
-        return "passive";
+        return "SINGLE_INTERVAL";
+    }
+
+    public Integer position() {
+        return this.position;
     }
 
     public String getInterval() {
