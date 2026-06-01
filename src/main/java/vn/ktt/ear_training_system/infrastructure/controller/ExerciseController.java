@@ -26,7 +26,6 @@ public class ExerciseController {
 
     @PostMapping
     public ResponseEntity<?> createNewExercise(@RequestBody ExerciseDTO exerciseDTO) {
-        System.out.println("Receive exerciseDTO: " + exerciseDTO.toString());
         exerciseCreationService.createExercise(exerciseDTO);
         return ResponseEntity.ok().build();
     }
