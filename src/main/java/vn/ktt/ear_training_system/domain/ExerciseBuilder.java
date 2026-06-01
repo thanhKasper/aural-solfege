@@ -22,6 +22,7 @@ public class ExerciseBuilder {
             String title,
             String description,
             Integer reps,
+            Integer rest,
             List<ExerciseFormat> exerciseFormats
     ) {
         return new Exercise(TrainingMethodology.valueOf(trainingMethod), title, description, reps, exerciseFormats);

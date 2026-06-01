@@ -38,6 +38,7 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
                 exerciseDTO.getTitle(),
                 exerciseDTO.getDescription(),
                 exerciseDTO.getReps(),
+                exerciseDTO.getRest(),
                 domainExerciseFormats);
 
         exerciseRepository.saveExercise(domainExercise);

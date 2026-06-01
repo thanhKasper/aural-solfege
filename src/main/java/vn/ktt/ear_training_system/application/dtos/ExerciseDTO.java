@@ -8,17 +8,19 @@ public class ExerciseDTO {
     private String description;
     private String trainingMethodology;
     private Integer reps;
+    private Integer rest;
     private List<ExerciseFormatDTO> exerciseFormats;
 
     public ExerciseDTO() {}
 
-    public ExerciseDTO(String exerciseId, String title, String description, String trainingMethodology, Integer reps, List<ExerciseFormatDTO> exerciseFormats) {
+    public ExerciseDTO(String exerciseId, String title, String description, String trainingMethodology, Integer reps, List<ExerciseFormatDTO> exerciseFormats, Integer rest, boolean loop) {
         this.exerciseId = exerciseId;
         this.title = title;
         this.description = description;
         this.trainingMethodology = trainingMethodology;
         this.reps = reps;
         this.exerciseFormats = exerciseFormats;
+        this.rest = rest;
     }
 
     public String getExerciseId() {
@@ -67,6 +69,14 @@ public class ExerciseDTO {
 
     public void setExerciseFormats(List<ExerciseFormatDTO> exerciseFormats) {
         this.exerciseFormats = exerciseFormats;
+    }
+
+    public Integer getRest() {
+        return rest;
+    }
+
+    public void setRest(Integer rest) {
+        this.rest = rest;
     }
 
     @Override

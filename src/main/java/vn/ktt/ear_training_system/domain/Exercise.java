@@ -20,6 +20,7 @@ public class Exercise {
     private String description;
     @Column(name="repetitions")
     private Integer repetitions;
+    private Integer rest;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "exercise_id")
@@ -50,6 +51,10 @@ public class Exercise {
 
     public int getRepetitions() {
         return this.repetitions;
+    }
+
+    public Integer getRest() {
+        return rest;
     }
 
     public String getDescription() {

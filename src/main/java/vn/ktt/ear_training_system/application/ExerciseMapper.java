@@ -17,7 +17,9 @@ public class ExerciseMapper {
                 exercise.getDescription(),
                 exercise.getTrainingMethodology(),
                 exercise.getRepetitions(),
-                exercise.getExerciseFormats().stream().map(this::toExerciseFormatDTO).toList()
+                exercise.getExerciseFormats().stream().map(this::toExerciseFormatDTO).toList(),
+                exercise.getRest(),
+                exercise.getRepetitions() == null
         );
     }
 
