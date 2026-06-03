@@ -17,6 +17,7 @@ public class Exercise {
     private String title;
     private String description;
     private Integer repetitions;
+    private Integer rest;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "exercise_id")
@@ -119,5 +120,9 @@ public class Exercise {
         if (repetitions > 10) {
             throw new IllegalArgumentException("Can reach maximum 10 reps");
         }
+    }
+
+    public Integer getRest() {
+        return rest;
     }
 }
