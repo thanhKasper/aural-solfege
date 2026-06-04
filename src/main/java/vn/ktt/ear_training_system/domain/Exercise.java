@@ -1,41 +1,37 @@
 package vn.ktt.ear_training_system.domain;
 
-import jakarta.persistence.*;
 import java.util.*;
 
-@Entity
-@Table(name="exercise")
 public class Exercise {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name="id")
     private UUID exerciseId;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name="training_methodology")
     private TrainingMethodology trainingMethodology;
     private String title;
     private String description;
     private Integer repetitions;
     private Integer rest;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "exercise_id")
     private List<ExerciseFormat> exerciseFormats;
     private static final Integer INFINITE_REPETITIONS = Integer.MAX_VALUE;
 
     public Exercise(TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, List<ExerciseFormat> exerciseFormats) {
+        this(null, trainingMethodology, title, description, repetitions, null, exerciseFormats);
+    }
+
+    public Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, Integer rest, List<ExerciseFormat> exerciseFormats) {
+        this.exerciseId = exerciseId;
         updateTitle(title);
         updateDescription(description);
         updateTrainingMethodology(trainingMethodology);
         updateExerciseFormats(exerciseFormats);
         updateRepetitions(repetitions);
+        this.rest = rest;
     }
 
-    protected Exercise() {}
-
     public String getExerciseId() {
-        return this.exerciseId.toString();
+        return exerciseId == null ? null : exerciseId.toString();
+    }
+
+    public UUID getExerciseUuid() {
+        return exerciseId;
     }
 
     public String getTitle() {
@@ -44,6 +40,10 @@ public class Exercise {
 
     public String getTrainingMethodology() {
         return this.trainingMethodology.toString();
+    }
+
+    public TrainingMethodology getTrainingMethodologyEnum() {
+        return this.trainingMethodology;
     }
 
     public Integer getRepetitions() {
@@ -80,7 +80,7 @@ public class Exercise {
 
     public void updateExerciseFormats(List<ExerciseFormat> exerciseFormats) {
         validateExerciseFormatList(exerciseFormats);
-        this.exerciseFormats = new ArrayList<>(exerciseFormats); // defensive copy
+        this.exerciseFormats = new ArrayList<>(exerciseFormats);
     }
 
     private void validateTitle(String title) {
