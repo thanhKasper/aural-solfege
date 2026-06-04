@@ -1,8 +1,10 @@
 package vn.ktt.ear_training_system.domain.interval_training;
 
+import lombok.Getter;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
 import vn.ktt.ear_training_system.domain.TrainingMethodology;
 
+@Getter
 public class SingleIntervalExerciseFormat extends ExerciseFormat {
     private IntervalTexture soundProperty;
     private MusicalInterval interval;
@@ -19,13 +21,4 @@ public class SingleIntervalExerciseFormat extends ExerciseFormat {
         super(null);
     }
 
-    public IntervalTexture getSoundProperty() {
-        return soundProperty;
-    }
-
-    public MusicalInterval getInterval() {
-        return interval;
-    }
-
-    public int getPosition() { return this.position; }
 }

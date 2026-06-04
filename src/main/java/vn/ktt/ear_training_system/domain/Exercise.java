@@ -1,14 +1,17 @@
 package vn.ktt.ear_training_system.domain;
 
+import lombok.Getter;
+
 import java.util.*;
 
+@Getter
 public class Exercise {
-    private UUID exerciseId;
+    private final UUID exerciseId;
     private TrainingMethodology trainingMethodology;
     private String title;
     private String description;
     private Integer repetitions;
-    private Integer rest;
+    private final Integer rest;
     private List<ExerciseFormat> exerciseFormats;
     private static final Integer INFINITE_REPETITIONS = Integer.MAX_VALUE;
 
@@ -34,24 +37,12 @@ public class Exercise {
         return exerciseId;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public String getTrainingMethodology() {
         return this.trainingMethodology.toString();
     }
 
     public TrainingMethodology getTrainingMethodologyEnum() {
         return this.trainingMethodology;
-    }
-
-    public Integer getRepetitions() {
-        return this.repetitions;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public List<ExerciseFormat> getExerciseFormats() {
@@ -122,7 +113,4 @@ public class Exercise {
         }
     }
 
-    public Integer getRest() {
-        return rest;
-    }
 }
