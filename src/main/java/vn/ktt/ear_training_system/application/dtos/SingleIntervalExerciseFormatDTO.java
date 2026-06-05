@@ -10,8 +10,6 @@ public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO 
     private String texture;
     private Integer position;
 
-    public SingleIntervalExerciseFormatDTO() {}
-
     public SingleIntervalExerciseFormatDTO(String interval, String texture, Integer position) {
         this.interval = interval;
         this.texture = texture;
