@@ -1,4 +1,6 @@
-package vn.ktt.ear_training_system.domain;
+package vn.ktt.ear_training_system.domain.repository;
+
+import vn.ktt.ear_training_system.domain.Exercise;
 
 import java.util.List;
 import java.util.Optional;

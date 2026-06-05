@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import vn.ktt.ear_training_system.domain.ExerciseBuilder;
+import vn.ktt.ear_training_system.domain.factory.ExerciseBuilder;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 import vn.ktt.musical_components_core.musical_domains.music_factory.MusicalEntityFactory;
 import vn.ktt.musical_components_core.musical_domains.music_services.IMusicalOperation;

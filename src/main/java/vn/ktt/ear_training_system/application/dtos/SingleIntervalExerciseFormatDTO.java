@@ -1,5 +1,10 @@
 package vn.ktt.ear_training_system.application.dtos;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO {
     private String interval;
     private String texture;
@@ -23,27 +28,4 @@ public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO 
         return ExerciseFormatType.SINGLE_INTERVAL;
     }
 
-    public String getInterval() {
-        return interval;
-    }
-
-    public void setInterval(String interval) {
-        this.interval = interval;
-    }
-
-    public String getTexture() {
-        return texture;
-    }
-
-    public void setTexture(String texture) {
-        this.texture = texture;
-    }
-
-    public Integer getPosition() {
-        return position;
-    }
-
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
 }

@@ -13,10 +13,10 @@ public class Exercise {
     private Integer repetitions;
     private final Integer rest;
     private List<ExerciseFormat> exerciseFormats;
-    private static final Integer INFINITE_REPETITIONS = Integer.MAX_VALUE;
+    private static final Integer INFINITE_REPETITIONS = null;
 
-    public Exercise(TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, List<ExerciseFormat> exerciseFormats) {
-        this(null, trainingMethodology, title, description, repetitions, null, exerciseFormats);
+    public Exercise(TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, Integer rest, List<ExerciseFormat> exerciseFormats) {
+        this(null, trainingMethodology, title, description, repetitions, rest, exerciseFormats);
     }
 
     public Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, Integer rest, List<ExerciseFormat> exerciseFormats) {

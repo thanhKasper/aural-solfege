@@ -3,8 +3,8 @@ package vn.ktt.ear_training_system.application;
 import org.springframework.stereotype.Service;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
-import vn.ktt.ear_training_system.domain.ExerciseBuilder;
-import vn.ktt.ear_training_system.domain.IExerciseRepository;
+import vn.ktt.ear_training_system.domain.factory.ExerciseBuilder;
+import vn.ktt.ear_training_system.domain.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.domain.TrainingMethodology;
 
 @Service

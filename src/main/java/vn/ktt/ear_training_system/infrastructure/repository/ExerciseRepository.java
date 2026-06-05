@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.infrastructure.repository;
 
 import org.springframework.stereotype.Repository;
 import vn.ktt.ear_training_system.domain.Exercise;
-import vn.ktt.ear_training_system.domain.IExerciseRepository;
+import vn.ktt.ear_training_system.domain.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.infrastructure.repository.mapper.ExerciseEntityMapper;
 
 import java.util.List;
