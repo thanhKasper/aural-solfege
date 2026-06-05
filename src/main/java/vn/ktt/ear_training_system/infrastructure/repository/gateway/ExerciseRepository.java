@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.infrastructure.repository;
+package vn.ktt.ear_training_system.infrastructure.repository.gateway;
 
 import org.springframework.stereotype.Repository;
 import vn.ktt.ear_training_system.domain.Exercise;
