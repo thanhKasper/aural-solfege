@@ -3,8 +3,6 @@ package vn.ktt;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import vn.ktt.ear_training_system.domain.factory.ExerciseBuilder;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 import vn.ktt.musical_components_core.musical_domains.music_factory.MusicalEntityFactory;
@@ -13,22 +11,8 @@ import vn.ktt.musical_components_core.musical_domains.music_services.MusicalOper
 
 @SpringBootApplication
 public class Main {
-    public static void main(String[] args) {
+    static void main() {
         SpringApplication.run(Main.class);
-    }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
-            }
-        };
     }
 
     @Bean
