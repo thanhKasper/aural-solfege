@@ -11,7 +11,7 @@ import vn.ktt.musical_components_core.musical_domains.music_services.MusicalOper
 
 @SpringBootApplication
 public class Main {
-    static void main() {
+    public static void main(String[] args) {
         SpringApplication.run(Main.class);
     }
 
