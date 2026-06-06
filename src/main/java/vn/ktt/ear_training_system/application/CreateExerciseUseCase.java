@@ -32,7 +32,7 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
                 exerciseDTO.getTrainingMethodology(),
                 exerciseDTO.getTitle(),
                 exerciseDTO.getDescription(),
-                exerciseDTO.getReps(),
+                exerciseDTO.isLoop() ? null : exerciseDTO.getReps(),
                 exerciseDTO.getRest(),
                 domainExerciseFormats);
 

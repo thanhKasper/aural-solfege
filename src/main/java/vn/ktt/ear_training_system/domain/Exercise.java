@@ -13,7 +13,6 @@ public class Exercise {
     private Integer repetitions;
     private final Integer rest;
     private List<ExerciseFormat> exerciseFormats;
-    private static final Integer INFINITE_REPETITIONS = null;
 
     public Exercise(TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, Integer rest, List<ExerciseFormat> exerciseFormats) {
         this(null, trainingMethodology, title, description, repetitions, rest, exerciseFormats);
@@ -61,7 +60,7 @@ public class Exercise {
 
     public void updateRepetitions(Integer newRepetition) {
         validateRepetition(newRepetition);
-        this.repetitions = Objects.requireNonNullElse(newRepetition, INFINITE_REPETITIONS);
+        this.repetitions = newRepetition;
     }
 
     public void updateDescription(String description) {
