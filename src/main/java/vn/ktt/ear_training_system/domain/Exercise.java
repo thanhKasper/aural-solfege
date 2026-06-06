@@ -11,7 +11,7 @@ public class Exercise {
     private String title;
     private String description;
     private Integer repetitions;
-    private final Integer rest;
+    private Integer rest;
     private List<ExerciseFormat> exerciseFormats;
 
     public Exercise(TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, Integer rest, List<ExerciseFormat> exerciseFormats) {
@@ -25,7 +25,7 @@ public class Exercise {
         updateTrainingMethodology(trainingMethodology);
         updateExerciseFormats(exerciseFormats);
         updateRepetitions(repetitions);
-        this.rest = rest;
+        updateRest(rest);
     }
 
     public String getExerciseId() {
@@ -73,6 +73,11 @@ public class Exercise {
         this.exerciseFormats = new ArrayList<>(exerciseFormats);
     }
 
+    public void updateRest(Integer rest) {
+        validateRest(rest);
+        this.rest = rest;
+    }
+
     private void validateTitle(String title) {
         if (title.isBlank()) {
             throw new IllegalArgumentException("Invalid title, cannot be null or empty");
@@ -109,6 +114,15 @@ public class Exercise {
         }
         if (repetitions > 10) {
             throw new IllegalArgumentException("Can reach maximum 10 reps");
+        }
+    }
+
+    private void validateRest(Integer rest) {
+        if (rest == null) {
+            throw new IllegalArgumentException("Rest must not be null");
+        }
+        if (rest < 0 || rest > 1800) {
+            throw new IllegalArgumentException("Rest must be between 0 and 1800");
         }
     }
 
