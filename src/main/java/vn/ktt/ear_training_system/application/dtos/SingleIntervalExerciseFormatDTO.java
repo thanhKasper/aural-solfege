@@ -1,10 +1,12 @@
 package vn.ktt.ear_training_system.application.dtos;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO {
     private String interval;
     private String texture;

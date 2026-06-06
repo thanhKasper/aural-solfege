@@ -1,10 +1,12 @@
 package vn.ktt.ear_training_system.application.dtos;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class ExerciseDTO {
     private String exerciseId;
     private String title;
