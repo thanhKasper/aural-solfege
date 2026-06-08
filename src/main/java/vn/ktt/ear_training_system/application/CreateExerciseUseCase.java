@@ -5,7 +5,6 @@ import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
 import vn.ktt.ear_training_system.domain.factory.ExerciseBuilder;
 import vn.ktt.ear_training_system.domain.repository.IExerciseRepository;
-import vn.ktt.ear_training_system.domain.TrainingMethodology;
 
 @Service
 public class CreateExerciseUseCase implements ExerciseCreationPort {
@@ -22,10 +21,8 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
     }
 
     public void createExercise(ExerciseDTO exerciseDTO) {
-        var methodology = TrainingMethodology.valueOf(exerciseDTO.getTrainingMethodology());
-
         var domainExerciseFormats = exerciseDTO.getExerciseFormats().stream()
-                .map(dto -> exerciseMapper.toDomain(dto, methodology))
+                .map(dto -> exerciseMapper.toDomain(dto))
                 .toList();
 
         var domainExercise = exerciseBuilder.buildExercise(

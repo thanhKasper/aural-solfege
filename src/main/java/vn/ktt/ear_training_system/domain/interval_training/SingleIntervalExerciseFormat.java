@@ -1,24 +1,24 @@
 package vn.ktt.ear_training_system.domain.interval_training;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
-import vn.ktt.ear_training_system.domain.TrainingMethodology;
+
+import java.util.Objects;
 
 @Getter
-public class SingleIntervalExerciseFormat extends ExerciseFormat {
-    private IntervalTexture soundProperty;
-    private MusicalInterval interval;
-    private int position;
+@EqualsAndHashCode
+public final class SingleIntervalExerciseFormat extends ExerciseFormat {
+    private final IntervalTexture soundProperty;
+    private final MusicalInterval interval;
+    private final int position;
 
-    public SingleIntervalExerciseFormat(TrainingMethodology trainingMethodology, IntervalTexture intervalSoundTexture, MusicalInterval interval, int position) {
-        super(trainingMethodology);
-        this.interval = interval;
-        this.soundProperty = intervalSoundTexture;
+    public SingleIntervalExerciseFormat(IntervalTexture soundProperty, MusicalInterval interval, int position) {
+        this.interval = Objects.requireNonNull(interval, "Interval must not be null");
+        this.soundProperty = Objects.requireNonNull(soundProperty, "Sound property must not be null");
+        if (position < 0) {
+            throw new IllegalArgumentException("Position must be non-negative");
+        }
         this.position = position;
     }
-
-    protected SingleIntervalExerciseFormat() {
-        super(null);
-    }
-
 }

@@ -42,12 +42,12 @@ public class ExerciseMapper {
         return findMapper(domain).toDto(domain);
     }
 
-    public ExerciseFormat toDomain(ExerciseFormatDTO dto, TrainingMethodology methodology) {
+    public ExerciseFormat toDomain(ExerciseFormatDTO dto) {
         var mapper = dtoIndex.get(dto.getClass());
         if (mapper == null) {
             throw new IllegalArgumentException("No mapper for format: " + dto.getClass().getSimpleName());
         }
-        return mapper.toDomain(dto, methodology);
+        return mapper.toDomain(dto);
     }
 
     private ExerciseFormatMapper findMapper(ExerciseFormat domain) {

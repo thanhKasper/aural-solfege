@@ -5,7 +5,6 @@ import vn.ktt.ear_training_system.application.ExerciseFormatMapper;
 import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
 import vn.ktt.ear_training_system.application.dtos.SingleIntervalExerciseFormatDTO;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
-import vn.ktt.ear_training_system.domain.TrainingMethodology;
 import vn.ktt.ear_training_system.domain.interval_training.IntervalTexture;
 import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
 import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
@@ -34,10 +33,9 @@ public class SingleIntervalExerciseFormatMapper implements ExerciseFormatMapper 
     }
 
     @Override
-    public ExerciseFormat toDomain(ExerciseFormatDTO dto, TrainingMethodology trainingMethodology) {
+    public ExerciseFormat toDomain(ExerciseFormatDTO dto) {
         var d = (SingleIntervalExerciseFormatDTO) dto;
         return new SingleIntervalExerciseFormat(
-                trainingMethodology,
                 IntervalTexture.valueOf(d.getTexture()),
                 MusicalInterval.valueOf(d.getInterval()),
                 d.position()
