@@ -1,7 +1,6 @@
 package vn.ktt.ear_training_system.application.format_mappers;
 
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.application.ExerciseFormatMapper;
 import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
 import vn.ktt.ear_training_system.application.dtos.SingleIntervalExerciseFormatDTO;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;

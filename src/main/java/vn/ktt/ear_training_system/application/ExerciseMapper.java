@@ -3,9 +3,9 @@ package vn.ktt.ear_training_system.application;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
+import vn.ktt.ear_training_system.application.format_mappers.ExerciseFormatMapper;
 import vn.ktt.ear_training_system.domain.Exercise;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
-import vn.ktt.ear_training_system.domain.TrainingMethodology;
 
 import java.util.HashMap;
 import java.util.List;
