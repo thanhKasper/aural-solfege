@@ -1,6 +1,7 @@
 package vn.ktt.ear_training_system.infrastructure.repository.converter;
 
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class ExerciseFormatsConverter implements AttributeConverter<List<Exercis
         mapper.addMixIn(ExerciseFormat.class, ExerciseFormatMixin.class);
         for (var provider : mixInProviders) {
             mapper.addMixIn(provider.targetClass(), provider.mixInClass());
+            mapper.registerSubtypes(new NamedType(provider.targetClass(), provider.typeName()));
         }
         return mapper;
     }

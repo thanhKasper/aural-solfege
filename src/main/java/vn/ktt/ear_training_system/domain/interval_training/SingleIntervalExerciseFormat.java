@@ -7,7 +7,7 @@ import vn.ktt.ear_training_system.domain.ExerciseFormat;
 import java.util.Objects;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public final class SingleIntervalExerciseFormat extends ExerciseFormat {
     private final IntervalTexture soundProperty;
     private final MusicalInterval interval;

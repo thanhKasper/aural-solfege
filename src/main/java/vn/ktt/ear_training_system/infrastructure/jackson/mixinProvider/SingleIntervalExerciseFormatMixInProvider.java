@@ -1,6 +1,7 @@
 package vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider;
 
 import org.springframework.stereotype.Component;
+import vn.ktt.ear_training_system.application.dtos.ExerciseFormatType;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
 import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
 import vn.ktt.ear_training_system.infrastructure.jackson.mixin.SingleIntervalExerciseFormatMixin;
@@ -15,5 +16,10 @@ public class SingleIntervalExerciseFormatMixInProvider implements ExerciseFormat
     @Override
     public Class<?> mixInClass() {
         return SingleIntervalExerciseFormatMixin.class;
+    }
+
+    @Override
+    public String typeName() {
+        return ExerciseFormatType.SINGLE_INTERVAL.name();
     }
 }
