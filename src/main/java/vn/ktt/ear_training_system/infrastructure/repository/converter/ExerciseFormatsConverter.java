@@ -5,20 +5,23 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
-import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
 import java.util.List;
-
 
 @Converter
 @Component
 public class ExerciseFormatsConverter implements AttributeConverter<List<ExerciseFormat>, String> {
-    // Build the mapper statically inside the converter itself
-    private static final ObjectMapper mapper = buildMapper();
+    private final ObjectMapper mapper;
 
-    private static ObjectMapper buildMapper() {
+    public ExerciseFormatsConverter(List<ExerciseFormatMixInProvider> mixInProviders) {
+        this.mapper = buildMapper(mixInProviders);
+    }
+
+    private static ObjectMapper buildMapper(List<ExerciseFormatMixInProvider> mixInProviders) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.addMixIn(ExerciseFormat.class, ExerciseFormatMixin.class);
-        mapper.addMixIn(SingleIntervalExerciseFormat.class, SingleIntervalExerciseFormatMixin.class);
+        for (var provider : mixInProviders) {
+            mapper.addMixIn(provider.targetClass(), provider.mixInClass());
+        }
         return mapper;
     }
 

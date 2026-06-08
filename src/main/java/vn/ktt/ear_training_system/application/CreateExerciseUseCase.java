@@ -22,7 +22,7 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
 
     public void createExercise(ExerciseDTO exerciseDTO) {
         var domainExerciseFormats = exerciseDTO.getExerciseFormats().stream()
-                .map(dto -> exerciseMapper.toDomain(dto))
+                .map(exerciseMapper::toDomain)
                 .toList();
 
         var domainExercise = exerciseBuilder.buildExercise(
