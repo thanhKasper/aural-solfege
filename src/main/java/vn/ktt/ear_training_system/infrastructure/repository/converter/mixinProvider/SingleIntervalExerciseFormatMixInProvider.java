@@ -1,8 +1,9 @@
-package vn.ktt.ear_training_system.infrastructure.repository.converter;
+package vn.ktt.ear_training_system.infrastructure.repository.converter.mixinProvider;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
 import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
+import vn.ktt.ear_training_system.infrastructure.repository.converter.mixin.SingleIntervalExerciseFormatMixin;
 
 @Component
 public class SingleIntervalExerciseFormatMixInProvider implements ExerciseFormatMixInProvider {

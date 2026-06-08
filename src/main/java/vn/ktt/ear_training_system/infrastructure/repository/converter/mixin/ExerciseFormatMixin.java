@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.infrastructure.repository.converter;
+package vn.ktt.ear_training_system.infrastructure.repository.converter.mixin;
 
 import com.fasterxml.jackson.annotation.*;
 import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
