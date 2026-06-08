@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.infrastructure.repository.converter.mixinProvider;
+package vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider;
 
 import vn.ktt.ear_training_system.domain.ExerciseFormat;
 

@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.infrastructure.repository.converter.mixin;
+package vn.ktt.ear_training_system.infrastructure.jackson.mixin;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
