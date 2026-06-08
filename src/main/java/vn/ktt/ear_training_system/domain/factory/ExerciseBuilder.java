@@ -11,10 +11,11 @@ public class ExerciseBuilder {
             String trainingMethod,
             String title,
             String description,
-            Integer reps,
-            Integer rest,
+            boolean loop,
+            int repetitions,
+            int rest,
             List<ExerciseFormat> exerciseFormats
     ) {
-        return new Exercise(TrainingMethodology.valueOf(trainingMethod), title, description, reps, rest, exerciseFormats);
+        return new Exercise(TrainingMethodology.valueOf(trainingMethod), title, description, loop, repetitions, rest, exerciseFormats);
     }
 }

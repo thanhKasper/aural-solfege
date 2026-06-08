@@ -27,14 +27,14 @@ public class ExerciseMapper {
 
     public ExerciseDTO toExerciseDTO(Exercise exercise) {
         return new ExerciseDTO(
-                exercise.getExerciseId(),
+                exercise.getExerciseId().toString(),
                 exercise.getTitle(),
                 exercise.getDescription(),
-                exercise.getTrainingMethodology(),
-                exercise.getRepetitions(),
+                exercise.getTrainingMethodology().name(),
+                exercise.isLoop() ? null : exercise.getRepetitions(),
                 exercise.getExerciseFormats().stream().map(this::toExerciseFormatDTO).toList(),
                 exercise.getRest(),
-                exercise.getRepetitions() == null
+                exercise.isLoop()
         );
     }
 

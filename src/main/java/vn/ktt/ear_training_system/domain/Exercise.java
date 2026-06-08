@@ -10,120 +10,109 @@ public class Exercise {
     private TrainingMethodology trainingMethodology;
     private String title;
     private String description;
-    private Integer repetitions;
-    private Integer rest;
+    private boolean loop;
+    private int repetitions;
+    private int rest;
     private List<ExerciseFormat> exerciseFormats;
 
-    public Exercise(TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, Integer rest, List<ExerciseFormat> exerciseFormats) {
-        this(null, trainingMethodology, title, description, repetitions, rest, exerciseFormats);
+    public Exercise(TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseFormat> exerciseFormats) {
+        this(null, trainingMethodology, title, description, loop, repetitions, rest, exerciseFormats);
     }
 
-    public Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, Integer repetitions, Integer rest, List<ExerciseFormat> exerciseFormats) {
+    public Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseFormat> exerciseFormats) {
         this.exerciseId = exerciseId;
-        updateTitle(title);
-        updateDescription(description);
-        updateTrainingMethodology(trainingMethodology);
-        updateExerciseFormats(exerciseFormats);
-        updateRepetitions(repetitions);
-        updateRest(rest);
-    }
-
-    public String getExerciseId() {
-        return exerciseId == null ? null : exerciseId.toString();
-    }
-
-    public UUID getExerciseUuid() {
-        return exerciseId;
-    }
-
-    public String getTrainingMethodology() {
-        return this.trainingMethodology.toString();
-    }
-
-    public TrainingMethodology getTrainingMethodologyEnum() {
-        return this.trainingMethodology;
+        assignTrainingMethodology(trainingMethodology);
+        rename(title);
+        rephraseDescription(description);
+        replaceExerciseFormats(exerciseFormats);
+        changeRepetitions(loop, repetitions);
+        changeRestDuration(rest);
     }
 
     public List<ExerciseFormat> getExerciseFormats() {
-        return Collections.unmodifiableList(this.exerciseFormats);
+        return Collections.unmodifiableList(exerciseFormats);
     }
 
-    public void updateTitle(String title) {
+    public void rename(String title) {
         validateTitle(title);
         this.title = title;
     }
 
-    private void updateTrainingMethodology(TrainingMethodology methodology) {
-        validateTrainingMethod(methodology);
-        this.trainingMethodology = methodology;
-    }
-
-    public void updateRepetitions(Integer newRepetition) {
-        validateRepetition(newRepetition);
-        this.repetitions = newRepetition;
-    }
-
-    public void updateDescription(String description) {
+    public void rephraseDescription(String description) {
         validateDescription(description);
         this.description = description;
     }
 
-    public void updateExerciseFormats(List<ExerciseFormat> exerciseFormats) {
-        validateExerciseFormatList(exerciseFormats);
-        this.exerciseFormats = new ArrayList<>(exerciseFormats);
+    public void changeRepetitions(boolean loop, int repetitions) {
+        if (!loop) {
+            validateRepetition(repetitions);
+        }
+        this.loop = loop;
+        this.repetitions = loop ? 0 : repetitions;
     }
 
-    public void updateRest(Integer rest) {
+    public void changeRestDuration(int rest) {
         validateRest(rest);
         this.rest = rest;
     }
 
+    public void addFormat(ExerciseFormat format) {
+        Objects.requireNonNull(format, "Exercise format must not be null");
+        var newList = new ArrayList<>(this.exerciseFormats);
+        newList.add(format);
+        this.exerciseFormats = newList;
+    }
+
+    public void removeFormat(ExerciseFormat format) {
+        var newList = new ArrayList<>(this.exerciseFormats);
+        if (!newList.remove(format)) {
+            return;
+        }
+        if (newList.isEmpty()) {
+            throw new IllegalArgumentException("Exercise must have at least one exercise format");
+        }
+        this.exerciseFormats = newList;
+    }
+
+    private void assignTrainingMethodology(TrainingMethodology methodology) {
+        if (methodology == null) throw new IllegalArgumentException("Method must not be null");
+        this.trainingMethodology = methodology;
+    }
+
+    private void replaceExerciseFormats(List<ExerciseFormat> exerciseFormats) {
+        if (exerciseFormats == null || exerciseFormats.isEmpty()) {
+            throw new IllegalArgumentException("Exercise must have at least one exercise format");
+        }
+        this.exerciseFormats = new ArrayList<>(exerciseFormats);
+    }
+
     private void validateTitle(String title) {
-        if (title.isBlank()) {
+        if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("Invalid title, cannot be null or empty");
-        } else if (title.length() > 256) {
+        }
+        if (title.length() > 256) {
             throw new IllegalArgumentException("Title can have maximum 256 characters");
         }
     }
 
     private void validateDescription(String description) {
+        if (description == null) {
+            throw new IllegalArgumentException("Description must not be null");
+        }
         if (description.length() > 3000) {
             throw new IllegalArgumentException("Description can have maximum 3000 characters");
         }
     }
 
-    private void validateTrainingMethod(TrainingMethodology method) {
-        if (method == null) throw new IllegalArgumentException("Method must not be null");
-    }
-
-    private void validateExerciseFormatList(List<ExerciseFormat> exerciseFormats) {
-        if (exerciseFormats.isEmpty()) {
-            throw new IllegalArgumentException("Exercise must have at least one exercise format");
-        }
-        for (var exerciseFormat : exerciseFormats) {
-            if (exerciseFormat.getTrainingMethodology() != this.trainingMethodology) {
-                throw new IllegalArgumentException("There is one exercise format that does not belong to the same methodology as the exercise");
-            }
+    private void validateRepetition(int repetitions) {
+        if (repetitions < 1 || repetitions > 10) {
+            throw new IllegalArgumentException("Repetitions must be between 1 and 10");
         }
     }
 
-    private void validateRepetition(Integer repetitions) {
-        if (repetitions == null) return;
-        if (repetitions < 1) {
-            throw new IllegalArgumentException("Invalid repetitions, must be a positive number");
-        }
-        if (repetitions > 10) {
-            throw new IllegalArgumentException("Can reach maximum 10 reps");
-        }
-    }
-
-    private void validateRest(Integer rest) {
-        if (rest == null) {
-            throw new IllegalArgumentException("Rest must not be null");
-        }
+    private void validateRest(int rest) {
         if (rest < 0 || rest > 1800) {
             throw new IllegalArgumentException("Rest must be between 0 and 1800");
         }
     }
-
 }

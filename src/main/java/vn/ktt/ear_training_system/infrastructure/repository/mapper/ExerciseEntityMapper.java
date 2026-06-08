@@ -9,23 +9,25 @@ public class ExerciseEntityMapper {
 
     public ExerciseEntity toEntity(Exercise domain) {
         var entity = new ExerciseEntity();
-        entity.setExerciseId(domain.getExerciseUuid());
-        entity.setTrainingMethodology(domain.getTrainingMethodologyEnum());
+        entity.setExerciseId(domain.getExerciseId());
+        entity.setTrainingMethodology(domain.getTrainingMethodology());
         entity.setTitle(domain.getTitle());
         entity.setDescription(domain.getDescription());
-        entity.setRepetitions(domain.getRepetitions());
+        entity.setRepetitions(domain.isLoop() ? null : domain.getRepetitions());
         entity.setRest(domain.getRest());
         entity.setExerciseFormats(domain.getExerciseFormats());
         return entity;
     }
 
     public Exercise toDomain(ExerciseEntity entity) {
+        var entityRepetitions = entity.getRepetitions();
         return new Exercise(
                 entity.getExerciseId(),
                 entity.getTrainingMethodology(),
                 entity.getTitle(),
                 entity.getDescription(),
-                entity.getRepetitions(),
+                entityRepetitions == null,
+                entityRepetitions == null ? 0 : entityRepetitions,
                 entity.getRest(),
                 entity.getExerciseFormats()
         );
