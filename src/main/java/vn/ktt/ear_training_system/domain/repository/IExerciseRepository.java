@@ -4,5 +4,4 @@ import vn.ktt.ear_training_system.domain.Exercise;
 
 public interface IExerciseRepository {
     void saveExercise(Exercise exercise);
-    void deleteExercise(Exercise exercise);
 }

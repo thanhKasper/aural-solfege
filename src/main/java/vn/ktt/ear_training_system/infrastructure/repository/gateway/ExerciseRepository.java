@@ -11,8 +11,6 @@ import vn.ktt.ear_training_system.infrastructure.repository.entities.ExerciseEnt
 import vn.ktt.ear_training_system.infrastructure.repository.mapper.ExerciseEntityMapper;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public class ExerciseRepository implements IExerciseRepository, IExercisePaginationService {
@@ -32,17 +30,11 @@ public class ExerciseRepository implements IExerciseRepository, IExercisePaginat
     }
 
     @Override
-    public void deleteExercise(Exercise exercise) {
-        var entity = mapper.toEntity(exercise);
-        jpaRepository.delete(entity);
-    }
-
-    @Override
     public Page<ExerciseDTO> getPagedExercises(int page, int pageSize) {
         org.springframework.data.domain.Page<ExerciseEntity> paginatedExercises = jpaRepository.findAll(PageRequest.of(page, pageSize));
 
-        int totalElements = (int) paginatedExercises.getNumberOfElements();
-        int totalPages = (int) paginatedExercises.getTotalPages();
+        int totalElements = paginatedExercises.getNumberOfElements();
+        int totalPages = paginatedExercises.getTotalPages();
 
         List<ExerciseDTO> result = paginatedExercises.stream().map(mapper::toDto).toList();
         return new Page<>(
