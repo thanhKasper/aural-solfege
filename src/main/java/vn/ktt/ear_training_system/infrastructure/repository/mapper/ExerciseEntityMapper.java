@@ -13,12 +13,12 @@ import java.util.Map;
 
 @Component
 public class ExerciseEntityMapper {
-    private final Map<Class<?>, IExerciseFormatMapper> exerciseFormatMapperMap = new HashMap<>();
+    private final Map<Class<?>, IExerciseFormatEntityMapper> exerciseFormatMapperMap = new HashMap<>();
 
-    public ExerciseEntityMapper(List<IExerciseFormatMapper> exerciseFormatMappers) {
-        for (IExerciseFormatMapper exerciseFormatMapper : exerciseFormatMappers) {
+    public ExerciseEntityMapper(List<IExerciseFormatEntityMapper> exerciseFormatMappers) {
+        for (IExerciseFormatEntityMapper exerciseFormatMapper : exerciseFormatMappers) {
             exerciseFormatMapperMap.put(
-                    exerciseFormatMapper.getExerciseFormatDTOClass(),
+                    exerciseFormatMapper.getExerciseFormatEntityClass(),
                     exerciseFormatMapper);
         }
     }
@@ -69,7 +69,7 @@ public class ExerciseEntityMapper {
         return getMapper(exerciseFormat.getClass()).toExerciseFormatDTO(exerciseFormat);
     }
 
-    private IExerciseFormatMapper getMapper(Class<?> exerciseFormatClass) {
+    private IExerciseFormatEntityMapper getMapper(Class<?> exerciseFormatClass) {
         if (exerciseFormatMapperMap.containsKey(exerciseFormatClass)) {
             return exerciseFormatMapperMap.get(exerciseFormatClass);
         }

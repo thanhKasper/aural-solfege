@@ -7,11 +7,11 @@ import vn.ktt.ear_training_system.domain.ExerciseFormat;
 import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
 
 @Component
-public class SingleIntervalExerciseFormatMapper implements IExerciseFormatMapper {
+public class SingleIntervalExerciseFormatEntityMapper implements IExerciseFormatEntityMapper {
 
     @Override
-    public Class<? extends ExerciseFormatDTO> getExerciseFormatDTOClass() {
-        return SingleIntervalExerciseFormatDTO.class;
+    public Class<? extends ExerciseFormat> getExerciseFormatEntityClass() {
+        return SingleIntervalExerciseFormat.class;
     }
 
     @Override
