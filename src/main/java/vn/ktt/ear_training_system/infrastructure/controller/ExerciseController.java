@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
 import vn.ktt.ear_training_system.application.inbound.ExerciseRetrievalPort;
-
-import java.util.List;
+import vn.ktt.ear_training_system.application.services.Page;
 
 @RestController
 @RequestMapping(path = "api/exercises")
@@ -20,8 +19,8 @@ public class ExerciseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ExerciseDTO>> hello() {
-        return ResponseEntity.ok(exerciseRetrievalService.getAllExercises());
+    public ResponseEntity<Page<ExerciseDTO>> getExercises(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int pageSize) {
+        return ResponseEntity.ok(exerciseRetrievalService.getExercises(page, pageSize));
     }
 
     @PostMapping
