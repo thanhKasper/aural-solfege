@@ -5,4 +5,5 @@ import vn.ktt.ear_training_system.application.services.Page;
 
 public interface ExerciseRetrievalPort {
     Page<ExerciseDTO> getExercises(int page, int pageSize);
+    ExerciseDTO getExerciseById(String id);
 }

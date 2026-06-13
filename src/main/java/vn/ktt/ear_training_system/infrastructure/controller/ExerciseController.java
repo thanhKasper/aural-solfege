@@ -23,6 +23,11 @@ public class ExerciseController {
         return ResponseEntity.ok(exerciseRetrievalService.getExercises(page, pageSize));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ExerciseDTO> getExercises(@PathVariable String id) {
+        return ResponseEntity.ok(exerciseRetrievalService.getExerciseById(id));
+    }
+
     @PostMapping
     public ResponseEntity<?> createNewExercise(@RequestBody ExerciseDTO exerciseDTO) {
         exerciseCreationService.createExercise(exerciseDTO);
