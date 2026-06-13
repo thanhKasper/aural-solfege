@@ -11,6 +11,7 @@ import vn.ktt.ear_training_system.infrastructure.repository.entities.ExerciseEnt
 import vn.ktt.ear_training_system.infrastructure.repository.mapper.ExerciseEntityMapper;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class ExerciseRepository implements IExerciseRepository, IExercisePaginationService {
@@ -27,6 +28,12 @@ public class ExerciseRepository implements IExerciseRepository, IExercisePaginat
     public void saveExercise(Exercise exercise) {
         var entity = mapper.toEntity(exercise);
         jpaRepository.save(entity);
+    }
+
+    @Override
+    public Exercise getExerciseById(String id) {
+        var exerciseEntity = jpaRepository.findById(UUID.fromString(id)).orElseThrow();
+        return mapper.toDomain(exerciseEntity);
     }
 
     @Override
