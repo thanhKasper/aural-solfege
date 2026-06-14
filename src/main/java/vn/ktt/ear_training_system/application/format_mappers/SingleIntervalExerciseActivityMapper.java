@@ -1,15 +1,15 @@
 package vn.ktt.ear_training_system.application.format_mappers;
 
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
-import vn.ktt.ear_training_system.application.dtos.SingleIntervalExerciseFormatDTO;
+import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
+import vn.ktt.ear_training_system.application.dtos.SingleIntervalExerciseActivityDTO;
 import vn.ktt.ear_training_system.domain.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.interval_training.IntervalTexture;
 import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
 import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseActivity;
 
 @Component
-public class SingleIntervalExerciseFormatMapper implements ExerciseFormatMapper {
+public class SingleIntervalExerciseActivityMapper implements ExerciseActivityMapper {
 
     @Override
     public Class<? extends ExerciseActivity> getDomainClass() {
@@ -17,14 +17,14 @@ public class SingleIntervalExerciseFormatMapper implements ExerciseFormatMapper 
     }
 
     @Override
-    public Class<? extends ExerciseFormatDTO> getDtoClass() {
-        return SingleIntervalExerciseFormatDTO.class;
+    public Class<? extends ExerciseActivityDTO> getDtoClass() {
+        return SingleIntervalExerciseActivityDTO.class;
     }
 
     @Override
-    public ExerciseFormatDTO toDto(ExerciseActivity domain) {
+    public ExerciseActivityDTO toDto(ExerciseActivity domain) {
         var f = (SingleIntervalExerciseActivity) domain;
-        return new SingleIntervalExerciseFormatDTO(
+        return new SingleIntervalExerciseActivityDTO(
                 f.getInterval().toString(),
                 f.getSoundProperty().toString(),
                 f.getPosition()
@@ -32,8 +32,8 @@ public class SingleIntervalExerciseFormatMapper implements ExerciseFormatMapper 
     }
 
     @Override
-    public ExerciseActivity toDomain(ExerciseFormatDTO dto) {
-        var d = (SingleIntervalExerciseFormatDTO) dto;
+    public ExerciseActivity toDomain(ExerciseActivityDTO dto) {
+        var d = (SingleIntervalExerciseActivityDTO) dto;
         return new SingleIntervalExerciseActivity(
                 IntervalTexture.valueOf(d.getTexture()),
                 MusicalInterval.valueOf(d.getInterval()),

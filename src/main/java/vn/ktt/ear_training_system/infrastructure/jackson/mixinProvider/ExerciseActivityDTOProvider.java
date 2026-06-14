@@ -1,10 +1,10 @@
 package vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider;
 
 import com.fasterxml.jackson.databind.jsontype.NamedType;
-import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
+import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
 
-public interface ExerciseFormatDTOProvider {
-    Class<? extends ExerciseFormatDTO> targetClass();
+public interface ExerciseActivityDTOProvider {
+    Class<? extends ExerciseActivityDTO> targetClass();
     String typeName();
 
     default NamedType toNamedType() {

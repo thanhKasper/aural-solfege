@@ -21,7 +21,7 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
     }
 
     public void createExercise(ExerciseDTO exerciseDTO) {
-        var domainExerciseFormats = exerciseDTO.getExerciseFormats().stream()
+        var domainExerciseActivities = exerciseDTO.getExerciseActivities().stream()
                 .map(exerciseMapper::toDomain)
                 .toList();
 
@@ -32,7 +32,7 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
                 exerciseDTO.isLoop(),
                 exerciseDTO.isLoop() ? 0 : exerciseDTO.getReps(),
                 exerciseDTO.getRest(),
-                domainExerciseFormats);
+                domainExerciseActivities);
 
         exerciseRepository.saveExercise(domainExercise);
     }

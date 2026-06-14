@@ -6,22 +6,22 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.domain.ExerciseActivity;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin.ExerciseFormatMixin;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider.ExerciseFormatMixInProvider;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin.ExerciseActivityMixin;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider.ExerciseActivityMixInProvider;
 import java.util.List;
 
 @Converter
 @Component
-public class ExerciseFormatsConverter implements AttributeConverter<List<ExerciseActivity>, String> {
+public class ExerciseActivitiesConverter implements AttributeConverter<List<ExerciseActivity>, String> {
     private final ObjectMapper mapper;
 
-    public ExerciseFormatsConverter(List<ExerciseFormatMixInProvider> mixInProviders) {
+    public ExerciseActivitiesConverter(List<ExerciseActivityMixInProvider> mixInProviders) {
         this.mapper = buildMapper(mixInProviders);
     }
 
-    private static ObjectMapper buildMapper(List<ExerciseFormatMixInProvider> mixInProviders) {
+    private static ObjectMapper buildMapper(List<ExerciseActivityMixInProvider> mixInProviders) {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.addMixIn(ExerciseActivity.class, ExerciseFormatMixin.class);
+        mapper.addMixIn(ExerciseActivity.class, ExerciseActivityMixin.class);
         for (var provider : mixInProviders) {
             mapper.addMixIn(provider.targetClass(), provider.mixInClass());
             mapper.registerSubtypes(new NamedType(provider.targetClass(), provider.typeName()));

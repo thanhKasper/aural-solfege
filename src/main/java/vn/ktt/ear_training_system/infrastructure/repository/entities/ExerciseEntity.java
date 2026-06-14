@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Check;
 import vn.ktt.ear_training_system.domain.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.TrainingMethodology;
-import vn.ktt.ear_training_system.infrastructure.repository.converter.ExerciseFormatsConverter;
+import vn.ktt.ear_training_system.infrastructure.repository.converter.ExerciseActivitiesConverter;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +42,7 @@ public class ExerciseEntity {
     @Column(name = "rest", nullable = false)
     private Integer rest = 0;
 
-    @Convert(converter = ExerciseFormatsConverter.class)
-    @Column(name = "exercise_formats", columnDefinition = "TEXT")
+    @Convert(converter = ExerciseActivitiesConverter.class)
+    @Column(name = "exercise_activities", columnDefinition = "TEXT")
     private List<ExerciseActivity> exerciseActivities;
 }

@@ -4,5 +4,5 @@ import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "formatType")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class ExerciseFormatMixin {
+public abstract class ExerciseActivityMixin {
 }

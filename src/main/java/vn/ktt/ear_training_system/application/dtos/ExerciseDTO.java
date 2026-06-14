@@ -15,15 +15,15 @@ public class ExerciseDTO {
     private Integer reps;
     private Integer rest;
     private boolean loop;
-    private List<ExerciseFormatDTO> exerciseFormats;
+    private List<ExerciseActivityDTO> exerciseActivities;
 
-    public ExerciseDTO(String exerciseId, String title, String description, String trainingMethodology, Integer reps, List<ExerciseFormatDTO> exerciseFormats, Integer rest, boolean loop) {
+    public ExerciseDTO(String exerciseId, String title, String description, String trainingMethodology, Integer reps, List<ExerciseActivityDTO> exerciseActivities, Integer rest, boolean loop) {
         this.exerciseId = exerciseId;
         this.title = title;
         this.description = description;
         this.trainingMethodology = trainingMethodology;
         this.reps = reps;
-        this.exerciseFormats = exerciseFormats;
+        this.exerciseActivities = exerciseActivities;
         this.rest = rest;
         this.loop = loop;
     }

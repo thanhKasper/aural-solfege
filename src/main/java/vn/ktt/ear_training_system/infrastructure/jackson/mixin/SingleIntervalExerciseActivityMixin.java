@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import vn.ktt.ear_training_system.domain.interval_training.IntervalTexture;
 import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
 
-public abstract class SingleIntervalExerciseFormatMixin {
+public abstract class SingleIntervalExerciseActivityMixin {
     @JsonCreator
-    public SingleIntervalExerciseFormatMixin(
+    public SingleIntervalExerciseActivityMixin(
             @JsonProperty("soundProperty") IntervalTexture soundProperty,
             @JsonProperty("interval") MusicalInterval interval,
             @JsonProperty("position") int position) {

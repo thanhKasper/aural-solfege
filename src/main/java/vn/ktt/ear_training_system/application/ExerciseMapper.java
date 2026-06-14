@@ -2,8 +2,8 @@ package vn.ktt.ear_training_system.application;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
-import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
-import vn.ktt.ear_training_system.application.format_mappers.ExerciseFormatMapper;
+import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
+import vn.ktt.ear_training_system.application.format_mappers.ExerciseActivityMapper;
 import vn.ktt.ear_training_system.domain.Exercise;
 import vn.ktt.ear_training_system.domain.ExerciseActivity;
 
@@ -13,10 +13,10 @@ import java.util.Map;
 
 @Component
 public class ExerciseMapper {
-    private final Map<Class<?>, ExerciseFormatMapper> domainIndex;
-    private final Map<Class<?>, ExerciseFormatMapper> dtoIndex;
+    private final Map<Class<?>, ExerciseActivityMapper> domainIndex;
+    private final Map<Class<?>, ExerciseActivityMapper> dtoIndex;
 
-    public ExerciseMapper(List<ExerciseFormatMapper> mappers) {
+    public ExerciseMapper(List<ExerciseActivityMapper> mappers) {
         this.domainIndex = new HashMap<>();
         this.dtoIndex = new HashMap<>();
         for (var mapper : mappers) {
@@ -32,17 +32,17 @@ public class ExerciseMapper {
                 exercise.getDescription(),
                 exercise.getTrainingMethodology().name(),
                 exercise.isLoop() ? null : exercise.getRepetitions(),
-                exercise.getExerciseActivities().stream().map(this::toExerciseFormatDTO).toList(),
+                exercise.getExerciseActivities().stream().map(this::toExerciseActivityDTO).toList(),
                 exercise.getRest(),
                 exercise.isLoop()
         );
     }
 
-    public ExerciseFormatDTO toExerciseFormatDTO(ExerciseActivity domain) {
+    public ExerciseActivityDTO toExerciseActivityDTO(ExerciseActivity domain) {
         return findMapper(domain).toDto(domain);
     }
 
-    public ExerciseActivity toDomain(ExerciseFormatDTO dto) {
+    public ExerciseActivity toDomain(ExerciseActivityDTO dto) {
         var mapper = dtoIndex.get(dto.getClass());
         if (mapper == null) {
             throw new IllegalArgumentException("No mapper for format: " + dto.getClass().getSimpleName());
@@ -50,7 +50,7 @@ public class ExerciseMapper {
         return mapper.toDomain(dto);
     }
 
-    private ExerciseFormatMapper findMapper(ExerciseActivity domain) {
+    private ExerciseActivityMapper findMapper(ExerciseActivity domain) {
         Class<?> clazz = domain.getClass();
         var mapper = domainIndex.get(clazz);
         if (mapper == null && clazz.getSuperclass() != null) {

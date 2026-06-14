@@ -24,7 +24,7 @@ public class Exercise {
         assignTrainingMethodology(trainingMethodology);
         rename(title);
         rephraseDescription(description);
-        replaceExerciseFormats(exerciseActivities);
+        replaceExerciseActivities(exerciseActivities);
         changeRepetitions(loop, repetitions);
         changeRestDuration(rest);
     }
@@ -56,14 +56,14 @@ public class Exercise {
         this.rest = rest;
     }
 
-    public void addFormat(ExerciseActivity format) {
+    public void addActivity(ExerciseActivity format) {
         Objects.requireNonNull(format, "Exercise format must not be null");
         var newList = new ArrayList<>(this.exerciseActivities);
         newList.add(format);
         this.exerciseActivities = newList;
     }
 
-    public void removeFormat(ExerciseActivity format) {
+    public void removeActivity(ExerciseActivity format) {
         var newList = new ArrayList<>(this.exerciseActivities);
         if (!newList.remove(format)) {
             return;
@@ -79,7 +79,7 @@ public class Exercise {
         this.trainingMethodology = methodology;
     }
 
-    private void replaceExerciseFormats(List<ExerciseActivity> exerciseActivities) {
+    private void replaceExerciseActivities(List<ExerciseActivity> exerciseActivities) {
         if (exerciseActivities == null || exerciseActivities.isEmpty()) {
             throw new IllegalArgumentException("Exercise must have at least one exercise format");
         }

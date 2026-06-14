@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO {
+public final class SingleIntervalExerciseActivityDTO implements ExerciseActivityDTO {
     private String interval;
     private String texture;
     private Integer position;
 
-    public SingleIntervalExerciseFormatDTO(String interval, String texture, Integer position) {
+    public SingleIntervalExerciseActivityDTO(String interval, String texture, Integer position) {
         this.interval = interval;
         this.texture = texture;
         this.position = position;
@@ -24,8 +24,8 @@ public final class SingleIntervalExerciseFormatDTO implements ExerciseFormatDTO 
     }
 
     @Override
-    public ExerciseFormatType type() {
-        return ExerciseFormatType.SINGLE_INTERVAL;
+    public ExerciseActivityType type() {
+        return ExerciseActivityType.SINGLE_INTERVAL;
     }
 
 }
