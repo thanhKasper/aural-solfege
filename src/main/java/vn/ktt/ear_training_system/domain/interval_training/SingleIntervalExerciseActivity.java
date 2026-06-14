@@ -11,14 +11,10 @@ import java.util.Objects;
 public final class SingleIntervalExerciseActivity extends ExerciseActivity {
     private final IntervalTexture soundProperty;
     private final MusicalInterval interval;
-    private final int position;
 
     public SingleIntervalExerciseActivity(IntervalTexture soundProperty, MusicalInterval interval, int position) {
         this.interval = Objects.requireNonNull(interval, "Interval must not be null");
         this.soundProperty = Objects.requireNonNull(soundProperty, "Sound property must not be null");
-        if (position < 0) {
-            throw new IllegalArgumentException("Position must be non-negative");
-        }
-        this.position = position;
+        super(position);
     }
 }
