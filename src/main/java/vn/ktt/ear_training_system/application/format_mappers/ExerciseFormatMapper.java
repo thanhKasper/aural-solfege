@@ -1,11 +1,11 @@
 package vn.ktt.ear_training_system.application.format_mappers;
 
 import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
-import vn.ktt.ear_training_system.domain.ExerciseFormat;
+import vn.ktt.ear_training_system.domain.ExerciseActivity;
 
 public interface ExerciseFormatMapper {
-    Class<? extends ExerciseFormat> getDomainClass();
+    Class<? extends ExerciseActivity> getDomainClass();
     Class<? extends ExerciseFormatDTO> getDtoClass();
-    ExerciseFormatDTO toDto(ExerciseFormat domain);
-    ExerciseFormat toDomain(ExerciseFormatDTO dto);
+    ExerciseFormatDTO toDto(ExerciseActivity domain);
+    ExerciseActivity toDomain(ExerciseFormatDTO dto);
 }

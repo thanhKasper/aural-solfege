@@ -5,14 +5,14 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.domain.ExerciseFormat;
+import vn.ktt.ear_training_system.domain.ExerciseActivity;
 import vn.ktt.ear_training_system.infrastructure.jackson.mixin.ExerciseFormatMixin;
 import vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider.ExerciseFormatMixInProvider;
 import java.util.List;
 
 @Converter
 @Component
-public class ExerciseFormatsConverter implements AttributeConverter<List<ExerciseFormat>, String> {
+public class ExerciseFormatsConverter implements AttributeConverter<List<ExerciseActivity>, String> {
     private final ObjectMapper mapper;
 
     public ExerciseFormatsConverter(List<ExerciseFormatMixInProvider> mixInProviders) {
@@ -21,7 +21,7 @@ public class ExerciseFormatsConverter implements AttributeConverter<List<Exercis
 
     private static ObjectMapper buildMapper(List<ExerciseFormatMixInProvider> mixInProviders) {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.addMixIn(ExerciseFormat.class, ExerciseFormatMixin.class);
+        mapper.addMixIn(ExerciseActivity.class, ExerciseFormatMixin.class);
         for (var provider : mixInProviders) {
             mapper.addMixIn(provider.targetClass(), provider.mixInClass());
             mapper.registerSubtypes(new NamedType(provider.targetClass(), provider.typeName()));
@@ -30,11 +30,11 @@ public class ExerciseFormatsConverter implements AttributeConverter<List<Exercis
     }
 
     @Override
-    public String convertToDatabaseColumn(List<ExerciseFormat> formats) {
+    public String convertToDatabaseColumn(List<ExerciseActivity> formats) {
         if (formats == null) return null;
         try {
             JavaType type = mapper.getTypeFactory()
-                    .constructCollectionType(List.class, ExerciseFormat.class);
+                    .constructCollectionType(List.class, ExerciseActivity.class);
 
             String json = mapper.writerFor(type).writeValueAsString(formats);
             return json;
@@ -44,11 +44,11 @@ public class ExerciseFormatsConverter implements AttributeConverter<List<Exercis
     }
 
     @Override
-    public List<ExerciseFormat> convertToEntityAttribute(String json) {
+    public List<ExerciseActivity> convertToEntityAttribute(String json) {
         if (json == null) return null;
         try {
             JavaType type = mapper.getTypeFactory()
-                    .constructCollectionType(List.class, ExerciseFormat.class);
+                    .constructCollectionType(List.class, ExerciseActivity.class);
 
             return mapper.readValue(json, type);
         } catch (Exception e) {

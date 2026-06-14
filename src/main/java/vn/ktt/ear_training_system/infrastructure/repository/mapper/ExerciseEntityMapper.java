@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
 import vn.ktt.ear_training_system.domain.Exercise;
-import vn.ktt.ear_training_system.domain.ExerciseFormat;
+import vn.ktt.ear_training_system.domain.ExerciseActivity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.ExerciseEntity;
 
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class ExerciseEntityMapper {
         entity.setDescription(domain.getDescription());
         entity.setRepetitions(domain.isLoop() ? null : domain.getRepetitions());
         entity.setRest(domain.getRest());
-        entity.setExerciseFormats(domain.getExerciseFormats());
+        entity.setExerciseActivities(domain.getExerciseActivities());
         return entity;
     }
 
@@ -45,13 +45,13 @@ public class ExerciseEntityMapper {
                 entityRepetitions == null,
                 entityRepetitions == null ? 0 : entityRepetitions,
                 entity.getRest(),
-                entity.getExerciseFormats()
+                entity.getExerciseActivities()
         );
     }
 
     public ExerciseDTO toDto(ExerciseEntity entity) {
         List<ExerciseFormatDTO> exerciseFormatDTOs = entity
-                .getExerciseFormats().stream().map(this::toExerciseFormatDTO).toList();
+                .getExerciseActivities().stream().map(this::toExerciseFormatDTO).toList();
 
         return new ExerciseDTO(
                 entity.getExerciseId().toString(),
@@ -65,8 +65,8 @@ public class ExerciseEntityMapper {
         );
     }
 
-    private ExerciseFormatDTO toExerciseFormatDTO(ExerciseFormat exerciseFormat) {
-        return getMapper(exerciseFormat.getClass()).toExerciseFormatDTO(exerciseFormat);
+    private ExerciseFormatDTO toExerciseFormatDTO(ExerciseActivity exerciseActivity) {
+        return getMapper(exerciseActivity.getClass()).toExerciseFormatDTO(exerciseActivity);
     }
 
     private IExerciseFormatEntityMapper getMapper(Class<?> exerciseFormatClass) {

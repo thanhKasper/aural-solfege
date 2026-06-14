@@ -3,17 +3,17 @@ package vn.ktt.ear_training_system.application.format_mappers;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
 import vn.ktt.ear_training_system.application.dtos.SingleIntervalExerciseFormatDTO;
-import vn.ktt.ear_training_system.domain.ExerciseFormat;
+import vn.ktt.ear_training_system.domain.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.interval_training.IntervalTexture;
 import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
-import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseFormat;
+import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseActivity;
 
 @Component
 public class SingleIntervalExerciseFormatMapper implements ExerciseFormatMapper {
 
     @Override
-    public Class<? extends ExerciseFormat> getDomainClass() {
-        return SingleIntervalExerciseFormat.class;
+    public Class<? extends ExerciseActivity> getDomainClass() {
+        return SingleIntervalExerciseActivity.class;
     }
 
     @Override
@@ -22,8 +22,8 @@ public class SingleIntervalExerciseFormatMapper implements ExerciseFormatMapper 
     }
 
     @Override
-    public ExerciseFormatDTO toDto(ExerciseFormat domain) {
-        var f = (SingleIntervalExerciseFormat) domain;
+    public ExerciseFormatDTO toDto(ExerciseActivity domain) {
+        var f = (SingleIntervalExerciseActivity) domain;
         return new SingleIntervalExerciseFormatDTO(
                 f.getInterval().toString(),
                 f.getSoundProperty().toString(),
@@ -32,9 +32,9 @@ public class SingleIntervalExerciseFormatMapper implements ExerciseFormatMapper 
     }
 
     @Override
-    public ExerciseFormat toDomain(ExerciseFormatDTO dto) {
+    public ExerciseActivity toDomain(ExerciseFormatDTO dto) {
         var d = (SingleIntervalExerciseFormatDTO) dto;
-        return new SingleIntervalExerciseFormat(
+        return new SingleIntervalExerciseActivity(
                 IntervalTexture.valueOf(d.getTexture()),
                 MusicalInterval.valueOf(d.getInterval()),
                 d.position()

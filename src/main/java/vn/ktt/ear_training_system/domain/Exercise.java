@@ -13,24 +13,24 @@ public class Exercise {
     private boolean loop;
     private int repetitions;
     private int rest;
-    private List<ExerciseFormat> exerciseFormats;
+    private List<ExerciseActivity> exerciseActivities;
 
-    public Exercise(TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseFormat> exerciseFormats) {
-        this(null, trainingMethodology, title, description, loop, repetitions, rest, exerciseFormats);
+    public Exercise(TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
+        this(null, trainingMethodology, title, description, loop, repetitions, rest, exerciseActivities);
     }
 
-    public Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseFormat> exerciseFormats) {
+    public Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
         this.exerciseId = exerciseId;
         assignTrainingMethodology(trainingMethodology);
         rename(title);
         rephraseDescription(description);
-        replaceExerciseFormats(exerciseFormats);
+        replaceExerciseFormats(exerciseActivities);
         changeRepetitions(loop, repetitions);
         changeRestDuration(rest);
     }
 
-    public List<ExerciseFormat> getExerciseFormats() {
-        return Collections.unmodifiableList(exerciseFormats);
+    public List<ExerciseActivity> getExerciseActivities() {
+        return Collections.unmodifiableList(exerciseActivities);
     }
 
     public void rename(String title) {
@@ -56,22 +56,22 @@ public class Exercise {
         this.rest = rest;
     }
 
-    public void addFormat(ExerciseFormat format) {
+    public void addFormat(ExerciseActivity format) {
         Objects.requireNonNull(format, "Exercise format must not be null");
-        var newList = new ArrayList<>(this.exerciseFormats);
+        var newList = new ArrayList<>(this.exerciseActivities);
         newList.add(format);
-        this.exerciseFormats = newList;
+        this.exerciseActivities = newList;
     }
 
-    public void removeFormat(ExerciseFormat format) {
-        var newList = new ArrayList<>(this.exerciseFormats);
+    public void removeFormat(ExerciseActivity format) {
+        var newList = new ArrayList<>(this.exerciseActivities);
         if (!newList.remove(format)) {
             return;
         }
         if (newList.isEmpty()) {
             throw new IllegalArgumentException("Exercise must have at least one exercise format");
         }
-        this.exerciseFormats = newList;
+        this.exerciseActivities = newList;
     }
 
     private void assignTrainingMethodology(TrainingMethodology methodology) {
@@ -79,11 +79,11 @@ public class Exercise {
         this.trainingMethodology = methodology;
     }
 
-    private void replaceExerciseFormats(List<ExerciseFormat> exerciseFormats) {
-        if (exerciseFormats == null || exerciseFormats.isEmpty()) {
+    private void replaceExerciseFormats(List<ExerciseActivity> exerciseActivities) {
+        if (exerciseActivities == null || exerciseActivities.isEmpty()) {
             throw new IllegalArgumentException("Exercise must have at least one exercise format");
         }
-        this.exerciseFormats = new ArrayList<>(exerciseFormats);
+        this.exerciseActivities = new ArrayList<>(exerciseActivities);
     }
 
     private void validateTitle(String title) {

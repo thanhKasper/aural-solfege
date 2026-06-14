@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Check;
-import vn.ktt.ear_training_system.domain.ExerciseFormat;
+import vn.ktt.ear_training_system.domain.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.TrainingMethodology;
 import vn.ktt.ear_training_system.infrastructure.repository.converter.ExerciseFormatsConverter;
 
@@ -44,5 +44,5 @@ public class ExerciseEntity {
 
     @Convert(converter = ExerciseFormatsConverter.class)
     @Column(name = "exercise_formats", columnDefinition = "TEXT")
-    private List<ExerciseFormat> exerciseFormats;
+    private List<ExerciseActivity> exerciseActivities;
 }

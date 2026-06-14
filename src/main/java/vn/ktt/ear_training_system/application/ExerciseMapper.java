@@ -5,7 +5,7 @@ import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.ExerciseFormatDTO;
 import vn.ktt.ear_training_system.application.format_mappers.ExerciseFormatMapper;
 import vn.ktt.ear_training_system.domain.Exercise;
-import vn.ktt.ear_training_system.domain.ExerciseFormat;
+import vn.ktt.ear_training_system.domain.ExerciseActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,17 +32,17 @@ public class ExerciseMapper {
                 exercise.getDescription(),
                 exercise.getTrainingMethodology().name(),
                 exercise.isLoop() ? null : exercise.getRepetitions(),
-                exercise.getExerciseFormats().stream().map(this::toExerciseFormatDTO).toList(),
+                exercise.getExerciseActivities().stream().map(this::toExerciseFormatDTO).toList(),
                 exercise.getRest(),
                 exercise.isLoop()
         );
     }
 
-    public ExerciseFormatDTO toExerciseFormatDTO(ExerciseFormat domain) {
+    public ExerciseFormatDTO toExerciseFormatDTO(ExerciseActivity domain) {
         return findMapper(domain).toDto(domain);
     }
 
-    public ExerciseFormat toDomain(ExerciseFormatDTO dto) {
+    public ExerciseActivity toDomain(ExerciseFormatDTO dto) {
         var mapper = dtoIndex.get(dto.getClass());
         if (mapper == null) {
             throw new IllegalArgumentException("No mapper for format: " + dto.getClass().getSimpleName());
@@ -50,7 +50,7 @@ public class ExerciseMapper {
         return mapper.toDomain(dto);
     }
 
-    private ExerciseFormatMapper findMapper(ExerciseFormat domain) {
+    private ExerciseFormatMapper findMapper(ExerciseActivity domain) {
         Class<?> clazz = domain.getClass();
         var mapper = domainIndex.get(clazz);
         if (mapper == null && clazz.getSuperclass() != null) {
