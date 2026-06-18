@@ -3,10 +3,10 @@ package vn.ktt.ear_training_system.application.format_mappers;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
 import vn.ktt.ear_training_system.application.dtos.SingleIntervalExerciseActivityDTO;
-import vn.ktt.ear_training_system.domain.ExerciseActivity;
-import vn.ktt.ear_training_system.domain.interval_training.IntervalTexture;
-import vn.ktt.ear_training_system.domain.interval_training.MusicalInterval;
-import vn.ktt.ear_training_system.domain.interval_training.SingleIntervalExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
+import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
+import vn.ktt.ear_training_system.domain.exercise.entity.interval_training.SingleIntervalExerciseActivity;
 
 @Component
 public class SingleIntervalExerciseActivityMapper implements ExerciseActivityMapper {

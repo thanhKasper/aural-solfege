@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.domain.interval_training;
+package vn.ktt.ear_training_system.domain.exercise.value_object;
 
 public class SampleMusicPiece {
     private String musicPiece;

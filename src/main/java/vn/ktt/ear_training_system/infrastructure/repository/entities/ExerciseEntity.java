@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Check;
-import vn.ktt.ear_training_system.domain.ExerciseActivity;
-import vn.ktt.ear_training_system.domain.TrainingMethodology;
+import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.TrainingMethodology;
 import vn.ktt.ear_training_system.infrastructure.repository.converter.ExerciseActivitiesConverter;
 
 import java.util.List;

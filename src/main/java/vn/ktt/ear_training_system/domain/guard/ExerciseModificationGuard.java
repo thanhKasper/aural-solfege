@@ -1,6 +1,6 @@
 package vn.ktt.ear_training_system.domain.guard;
 
-import vn.ktt.ear_training_system.domain.Exercise;
+import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
 import vn.ktt.ear_training_system.domain.practice_session.repository.IPracticeSessionRepository;
 
 public class ExerciseModificationGuard {

@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
 import vn.ktt.ear_training_system.application.format_mappers.ExerciseActivityMapper;
-import vn.ktt.ear_training_system.domain.Exercise;
-import vn.ktt.ear_training_system.domain.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
+import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
 
 import java.util.HashMap;
 import java.util.List;

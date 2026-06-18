@@ -1,8 +1,8 @@
-package vn.ktt.ear_training_system.domain.factory;
+package vn.ktt.ear_training_system.domain.exercise.service;
 
-import vn.ktt.ear_training_system.domain.Exercise;
-import vn.ktt.ear_training_system.domain.ExerciseActivity;
-import vn.ktt.ear_training_system.domain.TrainingMethodology;
+import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
+import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.TrainingMethodology;
 
 import java.util.List;
 

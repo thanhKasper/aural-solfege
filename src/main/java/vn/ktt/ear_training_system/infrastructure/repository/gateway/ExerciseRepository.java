@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.services.IExercisePaginationService;
 import vn.ktt.ear_training_system.application.services.Page;
-import vn.ktt.ear_training_system.domain.Exercise;
-import vn.ktt.ear_training_system.domain.repository.IExerciseRepository;
+import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
+import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.ExerciseEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.mapper.ExerciseEntityMapper;
 

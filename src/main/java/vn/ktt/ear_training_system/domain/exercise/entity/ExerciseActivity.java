@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.domain;
+package vn.ktt.ear_training_system.domain.exercise.entity;
 
 import lombok.Getter;
 
