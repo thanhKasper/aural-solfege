@@ -4,12 +4,17 @@ import lombok.Getter;
 
 @Getter
 public abstract class ExerciseActivity {
-    private final int position;
+    private int position;
     public ExerciseActivity(int position) {
+        changePosition(position);
+    }
+
+    public void changePosition(int position) {
+        validatePosition(position);
         this.position = position;
     }
 
-    void validatePosition(int position) {
+    private void validatePosition(int position) {
         if (position < 0) {
             throw new IllegalArgumentException("Position cannot be less than 0");
         }
