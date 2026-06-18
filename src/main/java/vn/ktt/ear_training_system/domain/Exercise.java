@@ -74,9 +74,35 @@ public class Exercise {
         this.exerciseActivities = newList;
     }
 
+    public void reorderActivity(int oldPosition, int newPosition) {
+        if (oldPosition == newPosition) return;
+        var list = new ArrayList<>(this.exerciseActivities);
+        int oldIndex = findIndexByPosition(list, oldPosition);
+        int newIndex = findIndexByPosition(list, newPosition);
+        if (oldIndex < 0) throw new IllegalArgumentException("Activity at position " + oldPosition + " not found");
+        if (newIndex < 0) throw new IllegalArgumentException("Activity at position " + newPosition + " not found");
+        var activity = list.remove(oldIndex);
+        list.add(newIndex, activity);
+        reassignPositions(list);
+        this.exerciseActivities = list;
+    }
+
     private void assignTrainingMethodology(TrainingMethodology methodology) {
         if (methodology == null) throw new IllegalArgumentException("Method must not be null");
         this.trainingMethodology = methodology;
+    }
+
+    private int findIndexByPosition(List<ExerciseActivity> list, int position) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getPosition() == position) return i;
+        }
+        return -1;
+    }
+
+    private void reassignPositions(List<ExerciseActivity> list) {
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).changePosition(i);
+        }
     }
 
     private void replaceExerciseActivities(List<ExerciseActivity> exerciseActivities) {
