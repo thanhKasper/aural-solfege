@@ -27,7 +27,7 @@ public class PracticeSessionRepository implements IPracticeSessionRepository {
 
     @Override
     public Optional<PracticeSession> getSessionById(UUID sessionId) {
-        return jpaRepository.findWithStepsById(sessionId).map(mapper::toDomain);
+        return jpaRepository.findBySessionId(sessionId).map(mapper::toDomain);
     }
 
     @Override
