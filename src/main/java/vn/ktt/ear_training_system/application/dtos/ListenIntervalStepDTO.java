@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -11,6 +14,8 @@ public final class ListenIntervalStepDTO implements PracticeStepDTO {
     private int activityPosition;
     private PracticeStepType stepType;
     private String status;
+    private String apiUrl;
+    private Map<String, Object> queryParameters = new HashMap<>();
     private String interval;
     private String direction;
     private String texture;
