@@ -5,7 +5,7 @@ import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseRetrievalPort;
 import vn.ktt.ear_training_system.application.services.ExerciseMapper;
 import vn.ktt.ear_training_system.application.outbound.IExercisePaginationPort;
-import vn.ktt.ear_training_system.application.outbound.Page;
+import vn.ktt.ear_training_system.application.services.Page;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 
 @Service
