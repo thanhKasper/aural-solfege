@@ -16,7 +16,6 @@ public class StepGenerationService {
                 .collect(Collectors.toMap(StepGeneration::activityType, Function.identity()));
     }
 
-    @SuppressWarnings("unchecked")
     public List<StepDefinition> generate(List<ExerciseActivity> activities) {
         return activities.stream()
                 .flatMap(a -> {
