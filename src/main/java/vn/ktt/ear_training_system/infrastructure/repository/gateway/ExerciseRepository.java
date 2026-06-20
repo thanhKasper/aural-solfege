@@ -3,8 +3,8 @@ package vn.ktt.ear_training_system.infrastructure.repository.gateway;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
-import vn.ktt.ear_training_system.application.services.IExercisePaginationService;
-import vn.ktt.ear_training_system.application.services.Page;
+import vn.ktt.ear_training_system.application.outbound.IExercisePaginationPort;
+import vn.ktt.ear_training_system.application.outbound.Page;
 import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.ExerciseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class ExerciseRepository implements IExerciseRepository, IExercisePaginationService {
+public class ExerciseRepository implements IExerciseRepository, IExercisePaginationPort {
 
     private final ExerciseJpaRepository jpaRepository;
     private final ExerciseEntityMapper mapper;

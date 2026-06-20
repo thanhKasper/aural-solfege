@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
 import vn.ktt.ear_training_system.application.inbound.ExerciseRetrievalPort;
-import vn.ktt.ear_training_system.application.services.Page;
+import vn.ktt.ear_training_system.application.outbound.Page;
 
 @RestController
 @RequestMapping(path = "api/exercises")

@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.application.services;
+package vn.ktt.ear_training_system.application.outbound;
 
 import java.util.List;
 

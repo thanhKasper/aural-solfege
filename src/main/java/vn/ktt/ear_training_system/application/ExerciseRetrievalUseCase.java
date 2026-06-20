@@ -3,17 +3,18 @@ package vn.ktt.ear_training_system.application;
 import org.springframework.stereotype.Service;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseRetrievalPort;
-import vn.ktt.ear_training_system.application.services.IExercisePaginationService;
-import vn.ktt.ear_training_system.application.services.Page;
+import vn.ktt.ear_training_system.application.services.ExerciseMapper;
+import vn.ktt.ear_training_system.application.outbound.IExercisePaginationPort;
+import vn.ktt.ear_training_system.application.outbound.Page;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 
 @Service
 public class ExerciseRetrievalUseCase implements ExerciseRetrievalPort {
-    private final IExercisePaginationService exercisePaginationService;
+    private final IExercisePaginationPort exercisePaginationService;
     private final IExerciseRepository exerciseRepository;
     private final ExerciseMapper mapper;
 
-    public ExerciseRetrievalUseCase(IExercisePaginationService exercisePaginationService, IExerciseRepository exerciseRepo, ExerciseMapper mapper) {
+    public ExerciseRetrievalUseCase(IExercisePaginationPort exercisePaginationService, IExerciseRepository exerciseRepo, ExerciseMapper mapper) {
         this.exercisePaginationService = exercisePaginationService;
         this.exerciseRepository = exerciseRepo;
         this.mapper = mapper;
