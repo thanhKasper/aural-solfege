@@ -36,8 +36,7 @@ public class ExerciseActivitiesConverter implements AttributeConverter<List<Exer
             JavaType type = mapper.getTypeFactory()
                     .constructCollectionType(List.class, ExerciseActivity.class);
 
-            String json = mapper.writerFor(type).writeValueAsString(formats);
-            return json;
+            return mapper.writerFor(type).writeValueAsString(formats);
         } catch (Exception e) {
             throw new RuntimeException("Failed to serialize exercise formats", e);
         }
