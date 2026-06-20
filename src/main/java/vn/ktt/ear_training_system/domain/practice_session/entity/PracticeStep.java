@@ -14,11 +14,15 @@ public class PracticeStep {
     private final StepContext context;
 
     PracticeStep(int stepNumber, int activityPosition, StepType stepType, StepContext context) {
+        this(stepNumber, activityPosition, stepType, StepStatus.PENDING, context);
+    }
+
+    public PracticeStep(int stepNumber, int activityPosition, StepType stepType, StepStatus status, StepContext context) {
         this.stepNumber = stepNumber;
         this.activityPosition = activityPosition;
         this.stepType = stepType;
+        this.status = status;
         this.context = context;
-        this.status = StepStatus.PENDING;
     }
 
     public void activate() {

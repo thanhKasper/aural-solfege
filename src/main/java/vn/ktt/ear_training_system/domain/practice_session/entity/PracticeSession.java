@@ -14,7 +14,7 @@ public class PracticeSession {
     private SessionStatus status;
     private int currentStepIndex;
     private final List<PracticeStep> steps;
-    private final Instant createdAt;
+    private Instant createdAt;
     private Instant startedAt;
     private Instant completedAt;
     private SessionResult result;
@@ -28,10 +28,30 @@ public class PracticeSession {
         return new PracticeSession(sessionId, exerciseId, steps);
     }
 
+    public static PracticeSession reconstruct(
+            UUID sessionId,
+            UUID exerciseId,
+            SessionStatus status,
+            int currentStepIndex,
+            List<PracticeStep> steps,
+            Instant createdAt,
+            Instant startedAt,
+            Instant completedAt,
+            SessionResult result) {
+        var session = new PracticeSession(sessionId, exerciseId, steps);
+        session.status = status;
+        session.currentStepIndex = currentStepIndex;
+        session.createdAt = createdAt;
+        session.startedAt = startedAt;
+        session.completedAt = completedAt;
+        session.result = result;
+        return session;
+    }
+
     private PracticeSession(UUID sessionId, UUID exerciseId, List<PracticeStep> steps) {
         this.sessionId = Objects.requireNonNull(sessionId);
         this.exerciseId = Objects.requireNonNull(exerciseId);
-        this.steps = List.copyOf(steps);
+        this.steps = new ArrayList<>(steps);
         this.status = SessionStatus.CREATED;
         this.currentStepIndex = 0;
         this.createdAt = Instant.now();
