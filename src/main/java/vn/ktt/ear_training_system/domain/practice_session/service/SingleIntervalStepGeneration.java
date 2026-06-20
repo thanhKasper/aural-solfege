@@ -18,13 +18,9 @@ public class SingleIntervalStepGeneration implements StepGeneration {
         var a = (SingleIntervalExerciseActivity) activity;
         return List.of(
                 new StepDefinition(a.getPosition(), StepType.LISTEN_INTERVAL,
-                        new ListenIntervalContext(a.getInterval(), "ASCENDING", a.getSoundProperty())),
+                        new ListenIntervalContext(a.getInterval(), "UP", a.getSoundProperty())),
                 new StepDefinition(a.getPosition(), StepType.LISTEN_INTERVAL,
-                        new ListenIntervalContext(a.getInterval(), "DESCENDING", a.getSoundProperty())),
-                new StepDefinition(a.getPosition(), StepType.USER_INPUT,
-                        new UserInputContext("identify_interval")),
-                new StepDefinition(a.getPosition(), StepType.FEEDBACK,
-                        new FeedbackContext())
+                        new ListenIntervalContext(a.getInterval(), "DOWN", a.getSoundProperty()))
         );
     }
 }
