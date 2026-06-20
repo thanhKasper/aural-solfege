@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public final class ListenIntervalStepDTO implements PracticeStepDTO {
-    private int stepNumber;
     private int activityPosition;
     private PracticeStepType stepType;
     private String status;
@@ -16,9 +15,8 @@ public final class ListenIntervalStepDTO implements PracticeStepDTO {
     private String direction;
     private String texture;
 
-    public ListenIntervalStepDTO(int stepNumber, int activityPosition, PracticeStepType stepType, String status,
+    public ListenIntervalStepDTO(int activityPosition, PracticeStepType stepType, String status,
                                  String interval, String direction, String texture) {
-        this.stepNumber = stepNumber;
         this.activityPosition = activityPosition;
         this.stepType = stepType;
         this.status = status;
@@ -26,9 +24,6 @@ public final class ListenIntervalStepDTO implements PracticeStepDTO {
         this.direction = direction;
         this.texture = texture;
     }
-
-    @Override
-    public int stepNumber() { return stepNumber; }
 
     @Override
     public int activityPosition() { return activityPosition; }

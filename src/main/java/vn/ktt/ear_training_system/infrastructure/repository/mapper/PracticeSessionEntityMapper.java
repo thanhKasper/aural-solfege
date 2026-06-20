@@ -6,6 +6,8 @@ import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.PracticeSessionEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.PracticeStepEntity;
 
+import java.util.ArrayList;
+
 @Component
 public class PracticeSessionEntityMapper {
 
@@ -19,17 +21,18 @@ public class PracticeSessionEntityMapper {
         entity.setCompletedAt(domain.getCompletedAt());
         entity.setResult(domain.getResult());
 
-        var stepEntities = domain.getSteps().stream()
-                .map(step -> {
-                    var stepEntity = new PracticeStepEntity();
-                    stepEntity.setSession(entity);
-                    stepEntity.setStepNumber(step.getStepNumber());
-                    stepEntity.setActivityPosition(step.getActivityPosition());
-                    stepEntity.setStepType(step.getStepType());
-                    stepEntity.setStatus(step.getStatus());
-                    stepEntity.setContext(step.getContext());
-                    return stepEntity;
-                }).toList();
+        var stepEntities = new ArrayList<PracticeStepEntity>();
+        for (int i = 0; i < domain.getSteps().size(); i++) {
+            var step = domain.getSteps().get(i);
+            var stepEntity = new PracticeStepEntity();
+            stepEntity.setSession(entity);
+            stepEntity.setStepNumber(i);
+            stepEntity.setActivityPosition(step.getActivityPosition());
+            stepEntity.setStepType(step.getStepType());
+            stepEntity.setStatus(step.getStatus());
+            stepEntity.setContext(step.getContext());
+            stepEntities.add(stepEntity);
+        }
 
         entity.setSteps(stepEntities);
         return entity;
@@ -38,7 +41,6 @@ public class PracticeSessionEntityMapper {
     public PracticeSession toDomain(PracticeSessionEntity entity) {
         var steps = entity.getSteps().stream()
                 .map(stepEntity -> new PracticeStep(
-                        stepEntity.getStepNumber(),
                         stepEntity.getActivityPosition(),
                         stepEntity.getStepType(),
                         stepEntity.getStatus(),

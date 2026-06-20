@@ -23,7 +23,7 @@ public class PracticeSession {
         var steps = new ArrayList<PracticeStep>();
         for (int i = 0; i < definitions.size(); i++) {
             var def = definitions.get(i);
-            steps.add(new PracticeStep(i, def.getActivityPosition(), def.getStepType(), def.getContext()));
+            steps.add(new PracticeStep(def.getActivityPosition(), def.getStepType(), def.getContext()));
         }
         return new PracticeSession(null, exerciseId, steps);
     }

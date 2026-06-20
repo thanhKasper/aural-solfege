@@ -27,7 +27,6 @@ public class ListenIntervalStepMapper implements PracticeStepMapper {
     public PracticeStepDTO toDto(PracticeStep domain) {
         var context = (ListenIntervalContext) domain.getContext();
         return new ListenIntervalStepDTO(
-                domain.getStepNumber(),
                 domain.getActivityPosition(),
                 PracticeStepType.LISTEN_INTERVAL,
                 domain.getStatus().name(),
@@ -41,7 +40,6 @@ public class ListenIntervalStepMapper implements PracticeStepMapper {
     public PracticeStep toDomain(PracticeStepDTO dto) {
         var d = (ListenIntervalStepDTO) dto;
         return new PracticeStep(
-                d.getStepNumber(),
                 d.getActivityPosition(),
                 StepType.LISTEN_INTERVAL,
                 vn.ktt.ear_training_system.domain.practice_session.value_object.StepStatus.valueOf(d.getStatus()),
