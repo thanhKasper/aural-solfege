@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.application.services.practice_session;
+package vn.ktt.ear_training_system.application;
 
 import org.springframework.stereotype.Service;
 import vn.ktt.ear_training_system.application.inbound.SessionStartPort;
