@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.application;
+package vn.ktt.ear_training_system.application.services;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
