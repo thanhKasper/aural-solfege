@@ -19,13 +19,13 @@ public class PracticeSession {
     private Instant completedAt;
     private SessionResult result;
 
-    public static PracticeSession create(UUID sessionId, UUID exerciseId, List<StepDefinition> definitions) {
+    public static PracticeSession create(UUID exerciseId, List<StepDefinition> definitions) {
         var steps = new ArrayList<PracticeStep>();
         for (int i = 0; i < definitions.size(); i++) {
             var def = definitions.get(i);
             steps.add(new PracticeStep(i, def.getActivityPosition(), def.getStepType(), def.getContext()));
         }
-        return new PracticeSession(sessionId, exerciseId, steps);
+        return new PracticeSession(null, exerciseId, steps);
     }
 
     public static PracticeSession reconstruct(
@@ -49,7 +49,7 @@ public class PracticeSession {
     }
 
     private PracticeSession(UUID sessionId, UUID exerciseId, List<PracticeStep> steps) {
-        this.sessionId = Objects.requireNonNull(sessionId);
+        this.sessionId = sessionId;
         this.exerciseId = Objects.requireNonNull(exerciseId);
         this.steps = new ArrayList<>(steps);
         this.status = SessionStatus.CREATED;

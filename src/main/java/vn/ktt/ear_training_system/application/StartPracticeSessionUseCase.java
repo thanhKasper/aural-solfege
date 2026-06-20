@@ -6,6 +6,7 @@ import vn.ktt.ear_training_system.application.inbound.SessionStartPort;
 import vn.ktt.ear_training_system.application.services.StepMapper;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.domain.guard.ExerciseModificationGuard;
+import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeSession;
 import vn.ktt.ear_training_system.domain.practice_session.repository.IPracticeSessionRepository;
 import vn.ktt.ear_training_system.domain.practice_session.service.StepGenerationService;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.SessionStatus;
@@ -48,9 +49,9 @@ public class StartPracticeSessionUseCase implements SessionStartPort {
         guard.assertNoActiveSession(exercise);
 
         var definitions = stepGenerationService.generate(exercise.getExerciseActivities());
-        var session = PracticeSession.create(UUID.randomUUID(), exerciseId, definitions);
+        var session = PracticeSession.create(exerciseId, definitions);
         session.start();
-        sessionRepository.saveSession(session);
+        session = sessionRepository.saveSession(session);
         return stepMapper.toDto(session.getCurrentStep());
     }
 }

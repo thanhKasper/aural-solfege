@@ -11,7 +11,6 @@ public class PracticeSessionEntityMapper {
 
     public PracticeSessionEntity toEntity(PracticeSession domain) {
         var entity = new PracticeSessionEntity();
-        entity.setSessionId(domain.getSessionId());
         entity.setExerciseId(domain.getExerciseId());
         entity.setStatus(domain.getStatus());
         entity.setCurrentStepIndex(domain.getCurrentStepIndex());

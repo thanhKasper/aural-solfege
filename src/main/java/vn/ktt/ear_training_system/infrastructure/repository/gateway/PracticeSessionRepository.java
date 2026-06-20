@@ -21,8 +21,8 @@ public class PracticeSessionRepository implements IPracticeSessionRepository {
     }
 
     @Override
-    public void saveSession(PracticeSession session) {
-        jpaRepository.save(mapper.toEntity(session));
+    public PracticeSession saveSession(PracticeSession session) {
+        return mapper.toDomain(jpaRepository.save(mapper.toEntity(session)));
     }
 
     @Override
