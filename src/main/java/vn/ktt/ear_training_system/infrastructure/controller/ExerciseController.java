@@ -3,19 +3,37 @@ package vn.ktt.ear_training_system.infrastructure.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
+import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
+import vn.ktt.ear_training_system.application.dtos.PracticeStepResponseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
 import vn.ktt.ear_training_system.application.inbound.ExerciseRetrievalPort;
+import vn.ktt.ear_training_system.application.inbound.SessionPort;
 import vn.ktt.ear_training_system.application.services.Page;
+import vn.ktt.ear_training_system.infrastructure.dto_prefill.IPracticeStepDTOPrefill;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "api/exercises")
 public class ExerciseController {
     private final ExerciseCreationPort exerciseCreationService;
     private final ExerciseRetrievalPort exerciseRetrievalService;
+    private final SessionPort sessionPort;
+    private final Map<Class<? extends PracticeStepDTO>, IPracticeStepDTOPrefill> dtoPrefillMap = new HashMap<>();
 
-    public ExerciseController(ExerciseCreationPort exerciseCreationService, ExerciseRetrievalPort exerciseRetrievalService) {
+    public ExerciseController(ExerciseCreationPort exerciseCreationService,
+                              ExerciseRetrievalPort exerciseRetrievalService,
+                              SessionPort sessionPort,
+                              List<IPracticeStepDTOPrefill> dtoPrefills) {
         this.exerciseCreationService = exerciseCreationService;
         this.exerciseRetrievalService = exerciseRetrievalService;
+        this.sessionPort = sessionPort;
+        dtoPrefills.forEach((dtoPrefill) -> {
+            this.dtoPrefillMap.put(dtoPrefill.getPracticeStepDTOClass(), dtoPrefill);
+        });
     }
 
     @GetMapping
@@ -32,5 +50,24 @@ public class ExerciseController {
     public ResponseEntity<?> createNewExercise(@RequestBody ExerciseDTO exerciseDTO) {
         exerciseCreationService.createExercise(exerciseDTO);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{exerciseId}/sessions")
+    public ResponseEntity<PracticeStepResponseDTO> startSession(@PathVariable String exerciseId) {
+        PracticeStepResponseDTO response = sessionPort.startSession(UUID.fromString(exerciseId));
+        PracticeStepDTO currentStep = prefillStep(response.currentStep());
+        return ResponseEntity.ok(new PracticeStepResponseDTO(response.metadata(), currentStep));
+    }
+
+    private PracticeStepDTO prefillStep(PracticeStepDTO step) {
+        IPracticeStepDTOPrefill prefillDTO = retrievePrefill(step);
+        return prefillDTO.prefill(step);
+    }
+
+    private IPracticeStepDTOPrefill retrievePrefill(PracticeStepDTO dto) {
+        if (dtoPrefillMap.containsKey(dto.getClass())) {
+            return dtoPrefillMap.get(dto.getClass());
+        }
+        throw new RuntimeException("Not found prefill for DTO " + dto.getClass());
     }
 }
