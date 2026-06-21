@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepStatus;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepType;
@@ -25,6 +27,7 @@ public class PracticeStepEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PracticeSessionEntity session;
 
     @Column(name = "step_number", nullable = false)
