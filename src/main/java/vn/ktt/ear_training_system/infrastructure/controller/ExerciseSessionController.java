@@ -13,22 +13,22 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "api/sessions")
-public class SessionController {
+@RequestMapping(path = "api/exercises/{exerciseId}/sessions")
+public class ExerciseSessionController {
     private final SessionPort sessionPort;
     private final Map<Class<? extends PracticeStepDTO>, IPracticeStepDTOPrefill> dtoPrefillMap = new HashMap<>();
 
-    public SessionController(SessionPort sessionPort,
-                             List<IPracticeStepDTOPrefill> dtoPrefills) {
+    public ExerciseSessionController(SessionPort sessionPort,
+                                     List<IPracticeStepDTOPrefill> dtoPrefills) {
         this.sessionPort = sessionPort;
         dtoPrefills.forEach((dtoPrefill) -> {
             this.dtoPrefillMap.put(dtoPrefill.getPracticeStepDTOClass(), dtoPrefill);
         });
     }
 
-    @PostMapping("/{sessionId}/advance")
-    public ResponseEntity<PracticeStepResponseDTO> advanceToNextStep(@PathVariable String sessionId) {
-        PracticeStepResponseDTO response = sessionPort.advanceToNextStep(UUID.fromString(sessionId));
+    @PostMapping
+    public ResponseEntity<PracticeStepResponseDTO> startSession(@PathVariable String exerciseId) {
+        PracticeStepResponseDTO response = sessionPort.startSession(UUID.fromString(exerciseId));
         PracticeStepDTO currentStep = prefillStep(response.currentStep());
         return ResponseEntity.ok(new PracticeStepResponseDTO(response.metadata(), currentStep));
     }
