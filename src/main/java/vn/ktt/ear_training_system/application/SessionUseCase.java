@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.application;
 
 import org.springframework.stereotype.Service;
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepResponseDTO;
+import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
 import vn.ktt.ear_training_system.application.inbound.SessionPort;
 import vn.ktt.ear_training_system.application.services.StepMapper;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
@@ -35,7 +35,7 @@ public class SessionUseCase implements SessionPort {
     }
 
     @Override
-    public PracticeStepResponseDTO startSession(UUID exerciseId) {
+    public SessionStepDTO startSession(UUID exerciseId) {
         var existing = sessionRepository.findByExercise(exerciseId);
         if (existing.isPresent()) {
             var session = existing.get();
@@ -57,7 +57,7 @@ public class SessionUseCase implements SessionPort {
     }
 
     @Override
-    public PracticeStepResponseDTO advanceToNextStep(UUID sessionId) {
+    public SessionStepDTO advanceToNextStep(UUID sessionId) {
         var session = sessionRepository.getSessionById(sessionId)
                 .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
 
@@ -71,8 +71,8 @@ public class SessionUseCase implements SessionPort {
 
         session.advanceToNextStep();
         session = sessionRepository.saveSession(session);
-        return new PracticeStepResponseDTO(
-                new PracticeStepResponseDTO.Metadata(
+        return new SessionStepDTO(
+                new SessionStepDTO.Metadata(
                         session.getSessionId(),
                         session.getSteps().size(),
                         session.getCurrentStepIndex(),
@@ -82,9 +82,9 @@ public class SessionUseCase implements SessionPort {
         );
     }
 
-    private PracticeStepResponseDTO toResponse(PracticeSession session, PracticeStepDTO stepDTO) {
-        return new PracticeStepResponseDTO(
-                new PracticeStepResponseDTO.Metadata(
+    private SessionStepDTO toResponse(PracticeSession session, PracticeStepDTO stepDTO) {
+        return new SessionStepDTO(
+                new SessionStepDTO.Metadata(
                         session.getSessionId(),
                         session.getSteps().size(),
                         session.getCurrentStepIndex(),

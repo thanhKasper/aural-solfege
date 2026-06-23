@@ -3,9 +3,11 @@ package vn.ktt.ear_training_system.infrastructure.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepResponseDTO;
+import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
 import vn.ktt.ear_training_system.application.inbound.SessionPort;
-import vn.ktt.ear_training_system.infrastructure.dto_prefill.IPracticeStepDTOPrefill;
+import vn.ktt.ear_training_system.infrastructure.dto.ApiCallSpec;
+import vn.ktt.ear_training_system.infrastructure.dto.PracticeStepResponse;
+import vn.ktt.ear_training_system.infrastructure.dto_prefill.StepApiCallProvider;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,32 +18,32 @@ import java.util.UUID;
 @RequestMapping(path = "api/sessions")
 public class SessionController {
     private final SessionPort sessionPort;
-    private final Map<Class<? extends PracticeStepDTO>, IPracticeStepDTOPrefill> dtoPrefillMap = new HashMap<>();
+    private final Map<Class<? extends PracticeStepDTO>, StepApiCallProvider> stepApiCallProviderMap = new HashMap<>();
 
     public SessionController(SessionPort sessionPort,
-                             List<IPracticeStepDTOPrefill> dtoPrefills) {
+                             List<StepApiCallProvider> apiCallProviders) {
         this.sessionPort = sessionPort;
-        dtoPrefills.forEach((dtoPrefill) -> {
-            this.dtoPrefillMap.put(dtoPrefill.getPracticeStepDTOClass(), dtoPrefill);
+        apiCallProviders.forEach((provider) -> {
+            this.stepApiCallProviderMap.put(provider.getPracticeStepDTOClass(), provider);
         });
     }
 
     @PostMapping("/{sessionId}/advance")
-    public ResponseEntity<PracticeStepResponseDTO> advanceToNextStep(@PathVariable String sessionId) {
-        PracticeStepResponseDTO response = sessionPort.advanceToNextStep(UUID.fromString(sessionId));
-        PracticeStepDTO currentStep = prefillStep(response.currentStep());
-        return ResponseEntity.ok(new PracticeStepResponseDTO(response.metadata(), currentStep));
+    public ResponseEntity<PracticeStepResponse> advanceToNextStep(@PathVariable String sessionId) {
+        SessionStepDTO response = sessionPort.advanceToNextStep(UUID.fromString(sessionId));
+        ApiCallSpec apiCall = getApiCallSpec(response.currentStep());
+        return ResponseEntity.ok(new PracticeStepResponse(response.metadata(), response.currentStep(), apiCall));
     }
 
-    private PracticeStepDTO prefillStep(PracticeStepDTO step) {
-        IPracticeStepDTOPrefill prefillDTO = retrievePrefill(step);
-        return prefillDTO.prefill(step);
+    private ApiCallSpec getApiCallSpec(PracticeStepDTO step) {
+        StepApiCallProvider provider = retrieveProvider(step);
+        return provider.provide(step);
     }
 
-    private IPracticeStepDTOPrefill retrievePrefill(PracticeStepDTO dto) {
-        if (dtoPrefillMap.containsKey(dto.getClass())) {
-            return dtoPrefillMap.get(dto.getClass());
+    private StepApiCallProvider retrieveProvider(PracticeStepDTO dto) {
+        if (stepApiCallProviderMap.containsKey(dto.getClass())) {
+            return stepApiCallProviderMap.get(dto.getClass());
         }
-        throw new RuntimeException("Not found prefill for DTO " + dto.getClass());
+        throw new RuntimeException("Not found API call provider for DTO " + dto.getClass());
     }
 }

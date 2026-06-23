@@ -1,8 +1,9 @@
 package vn.ktt.ear_training_system.infrastructure.dto_prefill;
 
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
+import vn.ktt.ear_training_system.infrastructure.dto.ApiCallSpec;
 
-public interface IPracticeStepDTOPrefill {
+public interface StepApiCallProvider {
     Class<? extends PracticeStepDTO> getPracticeStepDTOClass();
-    PracticeStepDTO prefill(PracticeStepDTO practiceStepDTO);
+    ApiCallSpec provide(PracticeStepDTO practiceStepDTO);
 }
