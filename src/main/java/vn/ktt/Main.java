@@ -15,15 +15,6 @@ public class Main {
         SpringApplication.run(Main.class);
     }
 
-    @Bean
-    protected ExerciseBuilder exerciseBuilder() {
-        return new ExerciseBuilder();
-    }
-
-    @Bean
-    protected IMusicalEntityFactory musicalEntityFactory() {
-        return new MusicalEntityFactory();
-    }
 
     @Bean
     protected IMusicalOperation musicalOperation() {
