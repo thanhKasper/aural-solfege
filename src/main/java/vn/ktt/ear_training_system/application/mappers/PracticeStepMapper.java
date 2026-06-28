@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.application.format_mappers;
+package vn.ktt.ear_training_system.application.mappers;
 
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;

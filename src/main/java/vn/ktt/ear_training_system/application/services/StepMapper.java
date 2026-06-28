@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.application.services;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
-import vn.ktt.ear_training_system.application.format_mappers.PracticeStepMapper;
+import vn.ktt.ear_training_system.application.mappers.PracticeStepMapper;
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;
 
 import java.util.HashMap;

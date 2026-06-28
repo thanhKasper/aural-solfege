@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.application.format_mappers;
+package vn.ktt.ear_training_system.application.mappers;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
