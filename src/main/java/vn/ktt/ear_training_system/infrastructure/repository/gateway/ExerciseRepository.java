@@ -2,7 +2,6 @@ package vn.ktt.ear_training_system.infrastructure.repository.gateway;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.outbound.IExercisePaginationPort;
 import vn.ktt.ear_training_system.application.services.Page;
 import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
@@ -10,7 +9,6 @@ import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository
 import vn.ktt.ear_training_system.infrastructure.repository.entities.ExerciseEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.mapper.ExerciseEntityMapper;
 
-import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -37,21 +35,18 @@ public class ExerciseRepository implements IExerciseRepository, IExercisePaginat
     }
 
     @Override
-    public Page<ExerciseDTO> getPagedExercises(int page, int pageSize) {
+    public Page<Exercise> getPagedExercises(int page, int pageSize) {
         org.springframework.data.domain.Page<ExerciseEntity> paginatedExercises = jpaRepository.findAll(PageRequest.of(page, pageSize));
 
-        int totalElements = paginatedExercises.getNumberOfElements();
-        int totalPages = paginatedExercises.getTotalPages();
-
-        List<ExerciseDTO> result = paginatedExercises.stream().map(mapper::toDto).toList();
+        var domains = paginatedExercises.stream().map(mapper::toDomain).toList();
         return new Page<>(
                 page,
                 pageSize,
-                totalPages,
-                totalElements,
+                paginatedExercises.getTotalPages(),
+                (int) paginatedExercises.getTotalElements(),
                 paginatedExercises.hasNext(),
                 paginatedExercises.hasPrevious(),
-                result
+                domains
         );
     }
 }

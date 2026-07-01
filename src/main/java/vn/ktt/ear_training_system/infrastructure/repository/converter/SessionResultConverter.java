@@ -5,11 +5,6 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.SessionResult;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin.StepContextMixin;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider.StepContextMixinProvider;
-
-import java.util.List;
 
 @Converter
 @Component

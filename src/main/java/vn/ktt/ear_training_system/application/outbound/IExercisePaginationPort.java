@@ -1,8 +1,8 @@
 package vn.ktt.ear_training_system.application.outbound;
 
-import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.services.Page;
+import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
 
 public interface IExercisePaginationPort {
-    Page<ExerciseDTO> getPagedExercises(int page, int pageSize);
+    Page<Exercise> getPagedExercises(int page, int pageSize);
 }

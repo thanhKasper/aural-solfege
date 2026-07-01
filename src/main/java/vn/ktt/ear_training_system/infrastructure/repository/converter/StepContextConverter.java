@@ -17,7 +17,6 @@ public class StepContextConverter implements AttributeConverter<StepContext, Str
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-
     public StepContextConverter(List<StepContextMixinProvider> mixinProviders) {
         mapper.addMixIn(StepContext.class, StepContextMixin.class);
         for (StepContextMixinProvider provider : mixinProviders) {

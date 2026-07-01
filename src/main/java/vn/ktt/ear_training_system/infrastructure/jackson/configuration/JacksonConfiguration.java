@@ -16,6 +16,7 @@ import java.util.List;
 
 @Configuration
 public class JacksonConfiguration {
+
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer exerciseActivityDtoMixinCustomizer() {
         return builder -> builder.mixIn(ExerciseActivityDTO.class, ExerciseActivityDTOMixin.class);

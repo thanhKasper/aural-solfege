@@ -20,6 +20,6 @@ public class ListenIntervalMixinProvider implements StepContextMixinProvider {
 
     @Override
     public String typeName() {
-        return "interval-listening";
+        return "LISTEN_INTERVAL";
     }
 }

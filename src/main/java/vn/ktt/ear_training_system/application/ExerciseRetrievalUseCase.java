@@ -22,7 +22,8 @@ public class ExerciseRetrievalUseCase implements ExerciseRetrievalPort {
 
     @Override
     public Page<ExerciseDTO> getExercises(int page, int pageSize) {
-        return exercisePaginationService.getPagedExercises(page, pageSize);
+        return exercisePaginationService.getPagedExercises(page, pageSize)
+                .map(mapper::toExerciseDTO);
     }
 
     @Override
