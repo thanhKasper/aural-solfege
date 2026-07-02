@@ -6,8 +6,8 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin.ExerciseActivityMixin;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider.ExerciseActivityMixInProvider;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin.entity.exercise_activity.ExerciseActivityMixin;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.entity.exercise_activity.ExerciseActivityMixInProvider;
 import java.util.List;
 
 @Converter

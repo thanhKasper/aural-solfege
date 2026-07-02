@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.infrastructure.jackson.mixin;
+package vn.ktt.ear_training_system.infrastructure.jackson.mixin.entity.exercise_activity;
 
 import com.fasterxml.jackson.annotation.*;
 

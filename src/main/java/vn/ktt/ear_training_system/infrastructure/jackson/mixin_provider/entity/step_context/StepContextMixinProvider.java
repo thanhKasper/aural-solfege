@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider;
+package vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.entity.step_context;
 
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
 

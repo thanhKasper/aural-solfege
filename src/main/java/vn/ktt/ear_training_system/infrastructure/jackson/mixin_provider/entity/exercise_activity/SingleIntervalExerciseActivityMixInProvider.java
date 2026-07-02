@@ -1,10 +1,10 @@
-package vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider;
+package vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.entity.exercise_activity;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseActivityType;
 import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.exercise.entity.interval_training.SingleIntervalExerciseActivity;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin.SingleIntervalExerciseActivityMixin;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin.entity.exercise_activity.SingleIntervalExerciseActivityMixin;
 
 @Component
 public class SingleIntervalExerciseActivityMixInProvider implements ExerciseActivityMixInProvider {

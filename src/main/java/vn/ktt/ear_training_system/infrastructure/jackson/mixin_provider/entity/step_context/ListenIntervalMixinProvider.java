@@ -1,9 +1,9 @@
-package vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider;
+package vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.entity.step_context;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.ListenIntervalContext;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin.ListenIntervalContextMixin;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin.entity.step_context.ListenIntervalContextMixin;
 
 @Component
 public class ListenIntervalMixinProvider implements StepContextMixinProvider {

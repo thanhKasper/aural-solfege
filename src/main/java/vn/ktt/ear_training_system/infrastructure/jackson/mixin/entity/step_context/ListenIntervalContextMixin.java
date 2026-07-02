@@ -1,15 +1,15 @@
-package vn.ktt.ear_training_system.infrastructure.jackson.mixin;
+package vn.ktt.ear_training_system.infrastructure.jackson.mixin.entity.step_context;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
 import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 
-public abstract class SingleIntervalExerciseActivityMixin {
+public abstract class ListenIntervalContextMixin {
     @JsonCreator
-    public SingleIntervalExerciseActivityMixin(
-            @JsonProperty("soundProperty") IntervalTexture soundProperty,
+    public ListenIntervalContextMixin(
             @JsonProperty("interval") MusicalInterval interval,
-            @JsonProperty("position") int position) {
+            @JsonProperty("direction") String direction,
+            @JsonProperty("texture") IntervalTexture texture) {
     }
 }

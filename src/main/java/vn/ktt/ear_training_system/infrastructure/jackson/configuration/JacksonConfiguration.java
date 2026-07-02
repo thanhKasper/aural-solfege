@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin.ExerciseActivityDTOMixin;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin.PracticeStepDTOMixin;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider.ExerciseActivityDTOProvider;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixinProvider.PracticeStepDTOProvider;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin.dto.exercise_activity.ExerciseActivityDTOMixin;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin.dto.practice_step.PracticeStepDTOMixin;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.dto.exercise_activity.ExerciseActivityDTOProvider;
+import vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.dto.practice_step.PracticeStepDTOProvider;
 
 import java.util.List;
 
