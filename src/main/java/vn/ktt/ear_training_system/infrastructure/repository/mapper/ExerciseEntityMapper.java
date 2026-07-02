@@ -5,16 +5,16 @@ import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
 import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.exercise_activities.ExerciseActivityEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.ExerciseEntity;
-import vn.ktt.ear_training_system.infrastructure.repository.mapper.exercise_activity.ExerciseActivityMapperRegistry;
+import vn.ktt.ear_training_system.infrastructure.repository.mapper.exercise_activity.ExerciseActivityEntityToDomainMapperFactory;
 
 import java.util.List;
 
 @Component
 public class ExerciseEntityMapper {
-    private final ExerciseActivityMapperRegistry exerciseActivityMapperRegistry;
+    private final ExerciseActivityEntityToDomainMapperFactory exerciseActivityEntityToDomainMapperFactory;
 
-    public ExerciseEntityMapper(ExerciseActivityMapperRegistry exerciseActivityMapperRegistry) {
-        this.exerciseActivityMapperRegistry = exerciseActivityMapperRegistry;
+    public ExerciseEntityMapper(ExerciseActivityEntityToDomainMapperFactory exerciseActivityEntityToDomainMapperFactory) {
+        this.exerciseActivityEntityToDomainMapperFactory = exerciseActivityEntityToDomainMapperFactory;
     }
 
     public ExerciseEntity toEntity(Exercise domain) {
@@ -45,13 +45,13 @@ public class ExerciseEntityMapper {
 
     private List<ExerciseActivityEntity> toEntityActivities(List<ExerciseActivity> activities) {
         return activities.stream()
-                .map(exerciseActivityMapperRegistry::toExerciseActivityEntity)
+                .map(exerciseActivityEntityToDomainMapperFactory::toExerciseActivityEntity)
                 .toList();
     }
 
     private List<ExerciseActivity> toDomainActivities(List<ExerciseActivityEntity> entities) {
         return entities.stream()
-                .map(exerciseActivityMapperRegistry::toExerciseActivity)
+                .map(exerciseActivityEntityToDomainMapperFactory::toExerciseActivity)
                 .toList();
     }
 }

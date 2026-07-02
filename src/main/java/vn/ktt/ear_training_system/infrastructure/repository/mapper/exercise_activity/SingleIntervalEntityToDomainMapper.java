@@ -7,7 +7,7 @@ import vn.ktt.ear_training_system.infrastructure.repository.entities.exercise_ac
 import vn.ktt.ear_training_system.infrastructure.repository.entities.exercise_activities.SingleIntervalExerciseActivityEntity;
 
 @Component
-public class SingleIntervalExerciseActivityMapper implements IExerciseActivityMapper {
+public class SingleIntervalEntityToDomainMapper implements IExerciseActivityEntityToDomainMapper {
 
     @Override
     public Class<? extends ExerciseActivity> getDataFromClass() {

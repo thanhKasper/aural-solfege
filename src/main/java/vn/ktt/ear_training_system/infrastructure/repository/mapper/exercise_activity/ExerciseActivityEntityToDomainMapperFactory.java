@@ -8,8 +8,8 @@ import vn.ktt.shared.DataMapperRegistry;
 import java.util.List;
 
 @Component
-public class ExerciseActivityMapperRegistry extends DataMapperRegistry<ExerciseActivity, ExerciseActivityEntity, IExerciseActivityMapper> {
-    public ExerciseActivityMapperRegistry(List<IExerciseActivityMapper> exerciseActivityMappers) {
+public class ExerciseActivityEntityToDomainMapperFactory extends DataMapperRegistry<ExerciseActivity, ExerciseActivityEntity, IExerciseActivityEntityToDomainMapper> {
+    public ExerciseActivityEntityToDomainMapperFactory(List<IExerciseActivityEntityToDomainMapper> exerciseActivityMappers) {
         super(exerciseActivityMappers);
     }
 
