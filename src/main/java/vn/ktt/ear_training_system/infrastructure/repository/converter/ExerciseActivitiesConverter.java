@@ -1,57 +1,40 @@
 package vn.ktt.ear_training_system.infrastructure.repository.converter;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin.entity.exercise_activity.ExerciseActivityMixin;
-import vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.entity.exercise_activity.ExerciseActivityMixInProvider;
+import vn.ktt.ear_training_system.infrastructure.repository.entities.exercise_activities.ExerciseActivityEntity;
+
 import java.util.List;
 
 @Converter
 @Component
-public class ExerciseActivitiesConverter implements AttributeConverter<List<ExerciseActivity>, String> {
-    private final ObjectMapper mapper;
-
-    public ExerciseActivitiesConverter(List<ExerciseActivityMixInProvider> mixInProviders) {
-        this.mapper = buildMapper(mixInProviders);
-    }
-
-    private static ObjectMapper buildMapper(List<ExerciseActivityMixInProvider> mixInProviders) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.addMixIn(ExerciseActivity.class, ExerciseActivityMixin.class);
-        for (var provider : mixInProviders) {
-            mapper.addMixIn(provider.targetClass(), provider.mixInClass());
-            mapper.registerSubtypes(new NamedType(provider.targetClass(), provider.typeName()));
-        }
-        return mapper;
-    }
+public class ExerciseActivitiesConverter implements AttributeConverter<List<ExerciseActivityEntity>, String> {
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(List<ExerciseActivity> formats) {
-        if (formats == null) return null;
+    public String convertToDatabaseColumn(List<ExerciseActivityEntity> entities) {
+        if (entities == null) return null;
         try {
             JavaType type = mapper.getTypeFactory()
-                    .constructCollectionType(List.class, ExerciseActivity.class);
-
-            return mapper.writerFor(type).writeValueAsString(formats);
+                    .constructCollectionType(List.class, ExerciseActivityEntity.class);
+            return mapper.writerFor(type).writeValueAsString(entities);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to serialize exercise formats", e);
+            throw new RuntimeException("Failed to serialize exercise activities", e);
         }
     }
 
     @Override
-    public List<ExerciseActivity> convertToEntityAttribute(String json) {
+    public List<ExerciseActivityEntity> convertToEntityAttribute(String json) {
         if (json == null) return null;
         try {
             JavaType type = mapper.getTypeFactory()
-                    .constructCollectionType(List.class, ExerciseActivity.class);
-
+                    .constructCollectionType(List.class, ExerciseActivityEntity.class);
             return mapper.readValue(json, type);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to deserialize exercise formats", e);
+            throw new RuntimeException("Failed to deserialize exercise activities", e);
         }
     }
 }
