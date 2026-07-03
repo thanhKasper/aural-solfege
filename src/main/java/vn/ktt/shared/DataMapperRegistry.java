@@ -26,7 +26,7 @@ public abstract class DataMapperRegistry<DataFrom, DataTo, DataMapper extends ID
     }
 
     protected IDataMapper<DataFrom, DataTo> getMapperBaseOnDataTo(DataTo dataTo) {
-        if (dataFromMapper.containsKey(dataTo.getClass())) {
+        if (dataToMapper.containsKey(dataTo.getClass())) {
             return dataToMapper.get(dataTo.getClass());
         }
         return null;
