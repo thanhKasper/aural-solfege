@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.application.mappers;
+package vn.ktt.ear_training_system.application.mappers.exercise_activity;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
@@ -12,18 +12,18 @@ import vn.ktt.ear_training_system.domain.exercise.entity.interval_training.Singl
 public class SingleIntervalExerciseActivityMapper implements ExerciseActivityMapper {
 
     @Override
-    public Class<? extends ExerciseActivity> getDomainClass() {
+    public Class<? extends ExerciseActivity> getDataFromClass() {
         return SingleIntervalExerciseActivity.class;
     }
 
     @Override
-    public Class<? extends ExerciseActivityDTO> getDtoClass() {
+    public Class<? extends ExerciseActivityDTO> getDataToClass() {
         return SingleIntervalExerciseActivityDTO.class;
     }
 
     @Override
-    public ExerciseActivityDTO toDto(ExerciseActivity domain) {
-        var f = (SingleIntervalExerciseActivity) domain;
+    public ExerciseActivityDTO transform(ExerciseActivity dataFrom) {
+        var f = (SingleIntervalExerciseActivity) dataFrom;
         return new SingleIntervalExerciseActivityDTO(
                 f.getInterval().toString(),
                 f.getSoundProperty().toString(),
@@ -32,8 +32,8 @@ public class SingleIntervalExerciseActivityMapper implements ExerciseActivityMap
     }
 
     @Override
-    public ExerciseActivity toDomain(ExerciseActivityDTO dto) {
-        var d = (SingleIntervalExerciseActivityDTO) dto;
+    public ExerciseActivity reverseTransform(ExerciseActivityDTO dataTo) {
+        var d = (SingleIntervalExerciseActivityDTO) dataTo;
         return new SingleIntervalExerciseActivity(
                 IntervalTexture.valueOf(d.getTexture()),
                 MusicalInterval.valueOf(d.getInterval()),

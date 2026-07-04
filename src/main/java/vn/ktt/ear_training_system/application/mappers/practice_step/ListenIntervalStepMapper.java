@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.application.mappers;
+package vn.ktt.ear_training_system.application.mappers.practice_step;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ListenIntervalStepDTO;
@@ -14,22 +14,22 @@ import vn.ktt.ear_training_system.domain.practice_session.value_object.StepType;
 public class ListenIntervalStepMapper implements PracticeStepMapper {
 
     @Override
-    public Class<? extends PracticeStep> getDomainClass() {
+    public Class<? extends PracticeStep> getDataFromClass() {
         return PracticeStep.class;
     }
 
     @Override
-    public Class<? extends PracticeStepDTO> getDtoClass() {
+    public Class<? extends PracticeStepDTO> getDataToClass() {
         return ListenIntervalStepDTO.class;
     }
 
     @Override
-    public PracticeStepDTO toDto(PracticeStep domain) {
-        var context = (ListenIntervalContext) domain.getContext();
+    public PracticeStepDTO transform(PracticeStep dataFrom) {
+        var context = (ListenIntervalContext) dataFrom.getContext();
         return new ListenIntervalStepDTO(
-                domain.getActivityPosition(),
+                dataFrom.getActivityPosition(),
                 PracticeStepType.LISTEN_INTERVAL,
-                domain.getStatus().name(),
+                dataFrom.getStatus().name(),
                 context.interval().name(),
                 context.direction(),
                 context.texture().name()
@@ -37,8 +37,8 @@ public class ListenIntervalStepMapper implements PracticeStepMapper {
     }
 
     @Override
-    public PracticeStep toDomain(PracticeStepDTO dto) {
-        var d = (ListenIntervalStepDTO) dto;
+    public PracticeStep reverseTransform(PracticeStepDTO dataTo) {
+        var d = (ListenIntervalStepDTO) dataTo;
         return new PracticeStep(
                 d.getActivityPosition(),
                 StepType.LISTEN_INTERVAL,
