@@ -22,6 +22,7 @@ public class Exercise {
         rename(title);
         rephraseDescription(description);
         replaceExerciseActivities(exerciseActivities);
+        validateActivityPositions(this.exerciseActivities);
         changeRepetitions(loop, repetitions);
         changeRestDuration(rest);
     }
@@ -61,10 +62,11 @@ public class Exercise {
         this.rest = rest;
     }
 
-    public void addActivity(ExerciseActivity format) {
-        Objects.requireNonNull(format, "Exercise format must not be null");
+    public void addActivity(ExerciseActivity activity) {
+        Objects.requireNonNull(activity, "Exercise activity must not be null");
         var newList = new ArrayList<>(this.exerciseActivities);
-        newList.add(format);
+        newList.add(activity);
+        reassignPositions(newList);
         this.exerciseActivities = newList;
     }
 
@@ -107,6 +109,18 @@ public class Exercise {
     private void reassignPositions(List<ExerciseActivity> list) {
         for (int i = 0; i < list.size(); i++) {
             list.get(i).changePosition(i);
+        }
+    }
+
+    private void validateActivityPositions(List<ExerciseActivity> activities) {
+        var positions = activities.stream()
+                .map(ExerciseActivity::getPosition)
+                .sorted()
+                .toList();
+        for (int i = 0; i < positions.size(); i++) {
+            if (positions.get(i) != i) {
+                throw new IllegalArgumentException("Activity positions must be unique and consecutive starting from 0");
+            }
         }
     }
 
