@@ -5,11 +5,18 @@ import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeSession
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.PracticeSessionEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.PracticeStepEntity;
+import vn.ktt.ear_training_system.infrastructure.repository.mapper.step_context.StepContextEntityToDomainMapperFactory;
 
 import java.util.ArrayList;
 
 @Component
 public class PracticeSessionEntityMapper {
+
+    private final StepContextEntityToDomainMapperFactory stepContextMapperFactory;
+
+    public PracticeSessionEntityMapper(StepContextEntityToDomainMapperFactory stepContextMapperFactory) {
+        this.stepContextMapperFactory = stepContextMapperFactory;
+    }
 
     public PracticeSessionEntity toEntity(PracticeSession domain) {
         var entity = new PracticeSessionEntity();
@@ -31,7 +38,7 @@ public class PracticeSessionEntityMapper {
             stepEntity.setActivityPosition(step.getActivityPosition());
             stepEntity.setStepType(step.getStepType());
             stepEntity.setStatus(step.getStatus());
-            stepEntity.setContext(step.getContext());
+            stepEntity.setContext(stepContextMapperFactory.toStepContextEntity(step.getContext()));
             stepEntities.add(stepEntity);
         }
 
@@ -45,7 +52,7 @@ public class PracticeSessionEntityMapper {
                         stepEntity.getActivityPosition(),
                         stepEntity.getStepType(),
                         stepEntity.getStatus(),
-                        stepEntity.getContext()))
+                        stepContextMapperFactory.toStepContext(stepEntity.getContext())))
                 .toList();
 
         return PracticeSession.reconstruct(

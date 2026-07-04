@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepStatus;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepType;
-import vn.ktt.ear_training_system.infrastructure.repository.converter.StepContextConverter;
+import vn.ktt.ear_training_system.infrastructure.repository.converter.StepContextEntityConverter;
+import vn.ktt.ear_training_system.infrastructure.repository.entities.step_context.StepContextEntity;
 
 import java.util.UUID;
 
@@ -44,7 +44,7 @@ public class PracticeStepEntity {
     @Column(name = "status", nullable = false)
     private StepStatus status;
 
-    @Convert(converter = StepContextConverter.class)
+    @Convert(converter = StepContextEntityConverter.class)
     @Column(name = "context", columnDefinition = "TEXT", nullable = false)
-    private StepContext context;
+    private StepContextEntity context;
 }
