@@ -9,11 +9,6 @@ import java.util.List;
 public class SingleIntervalStepGeneration implements StepGeneration {
 
     @Override
-    public Class<? extends ExerciseActivity> activityType() {
-        return SingleIntervalExerciseActivity.class;
-    }
-
-    @Override
     public List<StepDefinition> generate(ExerciseActivity activity) {
         var a = (SingleIntervalExerciseActivity) activity;
         return List.of(
@@ -22,5 +17,15 @@ public class SingleIntervalStepGeneration implements StepGeneration {
                 new StepDefinition(a.getPosition(), StepType.LISTEN_INTERVAL,
                         new ListenIntervalContext(a.getInterval(), "DOWN", a.getSoundProperty()))
         );
+    }
+
+    @Override
+    public Class<? extends ExerciseActivity> getKey() {
+        return SingleIntervalExerciseActivity.class;
+    }
+
+    @Override
+    public StepGeneration getService() {
+        return this;
     }
 }
