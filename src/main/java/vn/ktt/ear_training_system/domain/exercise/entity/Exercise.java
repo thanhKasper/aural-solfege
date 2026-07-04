@@ -62,54 +62,17 @@ public class Exercise {
         this.rest = rest;
     }
 
-    public void addActivity(ExerciseActivity activity) {
-        Objects.requireNonNull(activity, "Exercise activity must not be null");
-        var newList = new ArrayList<>(this.exerciseActivities);
-        newList.add(activity);
-        reassignPositions(newList);
-        this.exerciseActivities = newList;
-    }
-
-    public void removeActivity(ExerciseActivity format) {
-        var newList = new ArrayList<>(this.exerciseActivities);
-        if (!newList.remove(format)) {
-            return;
+    public void replaceActivities(List<ExerciseActivity> newActivities) {
+        if (newActivities == null || newActivities.isEmpty()) {
+            throw new IllegalArgumentException("Exercise must have at least one activity");
         }
-        if (newList.isEmpty()) {
-            throw new IllegalArgumentException("Exercise must have at least one exercise format");
-        }
-        this.exerciseActivities = newList;
-    }
-
-    public void reorderActivity(int oldPosition, int newPosition) {
-        if (oldPosition == newPosition) return;
-        var list = new ArrayList<>(this.exerciseActivities);
-        int oldIndex = findIndexByPosition(list, oldPosition);
-        int newIndex = findIndexByPosition(list, newPosition);
-        if (oldIndex < 0) throw new IllegalArgumentException("Activity at position " + oldPosition + " not found");
-        if (newIndex < 0) throw new IllegalArgumentException("Activity at position " + newPosition + " not found");
-        var activity = list.remove(oldIndex);
-        list.add(newIndex, activity);
-        reassignPositions(list);
-        this.exerciseActivities = list;
+        validateActivityPositions(newActivities);
+        this.exerciseActivities = new ArrayList<>(newActivities);
     }
 
     private void assignTrainingMethodology(TrainingMethodology methodology) {
         if (methodology == null) throw new IllegalArgumentException("Method must not be null");
         this.trainingMethodology = methodology;
-    }
-
-    private int findIndexByPosition(List<ExerciseActivity> list, int position) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getPosition() == position) return i;
-        }
-        return -1;
-    }
-
-    private void reassignPositions(List<ExerciseActivity> list) {
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).changePosition(i);
-        }
     }
 
     private void validateActivityPositions(List<ExerciseActivity> activities) {
