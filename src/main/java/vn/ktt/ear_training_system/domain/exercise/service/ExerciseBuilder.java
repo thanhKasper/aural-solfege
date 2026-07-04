@@ -16,6 +16,6 @@ public class ExerciseBuilder {
             int rest,
             List<ExerciseActivity> exerciseActivities
     ) {
-        return new Exercise(TrainingMethodology.valueOf(trainingMethod), title, description, loop, repetitions, rest, exerciseActivities);
+        return Exercise.create(TrainingMethodology.valueOf(trainingMethod), title, description, loop, repetitions, rest, exerciseActivities);
     }
 }

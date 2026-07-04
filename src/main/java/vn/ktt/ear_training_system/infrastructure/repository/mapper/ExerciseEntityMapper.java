@@ -31,7 +31,7 @@ public class ExerciseEntityMapper {
 
     public Exercise toDomain(ExerciseEntity entity) {
         var entityRepetitions = entity.getRepetitions();
-        return new Exercise(
+        return Exercise.reconstruct(
                 entity.getExerciseId(),
                 entity.getTrainingMethodology(),
                 entity.getTitle(),

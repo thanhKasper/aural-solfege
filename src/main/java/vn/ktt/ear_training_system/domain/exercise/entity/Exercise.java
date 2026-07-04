@@ -16,11 +16,7 @@ public class Exercise {
     private int rest;
     private List<ExerciseActivity> exerciseActivities;
 
-    public Exercise(TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
-        this(null, trainingMethodology, title, description, loop, repetitions, rest, exerciseActivities);
-    }
-
-    public Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
+    private Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
         this.exerciseId = exerciseId;
         assignTrainingMethodology(trainingMethodology);
         rename(title);
@@ -28,6 +24,14 @@ public class Exercise {
         replaceExerciseActivities(exerciseActivities);
         changeRepetitions(loop, repetitions);
         changeRestDuration(rest);
+    }
+
+    public static Exercise create(TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
+        return new Exercise(null, trainingMethodology, title, description, loop, repetitions, rest, exerciseActivities);
+    }
+
+    public static Exercise reconstruct(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
+        return new Exercise(exerciseId, trainingMethodology, title, description, loop, repetitions, rest, exerciseActivities);
     }
 
     public List<ExerciseActivity> getExerciseActivities() {

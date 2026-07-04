@@ -21,8 +21,7 @@ public class PracticeSession {
 
     public static PracticeSession create(UUID exerciseId, List<StepDefinition> definitions) {
         var steps = new ArrayList<PracticeStep>();
-        for (int i = 0; i < definitions.size(); i++) {
-            var def = definitions.get(i);
+        for (StepDefinition def : definitions) {
             steps.add(new PracticeStep(def.getActivityPosition(), def.getStepType(), def.getContext()));
         }
         return new PracticeSession(null, exerciseId, steps);
