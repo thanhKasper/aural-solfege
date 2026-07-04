@@ -4,20 +4,18 @@ import org.springframework.stereotype.Service;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
 import vn.ktt.ear_training_system.application.services.ExerciseMapper;
-import vn.ktt.ear_training_system.domain.exercise.service.ExerciseBuilder;
+import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
+import vn.ktt.ear_training_system.domain.exercise.value_object.TrainingMethodology;
 
 @Service
 public class CreateExerciseUseCase implements ExerciseCreationPort {
     private final IExerciseRepository exerciseRepository;
-    private final ExerciseBuilder exerciseBuilder;
     private final ExerciseMapper exerciseMapper;
 
     public CreateExerciseUseCase(IExerciseRepository exerciseRepository,
-                                  ExerciseBuilder exerciseBuilder,
                                   ExerciseMapper exerciseMapper) {
         this.exerciseRepository = exerciseRepository;
-        this.exerciseBuilder = exerciseBuilder;
         this.exerciseMapper = exerciseMapper;
     }
 
@@ -26,8 +24,8 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
                 .map(exerciseMapper::toDomain)
                 .toList();
 
-        var domainExercise = exerciseBuilder.buildExercise(
-                exerciseDTO.getTrainingMethodology(),
+        var domainExercise = Exercise.create(
+                TrainingMethodology.valueOf(exerciseDTO.getTrainingMethodology()),
                 exerciseDTO.getTitle(),
                 exerciseDTO.getDescription(),
                 exerciseDTO.isLoop(),
