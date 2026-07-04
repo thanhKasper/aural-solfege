@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.SessionResult;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.SessionStatus;
 import vn.ktt.ear_training_system.infrastructure.repository.converter.SessionResultConverter;
 
@@ -49,5 +48,5 @@ public class PracticeSessionEntity {
 
     @Convert(converter = SessionResultConverter.class)
     @Column(name = "result", columnDefinition = "TEXT")
-    private SessionResult result;
+    private SessionResultEntity result;
 }

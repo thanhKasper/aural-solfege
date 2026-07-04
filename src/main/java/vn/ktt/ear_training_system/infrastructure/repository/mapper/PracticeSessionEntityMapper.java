@@ -13,9 +13,12 @@ import java.util.ArrayList;
 public class PracticeSessionEntityMapper {
 
     private final StepContextEntityToDomainMapperFactory stepContextMapperFactory;
+    private final SessionResultEntityMapper sessionResultMapper;
 
-    public PracticeSessionEntityMapper(StepContextEntityToDomainMapperFactory stepContextMapperFactory) {
+    public PracticeSessionEntityMapper(StepContextEntityToDomainMapperFactory stepContextMapperFactory,
+                                       SessionResultEntityMapper sessionResultMapper) {
         this.stepContextMapperFactory = stepContextMapperFactory;
+        this.sessionResultMapper = sessionResultMapper;
     }
 
     public PracticeSessionEntity toEntity(PracticeSession domain) {
@@ -27,7 +30,7 @@ public class PracticeSessionEntityMapper {
         entity.setCreatedAt(domain.getCreatedAt());
         entity.setStartedAt(domain.getStartedAt());
         entity.setCompletedAt(domain.getCompletedAt());
-        entity.setResult(domain.getResult());
+        entity.setResult(sessionResultMapper.toEntity(domain.getResult(), domain.getStartedAt(), domain.getCompletedAt()));
 
         var stepEntities = new ArrayList<PracticeStepEntity>();
         for (int i = 0; i < domain.getSteps().size(); i++) {
@@ -64,7 +67,7 @@ public class PracticeSessionEntityMapper {
                 entity.getCreatedAt(),
                 entity.getStartedAt(),
                 entity.getCompletedAt(),
-                entity.getResult()
+                sessionResultMapper.toDomain(entity.getResult())
         );
     }
 }
