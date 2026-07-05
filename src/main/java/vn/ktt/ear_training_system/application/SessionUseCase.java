@@ -1,10 +1,9 @@
 package vn.ktt.ear_training_system.application;
 
 import org.springframework.stereotype.Service;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
 import vn.ktt.ear_training_system.application.inbound.SessionPort;
-import vn.ktt.ear_training_system.application.services.StepMapper;
+import vn.ktt.ear_training_system.application.mappers.SessionStepDTOMapper;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.domain.guard.ExerciseModificationGuard;
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeSession;
@@ -20,18 +19,18 @@ public class SessionUseCase implements SessionPort {
     private final IPracticeSessionRepository sessionRepository;
     private final StepGenerationService stepGenerationService;
     private final ExerciseModificationGuard guard;
-    private final StepMapper stepMapper;
+    private final SessionStepDTOMapper sessionStepMapper;
 
     public SessionUseCase(IExerciseRepository exerciseRepository,
                           IPracticeSessionRepository sessionRepository,
                           StepGenerationService stepGenerationService,
                           ExerciseModificationGuard guard,
-                          StepMapper stepMapper) {
+                          SessionStepDTOMapper sessionStepMapper) {
         this.exerciseRepository = exerciseRepository;
         this.sessionRepository = sessionRepository;
         this.stepGenerationService = stepGenerationService;
         this.guard = guard;
-        this.stepMapper = stepMapper;
+        this.sessionStepMapper = sessionStepMapper;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class SessionUseCase implements SessionPort {
                 session.resume();
                 sessionRepository.saveSession(session);
             }
-            return toResponse(session, stepMapper.toDto(session.getCurrentStep()));
+            return sessionStepMapper.toDto(session);
         }
 
         var exercise = exerciseRepository.getExerciseById(exerciseId.toString());
@@ -53,7 +52,7 @@ public class SessionUseCase implements SessionPort {
         var session = PracticeSession.create(exerciseId, definitions);
         session.start();
         session = sessionRepository.saveSession(session);
-        return toResponse(session, stepMapper.toDto(session.getCurrentStep()));
+        return sessionStepMapper.toDto(session);
     }
 
     @Override
@@ -71,26 +70,6 @@ public class SessionUseCase implements SessionPort {
 
         session.advanceToNextStep();
         session = sessionRepository.saveSession(session);
-        return new SessionStepDTO(
-                new SessionStepDTO.Metadata(
-                        session.getSessionId(),
-                        session.getSteps().size(),
-                        session.getCurrentStepIndex(),
-                        session.isNextStepAvailable()
-                ),
-                stepMapper.toDto(session.getCurrentStep())
-        );
-    }
-
-    private SessionStepDTO toResponse(PracticeSession session, PracticeStepDTO stepDTO) {
-        return new SessionStepDTO(
-                new SessionStepDTO.Metadata(
-                        session.getSessionId(),
-                        session.getSteps().size(),
-                        session.getCurrentStepIndex(),
-                        session.isNextStepAvailable()
-                ),
-                stepDTO
-        );
+        return sessionStepMapper.toDto(session);
     }
 }
