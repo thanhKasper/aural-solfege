@@ -92,6 +92,8 @@ public class SessionUseCase implements SessionPort {
             throw new IllegalStateException("Session has not been completed yet");
         }
 
-        return sessionResultMapper.toDto(session.getResult());
+        var result = sessionResultMapper.toDto(session.getResult());
+        sessionRepository.deleteSession(sessionId);
+        return result;
     }
 }

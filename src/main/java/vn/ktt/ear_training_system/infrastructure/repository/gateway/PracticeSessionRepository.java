@@ -40,4 +40,9 @@ public class PracticeSessionRepository implements IPracticeSessionRepository {
     public boolean existsActiveSessionForExercise(UUID exerciseId) {
         return jpaRepository.existsByExerciseIdAndStatus(exerciseId, SessionStatus.IN_PROGRESS);
     }
+
+    @Override
+    public void deleteSession(UUID sessionId) {
+        jpaRepository.deleteById(sessionId);
+    }
 }
