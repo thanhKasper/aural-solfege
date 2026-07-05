@@ -29,6 +29,11 @@ public class SessionController {
         });
     }
 
+    @PostMapping("/{sessionId}/conclude")
+    public ResponseEntity<SessionResultDTO> concludeSession(@PathVariable String sessionId) {
+        return ResponseEntity.ok(sessionPort.concludeSession(UUID.fromString(sessionId)));
+    }
+
     @GetMapping("/{sessionId}/result")
     public ResponseEntity<SessionResultDTO> getSessionResult(@PathVariable String sessionId) {
         return ResponseEntity.ok(sessionPort.getSessionResult(UUID.fromString(sessionId)));

@@ -107,6 +107,13 @@ public class PracticeSession {
         computeResult();
     }
 
+    public void conclude() {
+        assertStatus(SessionStatus.IN_PROGRESS, "Only IN_PROGRESS sessions can be concluded");
+        this.status = SessionStatus.COMPLETED;
+        this.completedAt = Instant.now();
+        computeResult();
+    }
+
     public void abandon() {
         assertStatus(SessionStatus.IN_PROGRESS, "Only IN_PROGRESS sessions can be abandoned");
         this.status = SessionStatus.ABANDONED;

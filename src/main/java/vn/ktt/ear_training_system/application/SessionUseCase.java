@@ -79,6 +79,16 @@ public class SessionUseCase implements SessionPort {
     }
 
     @Override
+    public SessionResultDTO concludeSession(UUID sessionId) {
+        var session = sessionRepository.getSessionById(sessionId)
+                .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
+
+        session.conclude();
+        session = sessionRepository.saveSession(session);
+        return sessionResultMapper.toDto(session.getResult());
+    }
+
+    @Override
     public SessionResultDTO getSessionResult(UUID sessionId) {
         var session = sessionRepository.getSessionById(sessionId)
                 .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
