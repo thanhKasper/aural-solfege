@@ -41,13 +41,8 @@ public class SessionUseCase implements SessionPort {
     @Override
     public SessionStepDTO startSession(UUID exerciseId) {
         var existing = sessionRepository.findByExercise(exerciseId);
-        if (existing.isPresent()) {
-            var session = existing.get();
-            if (session.getStatus() == SessionStatus.ABANDONED) {
-                session.resume();
-                sessionRepository.saveSession(session);
-            }
-            return sessionMapper.toDto(session);
+        if (existing.isPresent() && existing.get().getStatus() == SessionStatus.IN_PROGRESS) {
+            return sessionMapper.toDto(existing.get());
         }
 
         var exercise = exerciseRepository.getExerciseById(exerciseId.toString());

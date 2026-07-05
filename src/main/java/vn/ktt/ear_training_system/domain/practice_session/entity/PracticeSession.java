@@ -114,19 +114,6 @@ public class PracticeSession {
         computeResult();
     }
 
-    public void abandon() {
-        assertStatus(SessionStatus.IN_PROGRESS, "Only IN_PROGRESS sessions can be abandoned");
-        this.status = SessionStatus.ABANDONED;
-        this.completedAt = Instant.now();
-    }
-
-    public void resume() {
-        assertStatus(SessionStatus.ABANDONED, "Only ABANDONED sessions can be resumed");
-        this.status = SessionStatus.IN_PROGRESS;
-        this.completedAt = null;
-        steps.get(currentStepIndex).activate();
-    }
-
     public int getCurrentActivityPosition() {
         return steps.get(currentStepIndex).getActivityPosition();
     }
