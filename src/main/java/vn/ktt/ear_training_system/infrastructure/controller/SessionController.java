@@ -3,6 +3,7 @@ package vn.ktt.ear_training_system.infrastructure.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
+import vn.ktt.ear_training_system.application.dtos.SessionResultDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
 import vn.ktt.ear_training_system.application.inbound.SessionPort;
 import vn.ktt.ear_training_system.infrastructure.dto.ApiCallSpec;
@@ -26,6 +27,11 @@ public class SessionController {
         apiCallProviders.forEach((provider) -> {
             this.stepApiCallProviderMap.put(provider.getPracticeStepDTOClass(), provider);
         });
+    }
+
+    @GetMapping("/{sessionId}/result")
+    public ResponseEntity<SessionResultDTO> getSessionResult(@PathVariable String sessionId) {
+        return ResponseEntity.ok(sessionPort.getSessionResult(UUID.fromString(sessionId)));
     }
 
     @PostMapping("/{sessionId}/advance")

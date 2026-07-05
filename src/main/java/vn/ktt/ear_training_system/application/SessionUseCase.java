@@ -1,9 +1,11 @@
 package vn.ktt.ear_training_system.application;
 
 import org.springframework.stereotype.Service;
+import vn.ktt.ear_training_system.application.dtos.SessionResultDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
 import vn.ktt.ear_training_system.application.inbound.SessionPort;
-import vn.ktt.ear_training_system.application.mappers.SessionStepDTOMapper;
+import vn.ktt.ear_training_system.application.mappers.SessionMapper;
+import vn.ktt.ear_training_system.application.mappers.SessionResultMapper;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.domain.guard.ExerciseModificationGuard;
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeSession;
@@ -19,18 +21,21 @@ public class SessionUseCase implements SessionPort {
     private final IPracticeSessionRepository sessionRepository;
     private final StepGenerationService stepGenerationService;
     private final ExerciseModificationGuard guard;
-    private final SessionStepDTOMapper sessionStepMapper;
+    private final SessionMapper sessionMapper;
+    private final SessionResultMapper sessionResultMapper;
 
     public SessionUseCase(IExerciseRepository exerciseRepository,
                           IPracticeSessionRepository sessionRepository,
                           StepGenerationService stepGenerationService,
                           ExerciseModificationGuard guard,
-                          SessionStepDTOMapper sessionStepMapper) {
+                          SessionMapper sessionMapper,
+                          SessionResultMapper sessionResultMapper) {
         this.exerciseRepository = exerciseRepository;
         this.sessionRepository = sessionRepository;
         this.stepGenerationService = stepGenerationService;
         this.guard = guard;
-        this.sessionStepMapper = sessionStepMapper;
+        this.sessionMapper = sessionMapper;
+        this.sessionResultMapper = sessionResultMapper;
     }
 
     @Override
@@ -42,7 +47,7 @@ public class SessionUseCase implements SessionPort {
                 session.resume();
                 sessionRepository.saveSession(session);
             }
-            return sessionStepMapper.toDto(session);
+            return sessionMapper.toDto(session);
         }
 
         var exercise = exerciseRepository.getExerciseById(exerciseId.toString());
@@ -52,7 +57,7 @@ public class SessionUseCase implements SessionPort {
         var session = PracticeSession.create(exerciseId, definitions);
         session.start();
         session = sessionRepository.saveSession(session);
-        return sessionStepMapper.toDto(session);
+        return sessionMapper.toDto(session);
     }
 
     @Override
@@ -70,6 +75,18 @@ public class SessionUseCase implements SessionPort {
 
         session.advanceToNextStep();
         session = sessionRepository.saveSession(session);
-        return sessionStepMapper.toDto(session);
+        return sessionMapper.toDto(session);
+    }
+
+    @Override
+    public SessionResultDTO getSessionResult(UUID sessionId) {
+        var session = sessionRepository.getSessionById(sessionId)
+                .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
+
+        if (session.getResult() == null) {
+            throw new IllegalStateException("Session has not been completed yet");
+        }
+
+        return sessionResultMapper.toDto(session.getResult());
     }
 }
