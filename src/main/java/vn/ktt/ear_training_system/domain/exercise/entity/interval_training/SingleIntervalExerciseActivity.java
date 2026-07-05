@@ -6,6 +6,7 @@ import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
 import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -20,4 +21,8 @@ public final class SingleIntervalExerciseActivity extends ExerciseActivity {
         this.soundProperty = Objects.requireNonNull(soundProperty, "Sound property must not be null");
     }
 
+    @Override
+    public List<MusicalInterval> getIntervals() {
+        return List.of(interval);
+    }
 }

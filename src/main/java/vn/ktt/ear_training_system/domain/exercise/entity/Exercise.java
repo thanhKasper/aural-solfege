@@ -1,6 +1,7 @@
 package vn.ktt.ear_training_system.domain.exercise.entity;
 
 import lombok.Getter;
+import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 import vn.ktt.ear_training_system.domain.exercise.value_object.TrainingMethodology;
 
 import java.util.*;
@@ -37,6 +38,14 @@ public class Exercise {
 
     public List<ExerciseActivity> getExerciseActivities() {
         return Collections.unmodifiableList(exerciseActivities);
+    }
+
+    public List<String> getIntervalNames() {
+        return exerciseActivities.stream()
+                .flatMap(a -> a.getIntervals().stream())
+                .map(MusicalInterval::name)
+                .distinct()
+                .toList();
     }
 
     public void rename(String title) {

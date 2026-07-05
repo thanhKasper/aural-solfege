@@ -24,7 +24,8 @@ public class ExerciseMapper {
                 exercise.isLoop() ? null : exercise.getRepetitions(),
                 exercise.getExerciseActivities().stream().map(this::toExerciseActivityDTO).toList(),
                 exercise.getRest(),
-                exercise.isLoop()
+                exercise.isLoop(),
+                exercise.getIntervalNames()
         );
     }
 

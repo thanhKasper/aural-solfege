@@ -16,8 +16,9 @@ public class ExerciseDTO {
     private Integer rest;
     private boolean loop;
     private List<ExerciseActivityDTO> exerciseActivities;
+    private List<String> intervals;
 
-    public ExerciseDTO(String exerciseId, String title, String description, String trainingMethodology, Integer reps, List<ExerciseActivityDTO> exerciseActivities, Integer rest, boolean loop) {
+    public ExerciseDTO(String exerciseId, String title, String description, String trainingMethodology, Integer reps, List<ExerciseActivityDTO> exerciseActivities, Integer rest, boolean loop, List<String> intervals) {
         this.exerciseId = exerciseId;
         this.title = title;
         this.description = description;
@@ -26,5 +27,6 @@ public class ExerciseDTO {
         this.exerciseActivities = exerciseActivities;
         this.rest = rest;
         this.loop = loop;
+        this.intervals = intervals;
     }
 }

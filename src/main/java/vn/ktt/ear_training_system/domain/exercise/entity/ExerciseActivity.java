@@ -2,6 +2,9 @@ package vn.ktt.ear_training_system.domain.exercise.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
+
+import java.util.List;
 
 @Getter
 @EqualsAndHashCode
@@ -15,4 +18,5 @@ public abstract class ExerciseActivity {
         this.position = position;
     }
 
+    public abstract List<MusicalInterval> getIntervals();
 }
