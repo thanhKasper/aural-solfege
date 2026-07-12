@@ -17,7 +17,11 @@ public final class SingleIntervalExerciseActivity extends ExerciseActivity {
 
     public SingleIntervalExerciseActivity(IntervalTexture soundProperty, List<MusicalInterval> intervals, int position) {
         super(position);
-        this.intervals = List.copyOf(Objects.requireNonNull(intervals, "Intervals must not be null"));
+        var validated = Objects.requireNonNull(intervals, "Intervals must not be null");
+        if (validated.size() != 1) {
+            throw new IllegalArgumentException("SingleIntervalExerciseActivity must have exactly one interval, but got " + validated.size());
+        }
+        this.intervals = List.copyOf(validated);
         this.soundProperty = Objects.requireNonNull(soundProperty, "Sound property must not be null");
     }
 

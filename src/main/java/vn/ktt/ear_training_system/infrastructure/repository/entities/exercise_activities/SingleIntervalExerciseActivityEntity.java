@@ -19,5 +19,5 @@ public class SingleIntervalExerciseActivityEntity extends ExerciseActivityEntity
         super(position);
         this.soundProperty = soundProperty;
         this.intervals = intervals;
-    }   
+    }
 }
