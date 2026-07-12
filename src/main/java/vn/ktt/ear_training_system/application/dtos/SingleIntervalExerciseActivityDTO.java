@@ -4,16 +4,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
 public final class SingleIntervalExerciseActivityDTO implements ExerciseActivityDTO {
-    private String interval;
+    private List<String> intervals;
     private String texture;
     private Integer position;
 
-    public SingleIntervalExerciseActivityDTO(String interval, String texture, Integer position) {
-        this.interval = interval;
+    public SingleIntervalExerciseActivityDTO(List<String> intervals, String texture, Integer position) {
+        this.intervals = intervals;
         this.texture = texture;
         this.position = position;
     }

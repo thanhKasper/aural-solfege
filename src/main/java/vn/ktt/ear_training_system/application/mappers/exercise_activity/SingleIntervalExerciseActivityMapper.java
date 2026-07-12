@@ -25,7 +25,7 @@ public class SingleIntervalExerciseActivityMapper implements ExerciseActivityMap
     public ExerciseActivityDTO transform(ExerciseActivity dataFrom) {
         var f = (SingleIntervalExerciseActivity) dataFrom;
         return new SingleIntervalExerciseActivityDTO(
-                f.getInterval().toString(),
+                f.getIntervals().stream().map(MusicalInterval::name).toList(),
                 f.getSoundProperty().toString(),
                 f.getPosition()
         );
@@ -36,7 +36,7 @@ public class SingleIntervalExerciseActivityMapper implements ExerciseActivityMap
         var d = (SingleIntervalExerciseActivityDTO) dataTo;
         return new SingleIntervalExerciseActivity(
                 IntervalTexture.valueOf(d.getTexture()),
-                MusicalInterval.valueOf(d.getInterval()),
+                d.getIntervals().stream().map(MusicalInterval::valueOf).toList(),
                 d.position()
         );
     }

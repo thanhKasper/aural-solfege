@@ -5,18 +5,21 @@ import vn.ktt.ear_training_system.domain.exercise.entity.interval_training.Singl
 import vn.ktt.ear_training_system.domain.practice_session.value_object.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SingleIntervalStepGeneration implements StepGeneration {
 
     @Override
     public List<StepDefinition> generate(ExerciseActivity activity) {
         var a = (SingleIntervalExerciseActivity) activity;
-        return List.of(
-                new StepDefinition(a.getPosition(), StepType.LISTEN_INTERVAL,
-                        new ListenIntervalContext(a.getInterval(), "UP", a.getSoundProperty())),
-                new StepDefinition(a.getPosition(), StepType.LISTEN_INTERVAL,
-                        new ListenIntervalContext(a.getInterval(), "DOWN", a.getSoundProperty()))
-        );
+        return a.getIntervals().stream()
+                .flatMap(interval -> Stream.of(
+                        new StepDefinition(a.getPosition(), StepType.LISTEN_INTERVAL,
+                                new ListenIntervalContext(interval, "UP", a.getSoundProperty())),
+                        new StepDefinition(a.getPosition(), StepType.LISTEN_INTERVAL,
+                                new ListenIntervalContext(interval, "DOWN", a.getSoundProperty()))
+                ))
+                .toList();
     }
 
     @Override

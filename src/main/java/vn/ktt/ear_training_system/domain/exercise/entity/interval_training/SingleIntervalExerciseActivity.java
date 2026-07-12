@@ -13,16 +13,16 @@ import java.util.Objects;
 @EqualsAndHashCode(callSuper = true)
 public final class SingleIntervalExerciseActivity extends ExerciseActivity {
     private final IntervalTexture soundProperty;
-    private final MusicalInterval interval;
+    private final List<MusicalInterval> intervals;
 
-    public SingleIntervalExerciseActivity(IntervalTexture soundProperty, MusicalInterval interval, int position) {
+    public SingleIntervalExerciseActivity(IntervalTexture soundProperty, List<MusicalInterval> intervals, int position) {
         super(position);
-        this.interval = Objects.requireNonNull(interval, "Interval must not be null");
+        this.intervals = List.copyOf(Objects.requireNonNull(intervals, "Intervals must not be null"));
         this.soundProperty = Objects.requireNonNull(soundProperty, "Sound property must not be null");
     }
 
     @Override
     public List<MusicalInterval> getIntervals() {
-        return List.of(interval);
+        return intervals;
     }
 }

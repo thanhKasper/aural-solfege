@@ -24,7 +24,7 @@ public class SingleIntervalEntityToDomainMapper implements IExerciseActivityEnti
         var activity = (SingleIntervalExerciseActivity) dataFrom;
         return new SingleIntervalExerciseActivityEntity(
                 activity.getSoundProperty(),
-                activity.getInterval(),
+                activity.getIntervals(),
                 activity.getPosition()
         );
     }
@@ -34,7 +34,7 @@ public class SingleIntervalEntityToDomainMapper implements IExerciseActivityEnti
         var entity = (SingleIntervalExerciseActivityEntity) dataTo;
         return new SingleIntervalExerciseActivity(
                 entity.getSoundProperty(),
-                entity.getInterval(),
+                entity.getIntervals(),
                 entity.getPosition()
         );
     }
