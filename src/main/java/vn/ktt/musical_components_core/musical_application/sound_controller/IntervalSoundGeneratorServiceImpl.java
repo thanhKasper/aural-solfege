@@ -3,6 +3,8 @@ package vn.ktt.musical_components_core.musical_application.sound_controller;
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.AudioContent;
 import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalSoundGenerator;
 import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.SoundGeneratorPort;
+import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
+import vn.ktt.musical_components_core.musical_domains.music_compositions.Texture;
 
 public class IntervalSoundGeneratorServiceImpl implements IntervalSoundGenerator {
 
@@ -13,17 +15,17 @@ public class IntervalSoundGeneratorServiceImpl implements IntervalSoundGenerator
     }
 
     @Override
-    public AudioContent generateUpwardInterval(String interval, String texture) {
+    public AudioContent generateUpwardInterval(Interval interval, Texture texture) {
         return null;
     }
 
     @Override
-    public AudioContent generateDownwardInterval(String interval, String texture) {
+    public AudioContent generateDownwardInterval(Interval interval, Texture texture) {
         return null;
     }
 
     @Override
-    public AudioContent generateInterval(String interval, String texture) {
+    public AudioContent generateInterval(Interval interval, Texture texture) {
         return null;
     }
 }
