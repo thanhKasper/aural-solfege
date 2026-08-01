@@ -48,7 +48,7 @@ public class SessionUseCase implements SessionPort {
         var exercise = exerciseRepository.getExerciseById(exerciseId.toString());
         guard.assertNoActiveSession(exercise);
 
-        var definitions = stepGenerationService.generate(exercise.getExerciseActivities());
+        var definitions = stepGenerationService.generate(exercise.getExerciseActivities(), exercise.getRepetitions());
         var session = PracticeSession.create(exerciseId, definitions);
         session.start();
         session = sessionRepository.saveSession(session);

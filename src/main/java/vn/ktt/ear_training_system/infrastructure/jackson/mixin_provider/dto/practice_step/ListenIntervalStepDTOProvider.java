@@ -3,6 +3,7 @@ package vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.dto.pra
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ListenIntervalStepDTO;
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
+import vn.ktt.ear_training_system.application.dtos.PracticeStepType;
 
 @Component
 public class ListenIntervalStepDTOProvider implements PracticeStepDTOProvider {
@@ -13,6 +14,6 @@ public class ListenIntervalStepDTOProvider implements PracticeStepDTOProvider {
 
     @Override
     public String typeName() {
-        return "LISTEN_INTERVAL";
+        return PracticeStepType.LISTEN_INTERVAL.toString();
     }
 }

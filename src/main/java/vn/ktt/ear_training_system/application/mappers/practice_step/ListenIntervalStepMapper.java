@@ -3,7 +3,6 @@ package vn.ktt.ear_training_system.application.mappers.practice_step;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.ListenIntervalStepDTO;
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepType;
 import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
 import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;
@@ -28,7 +27,6 @@ public class ListenIntervalStepMapper implements PracticeStepMapper {
         var context = (ListenIntervalContext) dataFrom.getContext();
         return new ListenIntervalStepDTO(
                 dataFrom.getActivityPosition(),
-                PracticeStepType.LISTEN_INTERVAL,
                 dataFrom.getStatus().name(),
                 context.interval().name(),
                 context.direction(),
