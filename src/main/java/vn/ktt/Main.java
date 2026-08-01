@@ -13,10 +13,4 @@ public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class);
     }
-
-
-    @Bean
-    protected IMusicalOperation musicalOperation() {
-        return new MusicalOperation();
-    }
 }
