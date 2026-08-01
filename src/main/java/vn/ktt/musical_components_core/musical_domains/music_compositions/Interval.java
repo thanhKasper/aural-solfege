@@ -46,7 +46,8 @@ public class Interval implements Comparable<Interval> {
         MINOR_3RD(3),
         MAJOR_3RD(4),
         PERFECT_4TH(5),
-        AUGMENTED_4TH(5),
+        AUGMENTED_4TH(6),
+        TRITONE(6),
         DIMINISHED_5TH(6),
         PERFECT_5TH(7),
         MINOR_6TH(8),
@@ -81,6 +82,7 @@ public class Interval implements Comparable<Interval> {
                 case MAJOR_7TH -> "M7";
                 case DIMINISHED_5TH -> "d5";
                 case AUGMENTED_4TH  -> "A4";
+                case TRITONE -> "TT";
             };
         }
 
@@ -100,6 +102,7 @@ public class Interval implements Comparable<Interval> {
                 case "M7" -> MAJOR_7TH;
                 case "A4" -> AUGMENTED_4TH;
                 case "d5" -> DIMINISHED_5TH;
+                case "TT" -> TRITONE;
                 default -> throw new IllegalArgumentException(
                         "Unknown interval notation: " + notation
                 );
