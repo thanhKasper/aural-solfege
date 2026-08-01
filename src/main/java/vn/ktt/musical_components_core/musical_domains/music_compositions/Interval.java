@@ -13,6 +13,10 @@ public class Interval implements Comparable<Interval> {
         this.intervalNumber = IntervalNumber.fromNotation(intervalNotation);
     }
 
+    public IntervalNumber getIntervalNumber() {
+        return intervalNumber;
+    }
+
     public String toString() {
         return intervalNumber.toNotation();
     }
