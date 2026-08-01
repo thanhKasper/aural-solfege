@@ -4,10 +4,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController("ApiSoundController")
-@RequestMapping("/api/interval")
+@RequestMapping("/api/intervals")
 public class ExerciseAudioController {
     @GetMapping("/{interval}")
-    public ResponseEntity<?> getAllInterval(@PathVariable String interval, @RequestParam String texture) {
+    public ResponseEntity<?> getAllInterval(@PathVariable String interval, @RequestParam String texture, @RequestParam String direction) {
         return ResponseEntity.ok().build();
     }
 }
