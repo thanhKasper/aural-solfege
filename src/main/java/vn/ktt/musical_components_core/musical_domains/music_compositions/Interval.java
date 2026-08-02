@@ -3,7 +3,11 @@ package vn.ktt.musical_components_core.musical_domains.music_compositions;
 import lombok.Getter;
 import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
+@SuppressWarnings("ClassCanBeRecord")
 public class Interval implements Comparable<Interval> {
     private final IntervalNumber intervalNumber;
 
@@ -15,6 +19,7 @@ public class Interval implements Comparable<Interval> {
         this.intervalNumber = IntervalNumber.fromNotation(intervalNotation);
     }
 
+    @Override
     public String toString() {
         return intervalNumber.toNotation();
     }
@@ -29,12 +34,19 @@ public class Interval implements Comparable<Interval> {
 
     @Override
     public int compareTo(Interval interval) {
-        if (this.intervalNumber.getHalfSteps() > interval.intervalNumber.getHalfSteps()) {
-            return 1;
-        } else if (this.intervalNumber.getHalfSteps() < interval.intervalNumber.getHalfSteps()) {
-            return -1;
-        }
-        return 0;
+        return Integer.compare(this.intervalNumber.getHalfSteps(), interval.intervalNumber.getHalfSteps());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Interval interval)) return false;
+        return this.intervalNumber.getHalfSteps() == interval.intervalNumber.getHalfSteps();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.intervalNumber.getHalfSteps();
     }
 
     public enum Texture {
@@ -53,73 +65,51 @@ public class Interval implements Comparable<Interval> {
     }
 
     public enum IntervalNumber {
-        UNISON(0),
-        MINOR_2ND(1),
-        MAJOR_2ND(2),
-        MINOR_3RD(3),
-        MAJOR_3RD(4),
-        PERFECT_4TH(5),
-        AUGMENTED_4TH(6),
-        TRITONE(6),
-        DIMINISHED_5TH(6),
-        PERFECT_5TH(7),
-        MINOR_6TH(8),
-        MAJOR_6TH(9),
-        MINOR_7TH(10),
-        MAJOR_7TH(11),
-        PERFECT_OCTAVE(12);
+        UNISON(0, "P0"),
+        MINOR_2ND(1, "m2"),
+        MAJOR_2ND(2, "M2"),
+        MINOR_3RD(3, "m3"),
+        MAJOR_3RD(4, "M3"),
+        PERFECT_4TH(5, "P4"),
+        AUGMENTED_4TH(6, "A4"),
+        TRITONE(6, "TT"),
+        DIMINISHED_5TH(6, "d5"),
+        PERFECT_5TH(7, "P5"),
+        MINOR_6TH(8, "m6"),
+        MAJOR_6TH(9, "M6"),
+        MINOR_7TH(10, "m7"),
+        MAJOR_7TH(11, "M7"),
+        PERFECT_OCTAVE(12, "P8");
 
+        private static final Map<String, IntervalNumber> BY_NOTATION = buildLookup();
+
+        @Getter
         private final int halfSteps;
+        private final String notation;
 
-        IntervalNumber(int halfSteps) {
+        IntervalNumber(int halfSteps, String notation) {
             this.halfSteps = halfSteps;
+            this.notation = notation;
         }
 
-        public int getHalfSteps() {
-            return halfSteps;
+        private static Map<String, IntervalNumber> buildLookup() {
+            Map<String, IntervalNumber> lookup = new HashMap<>();
+            for (IntervalNumber value : values()) {
+                lookup.put(value.notation, value);
+            }
+            return Map.copyOf(lookup);
         }
 
         public String toNotation() {
-            return switch (this) {
-                case UNISON -> "P0";
-                case PERFECT_4TH -> "P4";
-                case PERFECT_5TH -> "P5";
-                case PERFECT_OCTAVE -> "P8";
-                case MAJOR_2ND -> "M2";
-                case MINOR_2ND -> "m2";
-                case MINOR_3RD -> "m3";
-                case MAJOR_3RD -> "M3";
-                case MINOR_6TH -> "m6";
-                case MAJOR_6TH -> "M6";
-                case MINOR_7TH -> "m7";
-                case MAJOR_7TH -> "M7";
-                case DIMINISHED_5TH -> "d5";
-                case AUGMENTED_4TH  -> "A4";
-                case TRITONE -> "TT";
-            };
+            return notation;
         }
 
         public static IntervalNumber fromNotation(String notation) {
-            return switch (notation) {
-                case "P0" -> UNISON;
-                case "P4" -> PERFECT_4TH;
-                case "P5" -> PERFECT_5TH;
-                case "P8" -> PERFECT_OCTAVE;
-                case "M2" -> MAJOR_2ND;
-                case "m2" -> MINOR_2ND;
-                case "m3" -> MINOR_3RD;
-                case "M3" -> MAJOR_3RD;
-                case "m6" -> MINOR_6TH;
-                case "M6" -> MAJOR_6TH;
-                case "m7" -> MINOR_7TH;
-                case "M7" -> MAJOR_7TH;
-                case "A4" -> AUGMENTED_4TH;
-                case "d5" -> DIMINISHED_5TH;
-                case "TT" -> TRITONE;
-                default -> throw new IllegalArgumentException(
-                        "Unknown interval notation: " + notation
-                );
-            };
+            IntervalNumber intervalNumber = BY_NOTATION.get(notation);
+            if (intervalNumber == null) {
+                throw new IllegalArgumentException("Unknown interval notation: " + notation);
+            }
+            return intervalNumber;
         }
     }
 }
