@@ -37,7 +37,7 @@ public class ExerciseAudioController {
 
         // @TODO: Not totally perfect, need refinement to obey the API standard contentType, header, etc.
         return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentType(MediaType.parseMediaType("audio/wav"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + audio.getFileName() + "\"")
                 .body(audio.getData());
     }
