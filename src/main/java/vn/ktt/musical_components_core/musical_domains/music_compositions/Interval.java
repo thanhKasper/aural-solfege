@@ -1,7 +1,9 @@
 package vn.ktt.musical_components_core.musical_domains.music_compositions;
 
+import lombok.Getter;
 import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 
+@Getter
 public class Interval implements Comparable<Interval> {
     private final IntervalNumber intervalNumber;
 
@@ -11,10 +13,6 @@ public class Interval implements Comparable<Interval> {
 
     public Interval(String intervalNotation) {
         this.intervalNumber = IntervalNumber.fromNotation(intervalNotation);
-    }
-
-    public IntervalNumber getIntervalNumber() {
-        return intervalNumber;
     }
 
     public String toString() {
@@ -37,6 +35,21 @@ public class Interval implements Comparable<Interval> {
             return -1;
         }
         return 0;
+    }
+
+    public enum Texture {
+        ASCENDING,
+        DESCENDING,
+        STACKED;
+
+        public static Texture fromString(String texture) {
+            for (Texture value : values()) {
+                if (value.name().equalsIgnoreCase(texture)) {
+                    return value;
+                }
+            }
+            throw new IllegalArgumentException("Unknown texture: " + texture);
+        }
     }
 
     public enum IntervalNumber {

@@ -6,7 +6,6 @@ import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.
 import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalSoundGenerator;
 import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.SoundGeneratorPort;
 import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
-import vn.ktt.musical_components_core.musical_domains.music_compositions.Texture;
 import vn.ktt.musical_components_core.musical_domains.music_services.IMusicalOperation;
 
 @Service
@@ -22,21 +21,21 @@ public class IntervalSoundGeneratorServiceImpl implements IntervalSoundGenerator
     }
 
     @Override
-    public AudioContent generateUpwardInterval(Interval interval, Texture texture) {
+    public AudioContent generateUpwardInterval(Interval interval, Interval.Texture texture) {
         return generateIntervalRange(interval, texture, false);
     }
 
     @Override
-    public AudioContent generateDownwardInterval(Interval interval, Texture texture) {
+    public AudioContent generateDownwardInterval(Interval interval, Interval.Texture texture) {
         return generateIntervalRange(interval, texture, true);
     }
 
     @Override
-    public AudioContent generateInterval(Interval interval, Texture texture) {
+    public AudioContent generateInterval(Interval interval, Interval.Texture texture) {
         return null;
     }
 
-    private AudioContent generateIntervalRange(Interval interval, Texture texture, boolean reverse) {
+    private AudioContent generateIntervalRange(Interval interval, Interval.Texture texture, boolean reverse) {
         IntervalRangeParameters parameters = new IntervalRangeParameters();
         parameters.setLowestPitch(musicalOperation.getLowestPitch());
         parameters.setHighestPitch(musicalOperation.getHighestLowerBoundIntervalPitch(interval.getIntervalNumber()));
