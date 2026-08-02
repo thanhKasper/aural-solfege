@@ -13,104 +13,119 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class    HarmonicMidiRenderer implements MidiRenderer {
+public class HarmonicMidiRenderer implements MidiRenderer {
 
-    private static final float SAMPLE_RATE = 44100.0f;
+    private static final float SAMPLE_RATE_HZ = 44100.0f;
     private static final int CHANNELS = 1;
-    private static final float DEFAULT_TEMPO_MPQ = 500_000f;
+    private static final float DEFAULT_TEMPO_MICROSECONDS_PER_QUARTER = 500_000f;
 
-    private record RenderedNote(int note, int velocity, int startSample, int endSample) {}
+    private static final double REFERENCE_FREQUENCY_HZ = 440.0;
+    private static final int REFERENCE_MIDI_NOTE = 69;
+    private static final double ATTACK_SECONDS = 0.005;
+    private static final double RELEASE_SECONDS = 0.020;
+    private static final double MASTER_GAIN = 0.35;
+
+    private record RenderedNote(int midiNote, int velocity, int startSample, int endSample) {}
+
+    private record NoteStart(long startTick, int velocity) {}
 
     @Override
     public PcmSamples render(Sequence sequence) {
         try {
             float secondsPerTick = tempoSecondsPerTick(sequence);
-            List<RenderedNote> notes = collectNotes(sequence, secondsPerTick);
-            if (notes.isEmpty()) {
-                return new PcmSamples(new float[0], SAMPLE_RATE, CHANNELS);
+            List<RenderedNote> renderedNotes = collectNotes(sequence, secondsPerTick);
+            if (renderedNotes.isEmpty()) {
+                return new PcmSamples(new float[0], SAMPLE_RATE_HZ, CHANNELS);
             }
 
-            int length = notes.stream().mapToInt(RenderedNote::endSample).max().orElse(0) + 1;
-            float[] samples = new float[length];
-            for (RenderedNote note : notes) {
-                renderNote(note, samples);
+            int totalSamples = renderedNotes.stream()
+                    .mapToInt(RenderedNote::endSample)
+                    .max().orElse(0) + 1;
+            float[] samples = new float[totalSamples];
+            for (RenderedNote renderedNote : renderedNotes) {
+                renderNote(renderedNote, samples);
             }
-            return new PcmSamples(samples, SAMPLE_RATE, CHANNELS);
+            return new PcmSamples(samples, SAMPLE_RATE_HZ, CHANNELS);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to render MIDI sequence", e);
         }
     }
 
     private List<RenderedNote> collectNotes(Sequence sequence, float secondsPerTick) {
-        List<RenderedNote> notes = new ArrayList<>();
+        List<RenderedNote> renderedNotes = new ArrayList<>();
         for (Track track : sequence.getTracks()) {
-            Map<Integer, long[]> active = new HashMap<>();
-            for (int i = 0; i < track.size(); i++) {
-                MidiEvent event = track.get(i);
+            Map<Integer, NoteStart> soundingNotes = new HashMap<>();
+            for (int eventIndex = 0; eventIndex < track.size(); eventIndex++) {
+                MidiEvent event = track.get(eventIndex);
                 if (!(event.getMessage() instanceof ShortMessage message)) {
                     continue;
                 }
-                int note = message.getData1();
-                boolean noteOn = message.getCommand() == ShortMessage.NOTE_ON && message.getData2() > 0;
+                int midiNote = message.getData1();
+                int velocity = message.getData2();
+                boolean noteOn = message.getCommand() == ShortMessage.NOTE_ON && velocity > 0;
                 boolean noteOff = message.getCommand() == ShortMessage.NOTE_OFF
-                        || (message.getCommand() == ShortMessage.NOTE_ON && message.getData2() == 0);
+                        || (message.getCommand() == ShortMessage.NOTE_ON && velocity == 0);
                 if (noteOn) {
-                    active.put(note, new long[]{event.getTick(), message.getData2()});
+                    soundingNotes.put(midiNote, new NoteStart(event.getTick(), velocity));
                 } else if (noteOff) {
-                    long[] start = active.remove(note);
-                    if (start != null) {
-                        notes.add(toRenderedNote(start, event.getTick(), note, secondsPerTick));
+                    NoteStart noteStart = soundingNotes.remove(midiNote);
+                    if (noteStart != null) {
+                        renderedNotes.add(toRenderedNote(noteStart, event.getTick(), midiNote, secondsPerTick));
                     }
                 }
             }
         }
-        return notes;
+        return renderedNotes;
     }
 
-    private RenderedNote toRenderedNote(long[] start, long endTick, int note, float secondsPerTick) {
-        int startSample = (int) Math.round(start[0] * secondsPerTick * SAMPLE_RATE);
-        int endSample = (int) Math.round(endTick * secondsPerTick * SAMPLE_RATE);
-        return new RenderedNote(note, (int) start[1], startSample, endSample);
+    private RenderedNote toRenderedNote(NoteStart noteStart, long endTick, int midiNote, float secondsPerTick) {
+        int startSample = (int) Math.round(noteStart.startTick() * secondsPerTick * SAMPLE_RATE_HZ);
+        int endSample = (int) Math.round(endTick * secondsPerTick * SAMPLE_RATE_HZ);
+        return new RenderedNote(midiNote, noteStart.velocity(), startSample, endSample);
     }
 
     private void renderNote(RenderedNote note, float[] samples) {
-        double frequency = 440.0 * Math.pow(2.0, (note.note() - 69) / 12.0);
-        int start = note.startSample();
-        int end = Math.min(note.endSample(), samples.length);
-        int attack = (int) (SAMPLE_RATE * 0.005);
-        int release = (int) (SAMPLE_RATE * 0.020);
-        double velocity = note.velocity() / 127.0;
+        double frequencyHz = REFERENCE_FREQUENCY_HZ
+                * Math.pow(2.0, (note.midiNote() - REFERENCE_MIDI_NOTE) / 12.0);
+        int startSample = note.startSample();
+        int endSample = Math.min(note.endSample(), samples.length);
+        int attackSamples = (int) (SAMPLE_RATE_HZ * ATTACK_SECONDS);
+        int releaseSamples = (int) (SAMPLE_RATE_HZ * RELEASE_SECONDS);
+        double velocityRatio = note.velocity() / 127.0;
 
-        for (int i = start; i < end; i++) {
-            double t = (i - start) / SAMPLE_RATE;
-            double envelope = envelope(i - start, end - start, attack, release);
-            double wave = Math.sin(2 * Math.PI * frequency * t)
-                    + 0.5 * Math.sin(2 * Math.PI * 2 * frequency * t)
-                    + 0.25 * Math.sin(2 * Math.PI * 3 * frequency * t);
-            samples[i] += (float) (wave * envelope * velocity * 0.35);
+        for (int sampleIndex = startSample; sampleIndex < endSample; sampleIndex++) {
+            int elapsedSamples = sampleIndex - startSample;
+            double timeSeconds = elapsedSamples / SAMPLE_RATE_HZ;
+            double amplitude = envelope(elapsedSamples, endSample - startSample, attackSamples, releaseSamples);
+            double waveform = Math.sin(2 * Math.PI * frequencyHz * timeSeconds)
+                    + 0.5 * Math.sin(2 * Math.PI * 2 * frequencyHz * timeSeconds)
+                    + 0.25 * Math.sin(2 * Math.PI * 3 * frequencyHz * timeSeconds);
+            samples[sampleIndex] += (float) (waveform * amplitude * velocityRatio * MASTER_GAIN);
         }
     }
 
-    private double envelope(int index, int length, int attack, int release) {
-        if (index < attack) {
-            return (double) index / attack;
+    private double envelope(int elapsedSamples, int noteDurationSamples, int attackSamples, int releaseSamples) {
+        if (elapsedSamples < attackSamples) {
+            return (double) elapsedSamples / attackSamples;
         }
-        if (index > length - release) {
-            return Math.max(0, (double) (length - index) / release);
+        if (elapsedSamples > noteDurationSamples - releaseSamples) {
+            return Math.max(0, (double) (noteDurationSamples - elapsedSamples) / releaseSamples);
         }
         return 1.0;
     }
 
     private float tempoSecondsPerTick(Sequence sequence) throws Exception {
-        float tempoMpq = DEFAULT_TEMPO_MPQ;
+        float tempoMicrosecondsPerQuarter = DEFAULT_TEMPO_MICROSECONDS_PER_QUARTER;
         Track track = sequence.getTracks()[0];
-        for (int i = 0; i < track.size(); i++) {
-            MidiEvent event = track.get(i);
+        for (int eventIndex = 0; eventIndex < track.size(); eventIndex++) {
+            MidiEvent event = track.get(eventIndex);
             if (event.getMessage() instanceof MetaMessage meta && meta.getType() == 0x51) {
-                byte[] data = meta.getData();
-                tempoMpq = ((data[0] & 0xff) << 16) | ((data[1] & 0xff) << 8) | (data[2] & 0xff);
+                byte[] tempoBytes = meta.getData();
+                tempoMicrosecondsPerQuarter = ((tempoBytes[0] & 0xff) << 16)
+                        | ((tempoBytes[1] & 0xff) << 8)
+                        | (tempoBytes[2] & 0xff);
             }
         }
-        return tempoMpq / 1_000_000f / sequence.getResolution();
+        return tempoMicrosecondsPerQuarter / 1_000_000f / sequence.getResolution();
     }
 }
