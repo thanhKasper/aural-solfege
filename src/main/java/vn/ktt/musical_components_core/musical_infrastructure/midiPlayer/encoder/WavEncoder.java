@@ -20,7 +20,7 @@ public class WavEncoder {
         int sampleIndex = 0;
         for (int frame = 0; frame < frames; frame++) {
             for (int ch = 0; ch < audio.channels(); ch++) {
-                float sample = Math.max(-1f, Math.min(1f, audio.samples()[sampleIndex++]));
+                float sample = Math.clamp(audio.samples()[sampleIndex++], -1f, 1f);
                 short value = (short) (sample * Short.MAX_VALUE);
                 int offset = frame * audio.channels() * 2 + ch * 2;
                 pcm[offset] = (byte) (value & 0xff);
