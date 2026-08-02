@@ -9,44 +9,44 @@ import java.util.Map;
 @Getter
 @SuppressWarnings("ClassCanBeRecord")
 public class Interval implements Comparable<Interval> {
-    private final IntervalNumber intervalNumber;
+    private final IntervalType intervalType;
 
-    public Interval(IntervalNumber intervalNumber) {
-        this.intervalNumber = intervalNumber;
+    public Interval(IntervalType intervalType) {
+        this.intervalType = intervalType;
     }
 
     public Interval(String intervalNotation) {
-        this.intervalNumber = IntervalNumber.fromNotation(intervalNotation);
+        this.intervalType = IntervalType.fromNotation(intervalNotation);
     }
 
     @Override
     public String toString() {
-        return intervalNumber.toNotation();
+        return intervalType.toNotation();
     }
 
     public Pitch upwardPitch(Pitch basePitch) {
-        return basePitch.getPitchAfterHalfSteps(this.intervalNumber.getHalfSteps());
+        return basePitch.getPitchAfterHalfSteps(this.intervalType.getHalfSteps());
     }
 
     public Pitch downwardPitch(Pitch basePitch) {
-        return basePitch.getPitchAfterHalfSteps(-this.intervalNumber.getHalfSteps());
+        return basePitch.getPitchAfterHalfSteps(-this.intervalType.getHalfSteps());
     }
 
     @Override
     public int compareTo(Interval interval) {
-        return Integer.compare(this.intervalNumber.getHalfSteps(), interval.intervalNumber.getHalfSteps());
+        return Integer.compare(this.intervalType.getHalfSteps(), interval.intervalType.getHalfSteps());
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Interval interval)) return false;
-        return this.intervalNumber.getHalfSteps() == interval.intervalNumber.getHalfSteps();
+        return this.intervalType.getHalfSteps() == interval.intervalType.getHalfSteps();
     }
 
     @Override
     public int hashCode() {
-        return this.intervalNumber.getHalfSteps();
+        return this.intervalType.getHalfSteps();
     }
 
     public enum Texture {
@@ -64,7 +64,7 @@ public class Interval implements Comparable<Interval> {
         }
     }
 
-    public enum IntervalNumber {
+    public enum IntervalType {
         UNISON(0, "P0"),
         MINOR_2ND(1, "m2"),
         MAJOR_2ND(2, "M2"),
@@ -81,20 +81,20 @@ public class Interval implements Comparable<Interval> {
         MAJOR_7TH(11, "M7"),
         PERFECT_OCTAVE(12, "P8");
 
-        private static final Map<String, IntervalNumber> BY_NOTATION = buildLookup();
+        private static final Map<String, IntervalType> BY_NOTATION = buildLookup();
 
         @Getter
         private final int halfSteps;
         private final String notation;
 
-        IntervalNumber(int halfSteps, String notation) {
+        IntervalType(int halfSteps, String notation) {
             this.halfSteps = halfSteps;
             this.notation = notation;
         }
 
-        private static Map<String, IntervalNumber> buildLookup() {
-            Map<String, IntervalNumber> lookup = new HashMap<>();
-            for (IntervalNumber value : values()) {
+        private static Map<String, IntervalType> buildLookup() {
+            Map<String, IntervalType> lookup = new HashMap<>();
+            for (IntervalType value : values()) {
                 lookup.put(value.notation, value);
             }
             return Map.copyOf(lookup);
@@ -104,12 +104,12 @@ public class Interval implements Comparable<Interval> {
             return notation;
         }
 
-        public static IntervalNumber fromNotation(String notation) {
-            IntervalNumber intervalNumber = BY_NOTATION.get(notation);
-            if (intervalNumber == null) {
+        public static IntervalType fromNotation(String notation) {
+            IntervalType intervalType = BY_NOTATION.get(notation);
+            if (intervalType == null) {
                 throw new IllegalArgumentException("Unknown interval notation: " + notation);
             }
-            return intervalNumber;
+            return intervalType;
         }
     }
 }

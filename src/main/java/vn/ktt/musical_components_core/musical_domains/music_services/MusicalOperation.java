@@ -13,12 +13,12 @@ public class MusicalOperation implements IMusicalOperation {
     }
 
     @Override
-    public Pitch getHighestLowerBoundIntervalPitch(Interval.IntervalNumber intervalNumber) {
-        return getHighestPitch().getPitchAfterHalfSteps(-intervalNumber.getHalfSteps());
+    public Pitch getHighestLowerBoundIntervalPitch(Interval.IntervalType intervalType) {
+        return getHighestPitch().getPitchAfterHalfSteps(-intervalType.getHalfSteps());
     }
 
     @Override
-    public Pitch getLowestUpperBoundIntervalPitch(Interval.IntervalNumber intervalNumber) {
-        return getLowestPitch().getPitchAfterHalfSteps(intervalNumber.getHalfSteps());
+    public Pitch getLowestUpperBoundIntervalPitch(Interval.IntervalType intervalType) {
+        return getLowestPitch().getPitchAfterHalfSteps(intervalType.getHalfSteps());
     }
 }

@@ -6,6 +6,6 @@ import vn.ktt.musical_components_core.musical_domains.music_compositions.Interva
 public interface IMusicalOperation {
     Pitch getLowestPitch();
     Pitch getHighestPitch();
-    Pitch getHighestLowerBoundIntervalPitch(IntervalNumber intervalNumber);
-    Pitch getLowestUpperBoundIntervalPitch(IntervalNumber intervalNumber);
+    Pitch getHighestLowerBoundIntervalPitch(IntervalType intervalType);
+    Pitch getLowestUpperBoundIntervalPitch(IntervalType intervalType);
 }

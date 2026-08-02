@@ -38,7 +38,7 @@ public class IntervalSoundGeneratorServiceImpl implements IntervalSoundGenerator
     private AudioContent generateIntervalRange(Interval interval, Interval.Texture texture, boolean reverse) {
         IntervalRangeParameters parameters = new IntervalRangeParameters();
         parameters.setLowestPitch(musicalOperation.getLowestPitch());
-        parameters.setHighestPitch(musicalOperation.getHighestLowerBoundIntervalPitch(interval.getIntervalNumber()));
+        parameters.setHighestPitch(musicalOperation.getHighestLowerBoundIntervalPitch(interval.getIntervalType()));
         parameters.setInterval(interval);
         parameters.setIntervalTexture(texture);
         parameters.setReverse(reverse);
