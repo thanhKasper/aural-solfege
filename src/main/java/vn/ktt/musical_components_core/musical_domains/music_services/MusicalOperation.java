@@ -1,24 +1,25 @@
 package vn.ktt.musical_components_core.musical_domains.music_services;
 
+import vn.ktt.musical_components_core.musical_domains.instruments.Instrument;
 import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
 
 public class MusicalOperation implements IMusicalOperation {
-    public Pitch getLowestPitch() {
-        return new Pitch(Pitch.Note.A, Pitch.Accidental.NONE, Pitch.Octave.ZEROTH);
+    public Pitch getLowestPitch(Instrument instrument) {
+        return instrument.getLowestPitch();
     }
 
-    public Pitch getHighestPitch() {
-        return new Pitch(Pitch.Note.C, Pitch.Accidental.NONE, Pitch.Octave.EIGHT);
-    }
-
-    @Override
-    public Pitch getHighestLowerBoundIntervalPitch(Interval.IntervalType intervalType) {
-        return getHighestPitch().getPitchAfterHalfSteps(-intervalType.getHalfSteps());
+    public Pitch getHighestPitch(Instrument instrument) {
+        return instrument.getHighestPitch();
     }
 
     @Override
-    public Pitch getLowestUpperBoundIntervalPitch(Interval.IntervalType intervalType) {
-        return getLowestPitch().getPitchAfterHalfSteps(intervalType.getHalfSteps());
+    public Pitch getHighestLowerBoundIntervalPitch(Instrument instrument, Interval.IntervalType intervalType) {
+        return getHighestPitch(instrument).getPitchAfterHalfSteps(-intervalType.getHalfSteps());
+    }
+
+    @Override
+    public Pitch getLowestUpperBoundIntervalPitch(Instrument instrument, Interval.IntervalType intervalType) {
+        return getLowestPitch(instrument).getPitchAfterHalfSteps(intervalType.getHalfSteps());
     }
 }
