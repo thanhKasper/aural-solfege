@@ -1,6 +1,7 @@
 package vn.ktt.musical_components_core.musical_application.sound_controller;
 
 import org.springframework.stereotype.Service;
+import vn.ktt.musical_components_core.musical_application.sound_configuration.outbound.InstrumentConfigurationPort;
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.AudioContent;
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.IntervalRangeParameters;
 import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalSoundGenerator;
@@ -13,11 +14,14 @@ public class IntervalSoundGeneratorServiceImpl implements IntervalSoundGenerator
 
     private final SoundGeneratorPort soundGenerator;
     private final IMusicalOperation musicalOperation;
+    private final InstrumentConfigurationPort instrumentConfigurationPort;
 
     public IntervalSoundGeneratorServiceImpl(SoundGeneratorPort soundGenerator,
-                                             IMusicalOperation musicalOperation) {
+                                             IMusicalOperation musicalOperation,
+                                             InstrumentConfigurationPort instrumentConfigurationPort) {
         this.soundGenerator = soundGenerator;
         this.musicalOperation = musicalOperation;
+        this.instrumentConfigurationPort = instrumentConfigurationPort;
     }
 
     @Override
@@ -37,8 +41,8 @@ public class IntervalSoundGeneratorServiceImpl implements IntervalSoundGenerator
 
     private AudioContent generateIntervalRange(Interval interval, Interval.Texture texture, boolean reverse) {
         IntervalRangeParameters parameters = new IntervalRangeParameters();
-        parameters.setLowestPitch(musicalOperation.getLowestPitch());
-        parameters.setHighestPitch(musicalOperation.getHighestLowerBoundIntervalPitch(interval.getIntervalType()));
+        parameters.setLowestPitch(musicalOperation.getLowestPitch(instrumentConfigurationPort.getActiveInstrument()));
+        parameters.setHighestPitch(musicalOperation.getHighestLowerBoundIntervalPitch(instrumentConfigurationPort.getActiveInstrument(), interval.getIntervalType()));
         parameters.setInterval(interval);
         parameters.setIntervalTexture(texture);
         parameters.setReverse(reverse);
