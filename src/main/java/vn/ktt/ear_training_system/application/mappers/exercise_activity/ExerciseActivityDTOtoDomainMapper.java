@@ -4,5 +4,5 @@ import vn.ktt.ear_training_system.application.dtos.exercise_activities.ExerciseA
 import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
 import vn.ktt.shared.IDataMapper;
 
-public interface ExerciseActivityMapper extends IDataMapper<ExerciseActivity, ExerciseActivityDTO> {
+public interface ExerciseActivityDTOtoDomainMapper extends IDataMapper<ExerciseActivity, ExerciseActivityDTO> {
 }

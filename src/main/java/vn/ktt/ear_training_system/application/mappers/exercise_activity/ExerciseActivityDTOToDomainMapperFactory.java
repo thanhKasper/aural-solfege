@@ -8,9 +8,9 @@ import vn.ktt.shared.DataMapperRegistry;
 import java.util.List;
 
 @Component
-public class ExerciseActivityDTOToDomainMapperFactory extends DataMapperRegistry<ExerciseActivity, ExerciseActivityDTO, ExerciseActivityMapper> {
-    public ExerciseActivityDTOToDomainMapperFactory(List<ExerciseActivityMapper> exerciseActivityMappers) {
-        super(exerciseActivityMappers);
+public class ExerciseActivityDTOToDomainMapperFactory extends DataMapperRegistry<ExerciseActivity, ExerciseActivityDTO, ExerciseActivityDTOtoDomainMapper> {
+    public ExerciseActivityDTOToDomainMapperFactory(List<ExerciseActivityDTOtoDomainMapper> exerciseActivityDTOtoDomainMappers) {
+        super(exerciseActivityDTOtoDomainMappers);
     }
 
     public ExerciseActivityDTO toExerciseActivityDTO(ExerciseActivity domain) {
