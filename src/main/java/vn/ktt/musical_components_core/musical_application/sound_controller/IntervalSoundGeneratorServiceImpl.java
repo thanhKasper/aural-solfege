@@ -6,6 +6,7 @@ import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.IntervalRangeParameters;
 import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalSoundGenerator;
 import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.SoundGeneratorPort;
+import vn.ktt.musical_components_core.musical_domains.instruments.Instrument;
 import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
 import vn.ktt.musical_components_core.musical_domains.music_services.IMusicalOperation;
 
@@ -41,8 +42,10 @@ public class IntervalSoundGeneratorServiceImpl implements IntervalSoundGenerator
 
     private AudioContent generateIntervalRange(Interval interval, Interval.Texture texture, boolean reverse) {
         IntervalRangeParameters parameters = new IntervalRangeParameters();
-        parameters.setLowestPitch(musicalOperation.getLowestPitch(instrumentConfigurationPort.getActiveInstrument()));
-        parameters.setHighestPitch(musicalOperation.getHighestLowerBoundIntervalPitch(instrumentConfigurationPort.getActiveInstrument(), interval.getIntervalType()));
+        Instrument activeInstrument = instrumentConfigurationPort.getActiveInstrument();
+
+        parameters.setLowestPitch(musicalOperation.getLowestPitch(activeInstrument));
+        parameters.setHighestPitch(musicalOperation.getHighestLowerBoundIntervalPitch(activeInstrument, interval.getIntervalType()));
         parameters.setInterval(interval);
         parameters.setIntervalTexture(texture);
         parameters.setReverse(reverse);

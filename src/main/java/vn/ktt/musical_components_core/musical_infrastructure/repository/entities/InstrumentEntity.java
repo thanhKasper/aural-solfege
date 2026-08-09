@@ -9,7 +9,7 @@ import vn.ktt.musical_components_core.musical_domains.instruments.InstrumentType
 import java.util.UUID;
 
 @Entity
-@Table("instrument")
+@Table(name = "instruments")
 @Getter
 @Setter
 @NoArgsConstructor
