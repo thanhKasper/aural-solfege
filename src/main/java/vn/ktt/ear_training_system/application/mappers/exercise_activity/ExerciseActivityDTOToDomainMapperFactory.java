@@ -24,7 +24,7 @@ public class ExerciseActivityDTOToDomainMapperFactory extends DataMapperRegistry
         return mapper.transform(domain);
     }
 
-    public ExerciseActivity toDomain(ExerciseActivityDTO dto) {
+    public ExerciseActivity toExerciseActivityDomain(ExerciseActivityDTO dto) {
         var mapper = getMapperBaseOnDataTo(dto);
         if (mapper == null) {
             throw new IllegalArgumentException("No mapper for format: " + dto.getClass().getSimpleName());

@@ -34,6 +34,6 @@ public class ExerciseMapper {
     }
 
     public ExerciseActivity toDomain(ExerciseActivityDTO dto) {
-        return exerciseActivityMapperFactory.toDomain(dto);
+        return exerciseActivityMapperFactory.toExerciseActivityDomain(dto);
     }
 }
