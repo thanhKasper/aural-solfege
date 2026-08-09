@@ -5,8 +5,11 @@ import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
 import vn.ktt.ear_training_system.application.mappers.ExerciseMapper;
 import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
+import vn.ktt.ear_training_system.domain.exercise.entity.resting_activity.CoolDownRestActivity;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.domain.exercise.value_object.TrainingMethodology;
+
+import java.util.ArrayList;
 
 @Service
 public class CreateExerciseUseCase implements ExerciseCreationPort {
@@ -20,9 +23,10 @@ public class CreateExerciseUseCase implements ExerciseCreationPort {
     }
 
     public void createExercise(ExerciseDTO exerciseDTO) {
-        var domainExerciseActivities = exerciseDTO.getExerciseActivities().stream()
+        var domainExerciseActivities = new ArrayList<>(exerciseDTO.getExerciseActivities().stream()
                 .map(exerciseMapper::toDomain)
-                .toList();
+                .toList());
+        domainExerciseActivities.add(new CoolDownRestActivity(domainExerciseActivities.size(), exerciseDTO.getRest()));
 
         var domainExercise = Exercise.create(
                 TrainingMethodology.valueOf(exerciseDTO.getTrainingMethodology()),
