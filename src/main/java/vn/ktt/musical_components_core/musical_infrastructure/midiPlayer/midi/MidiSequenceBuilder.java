@@ -20,6 +20,7 @@ public class MidiSequenceBuilder {
     private static final int STACKED_NOTE_TICKS = 360;
     private static final int GAP_TICKS = 20;
     private static final int HIGHEST_MIDI_NOTE = 108;
+    private static final int PREROLL_TICKS = 60;
 
     public Sequence build(IntervalRangeParameters parameters) {
         try {
@@ -36,7 +37,7 @@ public class MidiSequenceBuilder {
             int noteTicks = stacked ? STACKED_NOTE_TICKS : MELODIC_NOTE_TICKS;
             int sweepStep = parameters.isReverse() ? -1 : 1;
 
-            long tick = 0;
+            long tick = PREROLL_TICKS;
             for (int base = parameters.isReverse() ? baseEnd : baseStart;
                  parameters.isReverse() ? base >= baseStart : base <= baseEnd;
                  base += sweepStep) {
