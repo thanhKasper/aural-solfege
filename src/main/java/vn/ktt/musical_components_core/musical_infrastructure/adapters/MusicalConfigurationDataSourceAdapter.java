@@ -8,11 +8,11 @@ import vn.ktt.musical_components_core.musical_infrastructure.repository.MusicalC
 import vn.ktt.musical_components_core.musical_infrastructure.repository.entities.InstrumentEntity;
 
 @Repository
-public class MusicalConfigurationAdapter implements InstrumentConfigurationPort {
+public class MusicalConfigurationDataSourceAdapter implements InstrumentConfigurationPort {
     private final IMusicalEntityFactory musicalEntityFactory;
     private final MusicalConfigurationRepository musicalConfigurationRepository;
 
-    public MusicalConfigurationAdapter(IMusicalEntityFactory musicalEntityFactory, MusicalConfigurationRepository musicalConfigurationRepository) {
+    public MusicalConfigurationDataSourceAdapter(IMusicalEntityFactory musicalEntityFactory, MusicalConfigurationRepository musicalConfigurationRepository) {
         this.musicalEntityFactory = musicalEntityFactory;
         this.musicalConfigurationRepository = musicalConfigurationRepository;
     }
