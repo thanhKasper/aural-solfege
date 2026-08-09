@@ -2,6 +2,7 @@ package vn.ktt.ear_training_system.application.dtos;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vn.ktt.ear_training_system.application.dtos.exercise_activities.ExerciseActivityDTO;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
+import vn.ktt.ear_training_system.application.dtos.exercise_activities.ExerciseActivityDTO;
 import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
 import vn.ktt.ear_training_system.infrastructure.jackson.mixin.dto.exercise_activity.ExerciseActivityDTOMixin;
 import vn.ktt.ear_training_system.infrastructure.jackson.mixin.dto.practice_step.PracticeStepDTOMixin;

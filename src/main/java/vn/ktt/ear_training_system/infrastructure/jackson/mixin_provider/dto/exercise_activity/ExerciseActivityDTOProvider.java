@@ -1,7 +1,7 @@
 package vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.dto.exercise_activity;
 
 import com.fasterxml.jackson.databind.jsontype.NamedType;
-import vn.ktt.ear_training_system.application.dtos.ExerciseActivityDTO;
+import vn.ktt.ear_training_system.application.dtos.exercise_activities.ExerciseActivityDTO;
 
 public interface ExerciseActivityDTOProvider {
     Class<? extends ExerciseActivityDTO> targetClass();
