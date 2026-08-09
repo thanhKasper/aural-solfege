@@ -5,6 +5,7 @@ import vn.ktt.ear_training_system.domain.practice_session.value_object.StepConte
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepStatus;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepType;
 
+// @TODO: Need more refinement, the state machine of this PracticeStep is questionable
 @Getter
 public class PracticeStep {
     private final int activityPosition;
