@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.infrastructure.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionResultDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
 import vn.ktt.ear_training_system.application.inbound.SessionPort;

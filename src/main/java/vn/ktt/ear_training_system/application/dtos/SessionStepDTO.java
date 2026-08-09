@@ -1,5 +1,7 @@
 package vn.ktt.ear_training_system.application.dtos;
 
+import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
+
 import java.util.UUID;
 
 public record SessionStepDTO(

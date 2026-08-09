@@ -1,8 +1,8 @@
 package vn.ktt.ear_training_system.application.mappers.practice_step;
 
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.application.dtos.ListenIntervalStepDTO;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.ListenIntervalStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
 import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
 import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;

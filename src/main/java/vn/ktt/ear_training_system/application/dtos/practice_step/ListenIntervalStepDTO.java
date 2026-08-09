@@ -1,4 +1,4 @@
-package vn.ktt.ear_training_system.application.dtos;
+package vn.ktt.ear_training_system.application.dtos.practice_step;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package vn.ktt.ear_training_system.infrastructure.dto_prefill;
 
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.application.dtos.ListenIntervalStepDTO;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.ListenIntervalStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
 import vn.ktt.ear_training_system.infrastructure.dto.ApiCallSpec;
 
 import java.util.Map;

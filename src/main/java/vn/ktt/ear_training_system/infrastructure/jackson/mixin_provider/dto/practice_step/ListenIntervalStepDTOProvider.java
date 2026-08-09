@@ -1,9 +1,9 @@
 package vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.dto.practice_step;
 
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.application.dtos.ListenIntervalStepDTO;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepDTO;
-import vn.ktt.ear_training_system.application.dtos.PracticeStepType;
+import vn.ktt.ear_training_system.application.dtos.practice_step.ListenIntervalStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepType;
 
 @Component
 public class ListenIntervalStepDTOProvider implements PracticeStepDTOProvider {
