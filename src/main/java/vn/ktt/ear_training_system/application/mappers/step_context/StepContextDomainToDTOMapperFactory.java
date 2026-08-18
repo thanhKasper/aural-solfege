@@ -1,19 +1,19 @@
-package vn.ktt.ear_training_system.application.mappers.practice_step;
+package vn.ktt.ear_training_system.application.mappers.step_context;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
-import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
 import vn.ktt.shared.DataMapperRegistry;
 
 import java.util.List;
 
 @Component
-public class PracticeStepDTOToDomainMapperFactory extends DataMapperRegistry<PracticeStep, PracticeStepDTO, PracticeStepMapper> {
-    public PracticeStepDTOToDomainMapperFactory(List<PracticeStepMapper> practiceStepMappers) {
-        super(practiceStepMappers);
+public class StepContextDomainToDTOMapperFactory extends DataMapperRegistry<StepContext, PracticeStepDTO, StepContextMapper> {
+    public StepContextDomainToDTOMapperFactory(List<StepContextMapper> stepContextMappers) {
+        super(stepContextMappers);
     }
 
-    public PracticeStepDTO toDto(PracticeStep domain) {
+    public PracticeStepDTO toDto(StepContext domain) {
         var mapper = getMapperBaseOnDataFrom(domain);
         if (mapper == null) {
             throw new IllegalArgumentException("No mapper for " + domain.getClass());
@@ -21,7 +21,7 @@ public class PracticeStepDTOToDomainMapperFactory extends DataMapperRegistry<Pra
         return mapper.transform(domain);
     }
 
-    public PracticeStep toDomain(PracticeStepDTO dto) {
+    public StepContext toDomain(PracticeStepDTO dto) {
         var mapper = getMapperBaseOnDataTo(dto);
         if (mapper == null) {
             throw new IllegalArgumentException("No mapper for step: " + dto.getClass().getSimpleName());

@@ -21,7 +21,7 @@ public class SessionMapper {
                         session.getCurrentStepIndex(),
                         session.isNextStepAvailable()
                 ),
-                stepMapper.toDto(session.getCurrentStep())
+                stepMapper.toDTO(session.getCurrentStep())
         );
     }
 }

@@ -2,22 +2,22 @@ package vn.ktt.ear_training_system.application.mappers;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
-import vn.ktt.ear_training_system.application.mappers.practice_step.PracticeStepDTOToDomainMapperFactory;
+import vn.ktt.ear_training_system.application.mappers.step_context.StepContextDomainToDTOMapperFactory;
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;
 
 @Component
 public class StepMapper {
-    private final PracticeStepDTOToDomainMapperFactory practiceStepMapperFactory;
+    private final StepContextDomainToDTOMapperFactory stepContextMapperFactory;
 
-    public StepMapper(PracticeStepDTOToDomainMapperFactory practiceStepMapperFactory) {
-        this.practiceStepMapperFactory = practiceStepMapperFactory;
+    public StepMapper(StepContextDomainToDTOMapperFactory stepContextMapperFactory) {
+        this.stepContextMapperFactory = stepContextMapperFactory;
     }
 
-    public PracticeStepDTO toDto(PracticeStep domain) {
-        return practiceStepMapperFactory.toDto(domain);
-    }
+    public PracticeStepDTO toDTO(PracticeStep domain) {
+        PracticeStepDTO dto = stepContextMapperFactory.toDto(domain.getContext());
+        dto.setActivityPosition(domain.getActivityPosition());
+        dto.setStatus(domain.getStatus().toString());
 
-    public PracticeStep toDomain(PracticeStepDTO dto) {
-        return practiceStepMapperFactory.toDomain(dto);
+        return dto;
     }
 }
