@@ -12,6 +12,9 @@ public record SessionStepDTO(
             UUID sessionId,
             int totalSteps,
             int currentStepIndex,
+            int repetitions,
+            boolean isLoop,
+            int stepsPerRepetition,
             boolean hasNext
     ) {}
 }

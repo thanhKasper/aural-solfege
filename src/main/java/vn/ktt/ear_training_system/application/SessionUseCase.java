@@ -41,18 +41,21 @@ public class SessionUseCase implements SessionPort {
     @Override
     public SessionStepDTO startSession(UUID exerciseId) {
         var existing = sessionRepository.findByExercise(exerciseId);
+        var exercise = exerciseRepository.getExerciseById(exerciseId.toString());
+        int repetitions = exercise.getRepetitions();
+        boolean isLoop = exercise.isLoop();
+
         if (existing.isPresent() && existing.get().getStatus() == SessionStatus.IN_PROGRESS) {
-            return sessionMapper.toDto(existing.get());
+            return sessionMapper.toDto(existing.get(), repetitions, isLoop);
         }
 
-        var exercise = exerciseRepository.getExerciseById(exerciseId.toString());
         guard.assertNoActiveSession(exercise);
 
         var definitions = stepGenerationService.generate(exercise.getExerciseActivities(), exercise.getRepetitions());
         var session = PracticeSession.create(exerciseId, definitions);
         session.start();
         session = sessionRepository.saveSession(session);
-        return sessionMapper.toDto(session);
+        return sessionMapper.toDto(session, repetitions, isLoop);
     }
 
     @Override
@@ -70,7 +73,12 @@ public class SessionUseCase implements SessionPort {
 
         session.advanceToNextStep();
         session = sessionRepository.saveSession(session);
-        return sessionMapper.toDto(session);
+
+        var exercise = exerciseRepository.getExerciseById(session.getExerciseId().toString());
+        var repetitions = exercise.getRepetitions();
+        var isLoop = exercise.isLoop();
+
+        return sessionMapper.toDto(session, repetitions, isLoop);
     }
 
     @Override
