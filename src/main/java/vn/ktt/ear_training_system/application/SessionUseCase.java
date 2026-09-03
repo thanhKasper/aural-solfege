@@ -84,6 +84,7 @@ public class SessionUseCase implements SessionPort {
         var session = sessionRepository.getSessionById(sessionId)
                 .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
 
+        session.completeCurrentStep();
         session.conclude();
         sessionRepository.saveSession(session);
 
