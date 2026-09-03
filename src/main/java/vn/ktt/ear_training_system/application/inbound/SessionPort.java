@@ -9,5 +9,4 @@ public interface SessionPort {
     SessionStepDTO startSession(UUID exerciseId);
     SessionStepDTO advanceToNextStep(UUID sessionId);
     SessionResultDTO concludeSession(UUID sessionId);
-    SessionResultDTO getSessionResult(UUID sessionId);
 }

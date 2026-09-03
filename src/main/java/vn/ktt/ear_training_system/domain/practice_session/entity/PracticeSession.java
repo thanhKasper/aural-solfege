@@ -3,7 +3,6 @@ package vn.ktt.ear_training_system.domain.practice_session.entity;
 import lombok.Getter;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.*;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
@@ -17,7 +16,6 @@ public class PracticeSession {
     private Instant createdAt;
     private Instant startedAt;
     private Instant completedAt;
-    private SessionResult result;
 
     public static PracticeSession create(UUID exerciseId, List<StepDefinition> definitions) {
         var steps = new ArrayList<PracticeStep>();
@@ -35,15 +33,13 @@ public class PracticeSession {
             List<PracticeStep> steps,
             Instant createdAt,
             Instant startedAt,
-            Instant completedAt,
-            SessionResult result) {
+            Instant completedAt) {
         var session = new PracticeSession(sessionId, exerciseId, steps);
         session.status = status;
         session.currentStepIndex = currentStepIndex;
         session.createdAt = createdAt;
         session.startedAt = startedAt;
         session.completedAt = completedAt;
-        session.result = result;
         return session;
     }
 
@@ -104,14 +100,12 @@ public class PracticeSession {
         assertStatus(SessionStatus.IN_PROGRESS, "Only IN_PROGRESS sessions can be completed");
         this.status = SessionStatus.COMPLETED;
         this.completedAt = Instant.now();
-        computeResult();
     }
 
     public void conclude() {
         assertStatus(SessionStatus.IN_PROGRESS, "Only IN_PROGRESS sessions can be concluded");
         this.status = SessionStatus.COMPLETED;
         this.completedAt = Instant.now();
-        computeResult();
     }
 
     public int getCurrentActivityPosition() {
@@ -127,17 +121,6 @@ public class PracticeSession {
     public boolean isCurrentActivityCompleted() {
         return getStepsForActivity(getCurrentActivityPosition()).stream()
                 .allMatch(s -> s.getStatus() == StepStatus.COMPLETED);
-    }
-
-    private void computeResult() {
-        var completed = steps.stream()
-                .filter(s -> s.getStatus() == StepStatus.COMPLETED)
-                .count();
-        this.result = new SessionResult(
-                steps.size(),
-                (int) completed,
-                Duration.between(startedAt, completedAt)
-        );
     }
 
     private void assertStatus(SessionStatus expected, String message) {

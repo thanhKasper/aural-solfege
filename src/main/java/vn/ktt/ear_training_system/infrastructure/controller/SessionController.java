@@ -23,11 +23,6 @@ public class SessionController {
         return ResponseEntity.ok(sessionPort.concludeSession(UUID.fromString(sessionId)));
     }
 
-    @GetMapping("/{sessionId}/result")
-    public ResponseEntity<SessionResultDTO> getSessionResult(@PathVariable String sessionId) {
-        return ResponseEntity.ok(sessionPort.getSessionResult(UUID.fromString(sessionId)));
-    }
-
     @PostMapping("/{sessionId}/advance")
     public ResponseEntity<PracticeStepResponse> advanceToNextStep(@PathVariable String sessionId) {
         SessionStepDTO response = sessionPort.advanceToNextStep(UUID.fromString(sessionId));

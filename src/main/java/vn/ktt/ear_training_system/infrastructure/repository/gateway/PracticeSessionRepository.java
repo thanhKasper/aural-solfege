@@ -32,17 +32,12 @@ public class PracticeSessionRepository implements IPracticeSessionRepository {
 
     @Override
     public Optional<PracticeSession> findByExercise(UUID exerciseId) {
-        return jpaRepository.findTopByExerciseIdOrderByCreatedAtDesc(exerciseId)
+        return jpaRepository.findTopByExerciseExerciseIdOrderByCreatedAtDesc(exerciseId)
                 .map(mapper::toDomain);
     }
 
     @Override
     public boolean existsActiveSessionForExercise(UUID exerciseId) {
-        return jpaRepository.existsByExerciseIdAndStatus(exerciseId, SessionStatus.IN_PROGRESS);
-    }
-
-    @Override
-    public void deleteSession(UUID sessionId) {
-        jpaRepository.deleteById(sessionId);
+        return jpaRepository.existsByExerciseExerciseIdAndStatus(exerciseId, SessionStatus.IN_PROGRESS);
     }
 }

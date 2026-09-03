@@ -10,5 +10,4 @@ public interface IPracticeSessionRepository {
     Optional<PracticeSession> getSessionById(UUID sessionId);
     Optional<PracticeSession> findByExercise(UUID exerciseId);
     boolean existsActiveSessionForExercise(UUID exerciseId);
-    void deleteSession(UUID sessionId);
 }

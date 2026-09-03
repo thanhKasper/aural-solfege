@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.SessionStatus;
-import vn.ktt.ear_training_system.infrastructure.repository.converter.SessionResultConverter;
+import vn.ktt.ear_training_system.infrastructure.repository.entities.exercise_activities.ExerciseActivityEntity;
 
 import java.time.Instant;
 import java.util.List;
@@ -23,8 +25,10 @@ public class PracticeSessionEntity {
     @Column(name = "id")
     private UUID sessionId;
 
-    @Column(name = "exercise_id", nullable = false)
-    private UUID exerciseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exercise_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private ExerciseEntity exercise;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -45,8 +49,4 @@ public class PracticeSessionEntity {
 
     @Column(name = "completed_at")
     private Instant completedAt;
-
-    @Convert(converter = SessionResultConverter.class)
-    @Column(name = "result", columnDefinition = "TEXT")
-    private SessionResultEntity result;
 }

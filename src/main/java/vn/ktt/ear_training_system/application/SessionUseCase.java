@@ -5,14 +5,15 @@ import vn.ktt.ear_training_system.application.dtos.SessionResultDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
 import vn.ktt.ear_training_system.application.inbound.SessionPort;
 import vn.ktt.ear_training_system.application.mappers.SessionMapper;
-import vn.ktt.ear_training_system.application.mappers.SessionResultMapper;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.domain.guard.ExerciseModificationGuard;
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeSession;
 import vn.ktt.ear_training_system.domain.practice_session.repository.IPracticeSessionRepository;
 import vn.ktt.ear_training_system.domain.practice_session.service.StepGenerationService;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.SessionStatus;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.StepStatus;
 
+import java.time.Duration;
 import java.util.UUID;
 
 @Service
@@ -22,20 +23,17 @@ public class SessionUseCase implements SessionPort {
     private final StepGenerationService stepGenerationService;
     private final ExerciseModificationGuard guard;
     private final SessionMapper sessionMapper;
-    private final SessionResultMapper sessionResultMapper;
 
     public SessionUseCase(IExerciseRepository exerciseRepository,
                           IPracticeSessionRepository sessionRepository,
                           StepGenerationService stepGenerationService,
                           ExerciseModificationGuard guard,
-                          SessionMapper sessionMapper,
-                          SessionResultMapper sessionResultMapper) {
+                          SessionMapper sessionMapper) {
         this.exerciseRepository = exerciseRepository;
         this.sessionRepository = sessionRepository;
         this.stepGenerationService = stepGenerationService;
         this.guard = guard;
         this.sessionMapper = sessionMapper;
-        this.sessionResultMapper = sessionResultMapper;
     }
 
     @Override
@@ -87,21 +85,13 @@ public class SessionUseCase implements SessionPort {
                 .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
 
         session.conclude();
-        session = sessionRepository.saveSession(session);
-        return sessionResultMapper.toDto(session.getResult());
-    }
+        sessionRepository.saveSession(session);
 
-    @Override
-    public SessionResultDTO getSessionResult(UUID sessionId) {
-        var session = sessionRepository.getSessionById(sessionId)
-                .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
+        long completed = session.getSteps().stream()
+                .filter(s -> s.getStatus() == StepStatus.COMPLETED)
+                .count();
+        long duration = Duration.between(session.getStartedAt(), session.getCompletedAt()).getSeconds();
 
-        if (session.getResult() == null) {
-            throw new IllegalStateException("Session has not been completed yet");
-        }
-
-        var result = sessionResultMapper.toDto(session.getResult());
-        sessionRepository.deleteSession(sessionId);
-        return result;
+        return new SessionResultDTO(session.getSteps().size(), (int) completed, duration);
     }
 }

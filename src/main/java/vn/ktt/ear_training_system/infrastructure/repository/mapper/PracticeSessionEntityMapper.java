@@ -5,6 +5,7 @@ import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeSession
 import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.PracticeSessionEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.PracticeStepEntity;
+import vn.ktt.ear_training_system.infrastructure.repository.gateway.ExerciseJpaRepository;
 import vn.ktt.ear_training_system.infrastructure.repository.mapper.step_context.StepContextEntityToDomainMapperFactory;
 
 import java.util.ArrayList;
@@ -12,25 +13,24 @@ import java.util.ArrayList;
 @Component
 public class PracticeSessionEntityMapper {
 
+    private final ExerciseJpaRepository exerciseJpaRepository;
     private final StepContextEntityToDomainMapperFactory stepContextMapperFactory;
-    private final SessionResultEntityMapper sessionResultMapper;
 
-    public PracticeSessionEntityMapper(StepContextEntityToDomainMapperFactory stepContextMapperFactory,
-                                       SessionResultEntityMapper sessionResultMapper) {
+    public PracticeSessionEntityMapper(ExerciseJpaRepository exerciseJpaRepository,
+                                       StepContextEntityToDomainMapperFactory stepContextMapperFactory) {
+        this.exerciseJpaRepository = exerciseJpaRepository;
         this.stepContextMapperFactory = stepContextMapperFactory;
-        this.sessionResultMapper = sessionResultMapper;
     }
 
     public PracticeSessionEntity toEntity(PracticeSession domain) {
         var entity = new PracticeSessionEntity();
         entity.setSessionId(domain.getSessionId());
-        entity.setExerciseId(domain.getExerciseId());
+        entity.setExercise(exerciseJpaRepository.getReferenceById(domain.getExerciseId()));
         entity.setStatus(domain.getStatus());
         entity.setCurrentStepIndex(domain.getCurrentStepIndex());
         entity.setCreatedAt(domain.getCreatedAt());
         entity.setStartedAt(domain.getStartedAt());
         entity.setCompletedAt(domain.getCompletedAt());
-        entity.setResult(sessionResultMapper.toEntity(domain.getResult(), domain.getStartedAt(), domain.getCompletedAt()));
 
         var stepEntities = new ArrayList<PracticeStepEntity>();
         for (int i = 0; i < domain.getSteps().size(); i++) {
@@ -60,14 +60,13 @@ public class PracticeSessionEntityMapper {
 
         return PracticeSession.reconstruct(
                 entity.getSessionId(),
-                entity.getExerciseId(),
+                entity.getExercise().getExerciseId(),
                 entity.getStatus(),
                 entity.getCurrentStepIndex(),
                 steps,
                 entity.getCreatedAt(),
                 entity.getStartedAt(),
-                entity.getCompletedAt(),
-                sessionResultMapper.toDomain(entity.getResult())
+                entity.getCompletedAt()
         );
     }
 }
