@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.infrastructure.spring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.guard.ExerciseModificationGuard;
 import vn.ktt.ear_training_system.domain.practice_session.repository.IPracticeSessionRepository;
 import vn.ktt.ear_training_system.domain.practice_session.service.CoolDownStepGeneration;

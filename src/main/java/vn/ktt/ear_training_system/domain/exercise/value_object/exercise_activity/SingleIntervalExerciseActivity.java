@@ -1,8 +1,8 @@
-package vn.ktt.ear_training_system.domain.exercise.entity.interval_training;
+package vn.ktt.ear_training_system.domain.exercise.value_object.exercise_activity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
 import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 

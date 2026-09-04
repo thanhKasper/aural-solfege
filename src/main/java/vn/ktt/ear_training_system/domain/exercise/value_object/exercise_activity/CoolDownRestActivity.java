@@ -1,7 +1,7 @@
-package vn.ktt.ear_training_system.domain.exercise.entity.resting_activity;
+package vn.ktt.ear_training_system.domain.exercise.value_object.exercise_activity;
 
 import lombok.Getter;
-import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 
 import java.util.List;

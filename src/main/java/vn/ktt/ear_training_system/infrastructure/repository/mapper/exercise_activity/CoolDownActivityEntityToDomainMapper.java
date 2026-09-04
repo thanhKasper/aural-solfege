@@ -1,8 +1,8 @@
 package vn.ktt.ear_training_system.infrastructure.repository.mapper.exercise_activity;
 
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
-import vn.ktt.ear_training_system.domain.exercise.entity.resting_activity.CoolDownRestActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.exercise_activity.CoolDownRestActivity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.exercise_activities.CoolDownRestActivityEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.exercise_activities.ExerciseActivityEntity;
 

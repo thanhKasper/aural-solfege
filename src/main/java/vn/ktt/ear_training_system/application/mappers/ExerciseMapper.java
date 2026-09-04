@@ -5,7 +5,7 @@ import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.exercise_activities.ExerciseActivityDTO;
 import vn.ktt.ear_training_system.application.mappers.exercise_activity.ExerciseActivityDTOToDomainMapperFactory;
 import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
-import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.ExerciseActivity;
 
 @Component
 public class ExerciseMapper {

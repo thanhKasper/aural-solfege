@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.infrastructure.repository.mapper;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
-import vn.ktt.ear_training_system.domain.exercise.entity.ExerciseActivity;
+import vn.ktt.ear_training_system.domain.exercise.value_object.ExerciseActivity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.exercise_activities.ExerciseActivityEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.ExerciseEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.mapper.exercise_activity.ExerciseActivityEntityToDomainMapperFactory;
