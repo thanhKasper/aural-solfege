@@ -6,6 +6,7 @@ import vn.ktt.ear_training_system.domain.exercise.value_object.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.guard.ExerciseModificationGuard;
 import vn.ktt.ear_training_system.domain.practice_session.repository.IPracticeSessionRepository;
 import vn.ktt.ear_training_system.domain.practice_session.service.CoolDownStepGeneration;
+import vn.ktt.ear_training_system.domain.practice_session.service.IntervalSoundComparisonStepGeneration;
 import vn.ktt.ear_training_system.domain.practice_session.service.SingleIntervalStepGeneration;
 import vn.ktt.ear_training_system.domain.practice_session.service.StepGeneration;
 import vn.ktt.ear_training_system.domain.practice_session.service.StepGenerationService;
@@ -33,6 +34,11 @@ public class DomainServiceConfig {
     @Bean
     public StepGeneration singleIntervalStepGeneration() {
         return new SingleIntervalStepGeneration();
+    }
+
+    @Bean
+    public StepGeneration intervalSoundComparisonStepGeneration() {
+        return new IntervalSoundComparisonStepGeneration();
     }
 
     @Bean
