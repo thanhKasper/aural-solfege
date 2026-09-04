@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ListenIntervalContextEntity.class, name = "LISTEN_INTERVAL"),
+        @JsonSubTypes.Type(value = IntervalSoundComparisonContextEntity.class, name = "INTERVAL_SOUND_COMPARISON"),
         @JsonSubTypes.Type(value = CoolDownContextEntity.class, name = "COOL_DOWN")
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
