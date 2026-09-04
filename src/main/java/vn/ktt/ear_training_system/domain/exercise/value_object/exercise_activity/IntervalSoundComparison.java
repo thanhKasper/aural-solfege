@@ -8,12 +8,12 @@ import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 import java.util.List;
 
 @Getter
-public class IntervalsComparison extends ExerciseActivity {
+public class IntervalSoundComparison extends ExerciseActivity {
     private final IntervalTexture texture;
     private final MusicalInterval firstInterval;
     private final MusicalInterval secondInterval;
 
-    protected IntervalsComparison(int position, IntervalTexture texture, MusicalInterval firstInterval, MusicalInterval secondInterval) {
+    protected IntervalSoundComparison(int position, IntervalTexture texture, MusicalInterval firstInterval, MusicalInterval secondInterval) {
         super(position);
         this.texture = texture;
         this.firstInterval = firstInterval;
@@ -21,8 +21,8 @@ public class IntervalsComparison extends ExerciseActivity {
     }
 
 
-    public static IntervalsComparison construct(int position, IntervalTexture texture, MusicalInterval firstInterval, MusicalInterval secondInterval) {
-        return new IntervalsComparison(position, texture, firstInterval, secondInterval);
+    public static IntervalSoundComparison construct(int position, IntervalTexture texture, MusicalInterval firstInterval, MusicalInterval secondInterval) {
+        return new IntervalSoundComparison(position, texture, firstInterval, secondInterval);
     }
 
     @Override

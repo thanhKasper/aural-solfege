@@ -9,12 +9,12 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public final class IntervalsComparisonExerciseActivityDTO implements ExerciseActivityDTO {
+public final class IntervalSoundComparisonExerciseActivityDTO implements ExerciseActivityDTO {
     private List<String> intervals;
     private String texture;
     private Integer position;
 
-    public IntervalsComparisonExerciseActivityDTO(List<String> intervals, String texture, Integer position) {
+    public IntervalSoundComparisonExerciseActivityDTO(List<String> intervals, String texture, Integer position) {
         this.intervals = intervals;
         this.texture = texture;
         this.position = position;
@@ -27,6 +27,6 @@ public final class IntervalsComparisonExerciseActivityDTO implements ExerciseAct
 
     @Override
     public ExerciseActivityType type() {
-        return ExerciseActivityType.INTERVALS_COMPARISON;
+        return ExerciseActivityType.INTERVAL_SOUND_COMPARISON;
     }
 }
