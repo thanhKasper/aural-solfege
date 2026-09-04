@@ -3,11 +3,8 @@ package vn.ktt.ear_training_system.application.mappers.step_context;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.practice_step.CoolDownStepDTO;
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
-import vn.ktt.ear_training_system.domain.practice_session.entity.PracticeStep;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.CoolDownContext;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.StepStatus;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.StepType;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.CoolDownContext;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.StepContext;
 
 @Component
 public class CoolDownStepContextMapper implements StepContextMapper {

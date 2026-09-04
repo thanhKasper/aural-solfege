@@ -1,7 +1,7 @@
 package vn.ktt.ear_training_system.domain.practice_session.entity;
 
 import lombok.Getter;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.StepContext;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepStatus;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.StepType;
 

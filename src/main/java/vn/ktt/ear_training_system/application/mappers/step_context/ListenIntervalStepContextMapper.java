@@ -5,8 +5,8 @@ import vn.ktt.ear_training_system.application.dtos.practice_step.ListenIntervalS
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
 import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
 import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.ListenIntervalContext;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.ListenIntervalContext;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.StepContext;
 
 @Component
 public class ListenIntervalStepContextMapper implements StepContextMapper {

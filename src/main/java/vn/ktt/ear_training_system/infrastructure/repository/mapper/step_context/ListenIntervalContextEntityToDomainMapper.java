@@ -1,8 +1,8 @@
 package vn.ktt.ear_training_system.infrastructure.repository.mapper.step_context;
 
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.ListenIntervalContext;
-import vn.ktt.ear_training_system.domain.practice_session.value_object.StepContext;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.ListenIntervalContext;
+import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.StepContext;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.step_context.ListenIntervalContextEntity;
 import vn.ktt.ear_training_system.infrastructure.repository.entities.step_context.StepContextEntity;
 
