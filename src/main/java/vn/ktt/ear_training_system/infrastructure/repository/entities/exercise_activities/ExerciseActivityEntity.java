@@ -13,6 +13,7 @@ import lombok.Setter;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SingleIntervalExerciseActivityEntity.class, name = "SINGLE_INTERVAL"),
+        @JsonSubTypes.Type(value = IntervalsComparisonExerciseActivityEntity.class, name = "INTERVALS_COMPARISON"),
         @JsonSubTypes.Type(value = CoolDownRestActivityEntity.class, name = "COOL_DOWN")
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
