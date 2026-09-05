@@ -4,22 +4,22 @@ import org.springframework.stereotype.Service;
 import vn.ktt.musical_components_core.musical_application.sound_configuration.outbound.InstrumentConfigurationPort;
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.AudioContent;
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.IntervalRangeParameters;
-import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalSoundGenerator;
+import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalGeneratorPort;
 import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.SoundGeneratorPort;
 import vn.ktt.musical_components_core.musical_domains.instruments.Instrument;
 import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
 import vn.ktt.musical_components_core.musical_domains.music_services.IMusicalOperation;
 
 @Service
-public class IntervalSoundGeneratorServiceImpl implements IntervalSoundGenerator {
+public class IntervalGeneratorPortServiceImpl implements IntervalGeneratorPort {
 
     private final SoundGeneratorPort soundGenerator;
     private final IMusicalOperation musicalOperation;
     private final InstrumentConfigurationPort instrumentConfigurationPort;
 
-    public IntervalSoundGeneratorServiceImpl(SoundGeneratorPort soundGenerator,
-                                             IMusicalOperation musicalOperation,
-                                             InstrumentConfigurationPort instrumentConfigurationPort) {
+    public IntervalGeneratorPortServiceImpl(SoundGeneratorPort soundGenerator,
+                                            IMusicalOperation musicalOperation,
+                                            InstrumentConfigurationPort instrumentConfigurationPort) {
         this.soundGenerator = soundGenerator;
         this.musicalOperation = musicalOperation;
         this.instrumentConfigurationPort = instrumentConfigurationPort;

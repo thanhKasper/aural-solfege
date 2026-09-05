@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.AudioContent;
-import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalSoundGenerator;
+import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalGeneratorPort;
 import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 
@@ -13,12 +13,12 @@ import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEnti
 @RequestMapping("/api/interval-range")
 public class IntervalRangeController {
 
-    private final IntervalSoundGenerator intervalSoundGenerator;
+    private final IntervalGeneratorPort intervalGeneratorPort;
     private final IMusicalEntityFactory musicalEntityFactory;
 
-    public IntervalRangeController(IntervalSoundGenerator intervalSoundGenerator,
+    public IntervalRangeController(IntervalGeneratorPort intervalGeneratorPort,
                                    IMusicalEntityFactory musicalEntityFactory) {
-        this.intervalSoundGenerator = intervalSoundGenerator;
+        this.intervalGeneratorPort = intervalGeneratorPort;
         this.musicalEntityFactory = musicalEntityFactory;
     }
 
@@ -30,8 +30,8 @@ public class IntervalRangeController {
         var musicalTexture = Interval.Texture.fromString(texture);
 
         AudioContent audio = switch (direction.toUpperCase()) {
-            case "DOWN" -> intervalSoundGenerator.generateDownwardInterval(musicalInterval, musicalTexture);
-            case "UP" -> intervalSoundGenerator.generateUpwardInterval(musicalInterval, musicalTexture);
+            case "DOWN" -> intervalGeneratorPort.generateDownwardInterval(musicalInterval, musicalTexture);
+            case "UP" -> intervalGeneratorPort.generateUpwardInterval(musicalInterval, musicalTexture);
             default -> throw new IllegalArgumentException("Unknown direction: " + direction); // Need a shared error handling.
         };
 
