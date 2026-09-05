@@ -5,4 +5,6 @@ import vn.ktt.musical_components_core.musical_domains.music_compositions.Interva
 
 public interface IMusicalOperation {
     Pitch getUpperBoundPitchFromInterval(Pitch lowerBoundPitch, IntervalType intervalType);
+    Pitch getLowerBoundPitchFromInterval(Pitch upperBoundPitch, IntervalType intervalType);
+    Pitch getRandomPitch(Pitch lowerBoundPitch, Pitch upperBoundPitch);
 }
