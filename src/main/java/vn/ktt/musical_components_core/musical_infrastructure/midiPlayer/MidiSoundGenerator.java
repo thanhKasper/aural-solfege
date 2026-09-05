@@ -12,7 +12,7 @@ import vn.ktt.musical_components_core.musical_infrastructure.midiPlayer.renderer
 
 import javax.sound.midi.Sequence;
 
-// @TODO: Not precise base on how the sound is processed, need more investigation to create a more completed audio file generation.
+// @TODO: Not precise base on how the sound is processed, need more investigation to create a more completed audio file generation. Need an architecture redesign
 @Component
 public class MidiSoundGenerator implements SoundGeneratorPort {
 
