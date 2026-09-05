@@ -11,12 +11,12 @@ import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEnti
 
 @RestController("ApiSoundController")
 @RequestMapping("/api/interval-range")
-public class ExerciseAudioController {
+public class IntervalRangeController {
 
     private final IntervalSoundGenerator intervalSoundGenerator;
     private final IMusicalEntityFactory musicalEntityFactory;
 
-    public ExerciseAudioController(IntervalSoundGenerator intervalSoundGenerator,
+    public IntervalRangeController(IntervalSoundGenerator intervalSoundGenerator,
                                    IMusicalEntityFactory musicalEntityFactory) {
         this.intervalSoundGenerator = intervalSoundGenerator;
         this.musicalEntityFactory = musicalEntityFactory;
