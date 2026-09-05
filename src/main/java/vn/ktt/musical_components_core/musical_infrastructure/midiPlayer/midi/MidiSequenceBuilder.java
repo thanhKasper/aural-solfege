@@ -2,6 +2,7 @@ package vn.ktt.musical_components_core.musical_infrastructure.midiPlayer.midi;
 
 import org.springframework.stereotype.Component;
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.IntervalRangeParameters;
+import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -70,5 +71,37 @@ public class MidiSequenceBuilder {
                 new ShortMessage(ShortMessage.NOTE_ON, NOTE_CHANNEL, note, VELOCITY), startTick));
         track.add(new MidiEvent(
                 new ShortMessage(ShortMessage.NOTE_OFF, NOTE_CHANNEL, note, 0), startTick + durationTicks));
+    }
+
+    public Sequence buildInterval(Pitch startingPitch, Interval interval, Interval.Texture texture) {
+        try {
+            Sequence sequence = new Sequence(Sequence.PPQ, PPQ);
+            Track track = sequence.createTrack();
+
+            int halfSteps = interval.getIntervalType().getHalfSteps();
+            int lowerMidi = startingPitch.toMidiNumber();
+            int upperMidi = lowerMidi + halfSteps;
+
+            boolean stacked = texture == Interval.Texture.STACKED;
+            boolean descending = texture == Interval.Texture.DESCENDING;
+            int noteTicks = stacked ? STACKED_NOTE_TICKS : MELODIC_NOTE_TICKS;
+
+            long tick = PREROLL_TICKS;
+            if (stacked) {
+                scheduleNote(track, lowerMidi, tick, noteTicks);
+                scheduleNote(track, upperMidi, tick, noteTicks);
+            } else if (descending) {
+                scheduleNote(track, upperMidi, tick, noteTicks);
+                tick += noteTicks + GAP_TICKS;
+                scheduleNote(track, lowerMidi, tick, noteTicks);
+            } else {
+                scheduleNote(track, lowerMidi, tick, noteTicks);
+                tick += noteTicks + GAP_TICKS;
+                scheduleNote(track, upperMidi, tick, noteTicks);
+            }
+            return sequence;
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to build MIDI sequence", e);
+        }
     }
 }

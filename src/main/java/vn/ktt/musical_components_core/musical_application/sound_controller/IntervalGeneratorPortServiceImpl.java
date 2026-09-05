@@ -38,26 +38,40 @@ public class IntervalGeneratorPortServiceImpl implements IntervalGeneratorPort {
 
     @Override
     public AudioContent generateInterval(Interval interval, Interval.Texture texture) {
-        return null;
+        Pitch highestPitchForInterval = musicalOperation.getLowerBoundPitchFromInterval(
+                getActiveInstrument().getHighestPitch(),
+                interval.getIntervalType());
+        Pitch startingPitch = musicalOperation.getRandomPitch(getLowestPitch(), highestPitchForInterval);
+        return toAudioContent(
+                soundGenerator.createIntervalSound(startingPitch, interval, texture),
+                "interval-" + interval + ".wav");
     }
 
     private AudioContent generateIntervalRange(Interval interval, Interval.Texture texture, boolean reverse) {
+        Pitch lowestPitch = getLowestPitch();
         IntervalRangeParameters parameters = new IntervalRangeParameters();
-        Instrument activeInstrument = instrumentConfigurationPort.getActiveInstrument();
-        Pitch lowestPitch = activeInstrument.getLowestPitch();
-
         parameters.setLowestPitch(lowestPitch);
         parameters.setHighestPitch(musicalOperation.getUpperBoundPitchFromInterval(lowestPitch, interval.getIntervalType()));
         parameters.setInterval(interval);
         parameters.setIntervalTexture(texture);
         parameters.setReverse(reverse);
+        return toAudioContent(soundGenerator.createIntervalRangeSound(parameters),
+                "interval-range-" + interval + ".wav");
+    }
 
-        byte[] data = soundGenerator.createIntervalRange(parameters);
+    private Instrument getActiveInstrument() {
+        return instrumentConfigurationPort.getActiveInstrument();
+    }
 
+    private Pitch getLowestPitch() {
+        return getActiveInstrument().getLowestPitch();
+    }
+
+    private AudioContent toAudioContent(byte[] data, String fileName) {
         AudioContent audioContent = new AudioContent();
         audioContent.setData(data);
         audioContent.setFileSize(data.length);
-        audioContent.setFileName("interval-" + interval + ".wav");
+        audioContent.setFileName(fileName);
         return audioContent;
     }
 }
