@@ -115,18 +115,25 @@ Key properties in `src/main/resources/application.properties`:
 The project follows **Clean/Hexagonal Architecture** with two bounded contexts:
 
 ```
-musical_components_core/          ear_training_system/
-├── musical_domains/              ├── domain/
-├── musical_application/          │   ├── exercise/
-└── musical_infrastructure/       │   └── practice_session/
-                                  ├── application/
-                                  └── infrastructure/
+musical_components_core/                ear_training_system/
+├── musical_domains/                    ├── domain/
+├── musical_application/                │   ├── exercise/          (root aggregate)
+└── musical_infrastructure/             │   ├── practice_session/  (root aggregate)
+                                        │   └── guard/
+                                        ├── application/          (shared ports, use-cases)
+                                        └── infrastructure/       (shared REST, JPA)
 ```
 
-Each context is organized into:
+Each bounded context is organized into:
 - **domain** - Entities, value objects, enums, repository interfaces
 - **application** - Use cases, ports (inbound/outbound), DTOs, mappers
 - **infrastructure** - Controllers, JPA entities/adapters, Spring configuration
+
+**Bounded contexts:**
+- `musical_components_core` - Music domain, sound generation, and audio output
+- `ear_training_system` - Ear-training domain logic; its `domain` layer contains the two root aggregates `Exercise` and `PracticeSession` (each with its own entity, value objects, and repository), sharing the `application` and `infrastructure` layers above them
+
+**Planned evolution:** `musical_components_core` and `ear_training_system` are designed to be split into **two independent services** in the future to improve maintainability - a service for musical/audio processing and a service for the ear-training domain logic.
 
 **Key patterns:**
 - Dependency inversion via interfaces (`IExerciseRepository`, `SoundGeneratorPort`, etc.)
@@ -149,10 +156,13 @@ aural-solfege/
 │   │   │   │   ├── musical_domains/
 │   │   │   │   ├── musical_application/
 │   │   │   │   └── musical_infrastructure/
-│   │   │   └── ear_training_system/              # Exercise & session management
+│   │   │   └── ear_training_system/              # Ear-training domain logic
 │   │   │       ├── domain/
-│   │   │       ├── application/
-│   │   │       └── infrastructure/
+│   │   │       │   ├── exercise/                 # Root aggregate: exercises
+│   │   │       │   ├── practice_session/         # Root aggregate: sessions
+│   │   │       │   └── guard/
+│   │   │       ├── application/                  # Shared ports & use-cases
+│   │   │       └── infrastructure/               # Shared REST & persistence
 │   │   └── resources/
 │   │       ├── application.properties
 │   │       ├── import.sql                        # Seed data
