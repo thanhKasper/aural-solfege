@@ -7,6 +7,7 @@ import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.
 import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalGeneratorPort;
 import vn.ktt.musical_components_core.musical_application.sound_controller.outbound.SoundGeneratorPort;
 import vn.ktt.musical_components_core.musical_domains.instruments.Instrument;
+import vn.ktt.musical_components_core.musical_domains.music_atom.Pitch;
 import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
 import vn.ktt.musical_components_core.musical_domains.music_services.IMusicalOperation;
 
@@ -43,9 +44,10 @@ public class IntervalGeneratorPortServiceImpl implements IntervalGeneratorPort {
     private AudioContent generateIntervalRange(Interval interval, Interval.Texture texture, boolean reverse) {
         IntervalRangeParameters parameters = new IntervalRangeParameters();
         Instrument activeInstrument = instrumentConfigurationPort.getActiveInstrument();
+        Pitch lowestPitch = activeInstrument.getLowestPitch();
 
-        parameters.setLowestPitch(musicalOperation.getLowestPitch(activeInstrument));
-        parameters.setHighestPitch(musicalOperation.getHighestLowerBoundIntervalPitch(activeInstrument, interval.getIntervalType()));
+        parameters.setLowestPitch(lowestPitch);
+        parameters.setHighestPitch(musicalOperation.getUpperBoundPitchFromInterval(lowestPitch, interval.getIntervalType()));
         parameters.setInterval(interval);
         parameters.setIntervalTexture(texture);
         parameters.setReverse(reverse);
