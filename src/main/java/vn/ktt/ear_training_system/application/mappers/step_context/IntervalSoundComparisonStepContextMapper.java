@@ -3,6 +3,7 @@ package vn.ktt.ear_training_system.application.mappers.step_context;
 import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.practice_step.IntervalSoundComparisonStepDTO;
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
+import vn.ktt.ear_training_system.application.outbound.IIntervalComparisonPort;
 import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
 import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.IntervalSoundComparisonContext;
@@ -10,6 +11,12 @@ import vn.ktt.ear_training_system.domain.practice_session.value_object.step_cont
 
 @Component
 public class IntervalSoundComparisonStepContextMapper implements StepContextMapper {
+
+    private final IIntervalComparisonPort intervalComparisonPort;
+
+    public IntervalSoundComparisonStepContextMapper(IIntervalComparisonPort intervalComparisonPort) {
+        this.intervalComparisonPort = intervalComparisonPort;
+    }
 
     @Override
     public Class<? extends StepContext> getDataFromClass() {
@@ -30,6 +37,7 @@ public class IntervalSoundComparisonStepContextMapper implements StepContextMapp
                 context.firstInterval().name(),
                 context.secondInterval().name(),
                 context.texture().name(),
+                this.intervalComparisonPort.compare(context.firstInterval(), context.secondInterval()),
                 context.totalQuestions(),
                 context.currentQuestionNumber()
         );
