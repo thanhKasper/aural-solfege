@@ -1,7 +1,7 @@
 package vn.ktt.ear_training_system.application.mappers.step_context;
 
 import org.springframework.stereotype.Component;
-import vn.ktt.ear_training_system.application.dtos.practice_step.IntervalSoundComparisonStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.IntervalDistanceComparisonStepDTO;
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
 import vn.ktt.ear_training_system.application.outbound.IIntervalComparisonPort;
 import vn.ktt.ear_training_system.domain.exercise.value_object.IntervalTexture;
@@ -10,11 +10,11 @@ import vn.ktt.ear_training_system.domain.practice_session.value_object.step_cont
 import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.StepContext;
 
 @Component
-public class IntervalSoundComparisonStepContextMapper implements StepContextMapper {
+public class IntervalDistanceComparisonStepContextMapper implements StepContextMapper {
 
     private final IIntervalComparisonPort intervalComparisonPort;
 
-    public IntervalSoundComparisonStepContextMapper(IIntervalComparisonPort intervalComparisonPort) {
+    public IntervalDistanceComparisonStepContextMapper(IIntervalComparisonPort intervalComparisonPort) {
         this.intervalComparisonPort = intervalComparisonPort;
     }
 
@@ -25,18 +25,18 @@ public class IntervalSoundComparisonStepContextMapper implements StepContextMapp
 
     @Override
     public Class<? extends PracticeStepDTO> getDataToClass() {
-        return IntervalSoundComparisonStepDTO.class;
+        return IntervalDistanceComparisonStepDTO.class;
     }
 
     @Override
     public StepContextMapperKey getKey() {
-        return StepContextMapperKey.HIGHER_LOWER_INTERVAL;
+        return StepContextMapperKey.INTERVAL_HIGHER_LOWER;
     }
 
     @Override
     public PracticeStepDTO transform(StepContext dataFrom) {
         var context = (IntervalSoundComparisonContext) dataFrom;
-        return new IntervalSoundComparisonStepDTO(
+        return new IntervalDistanceComparisonStepDTO(
                 0,
                 "",
                 context.firstInterval().name(),
@@ -50,7 +50,7 @@ public class IntervalSoundComparisonStepContextMapper implements StepContextMapp
 
     @Override
     public StepContext reverseTransform(PracticeStepDTO dataTo) {
-        var d = (IntervalSoundComparisonStepDTO) dataTo;
+        var d = (IntervalDistanceComparisonStepDTO) dataTo;
         return new IntervalSoundComparisonContext(
                 MusicalInterval.valueOf(d.getFirstInterval()),
                 MusicalInterval.valueOf(d.getSecondInterval()),

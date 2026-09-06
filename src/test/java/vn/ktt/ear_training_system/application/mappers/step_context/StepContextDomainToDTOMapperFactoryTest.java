@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.application.mappers.step_context;
 
 import org.junit.jupiter.api.Test;
 import vn.ktt.ear_training_system.application.dtos.practice_step.CoolDownStepDTO;
-import vn.ktt.ear_training_system.application.dtos.practice_step.IntervalSoundComparisonStepDTO;
+import vn.ktt.ear_training_system.application.dtos.practice_step.IntervalDistanceComparisonStepDTO;
 import vn.ktt.ear_training_system.application.dtos.practice_step.ListenIntervalStepDTO;
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
 import vn.ktt.ear_training_system.application.outbound.IIntervalComparisonPort;
@@ -26,7 +26,7 @@ class StepContextDomainToDTOMapperFactoryTest {
 
     private final StepContextMapper coolDownMapper = new CoolDownStepContextMapper();
     private final StepContextMapper listenMapper = new ListenIntervalStepContextMapper();
-    private final StepContextMapper comparisonMapper = new IntervalSoundComparisonStepContextMapper(sampleComparisonPort);
+    private final StepContextMapper comparisonMapper = new IntervalDistanceComparisonStepContextMapper(sampleComparisonPort);
 
     private final StepContextDomainToDTOMapperFactory factory =
             new StepContextDomainToDTOMapperFactory(List.of(coolDownMapper, listenMapper, comparisonMapper));
@@ -64,8 +64,8 @@ class StepContextDomainToDTOMapperFactoryTest {
 
         PracticeStepDTO dto = factory.toDto(context);
 
-        assertInstanceOf(IntervalSoundComparisonStepDTO.class, dto);
-        var comparisonDto = (IntervalSoundComparisonStepDTO) dto;
+        assertInstanceOf(IntervalDistanceComparisonStepDTO.class, dto);
+        var comparisonDto = (IntervalDistanceComparisonStepDTO) dto;
         assertEquals("PERFECT_5TH", comparisonDto.getFirstInterval());
         assertEquals("MINOR_3RD", comparisonDto.getSecondInterval());
         assertEquals("STACKED", comparisonDto.getTexture());
@@ -103,7 +103,7 @@ class StepContextDomainToDTOMapperFactoryTest {
 
     @Test
     void reverseTransformIntervalSoundComparisonDtoToDomain() {
-        var dto = new IntervalSoundComparisonStepDTO(1, "PENDING", "TRITONE", "MAJOR_2ND", "STACKED", -3, 10, 7);
+        var dto = new IntervalDistanceComparisonStepDTO(1, "PENDING", "TRITONE", "MAJOR_2ND", "STACKED", -3, 10, 7);
 
         StepContext context = factory.toDomain(dto);
 
