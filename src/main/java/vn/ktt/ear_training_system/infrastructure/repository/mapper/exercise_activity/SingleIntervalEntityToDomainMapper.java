@@ -20,6 +20,11 @@ public class SingleIntervalEntityToDomainMapper implements IExerciseActivityEnti
     }
 
     @Override
+    public ExerciseActivityEntityMapperKey getKey() {
+        return ExerciseActivityEntityMapperKey.SINGLE_INTERVAL;
+    }
+
+    @Override
     public ExerciseActivityEntity transform(ExerciseActivity dataFrom) {
         var activity = (SingleIntervalExerciseActivity) dataFrom;
         return new SingleIntervalExerciseActivityEntity(

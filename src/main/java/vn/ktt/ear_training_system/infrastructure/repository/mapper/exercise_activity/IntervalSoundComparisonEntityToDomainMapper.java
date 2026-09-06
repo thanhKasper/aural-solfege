@@ -20,6 +20,11 @@ public class IntervalSoundComparisonEntityToDomainMapper implements IExerciseAct
     }
 
     @Override
+    public ExerciseActivityEntityMapperKey getKey() {
+        return ExerciseActivityEntityMapperKey.INTERVAL_SOUND_COMPARISON;
+    }
+
+    @Override
     public ExerciseActivityEntity transform(ExerciseActivity dataFrom) {
         var activity = (IntervalSoundComparison) dataFrom;
         return new IntervalSoundComparisonExerciseActivityEntity(

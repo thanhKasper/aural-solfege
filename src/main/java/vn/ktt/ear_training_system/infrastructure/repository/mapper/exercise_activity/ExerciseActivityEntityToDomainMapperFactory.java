@@ -8,26 +8,25 @@ import vn.ktt.shared.DataMapperRegistry;
 import java.util.List;
 
 @Component
-public class ExerciseActivityEntityToDomainMapperFactory extends DataMapperRegistry<ExerciseActivity, ExerciseActivityEntity, IExerciseActivityEntityToDomainMapper> {
+public class ExerciseActivityEntityToDomainMapperFactory extends DataMapperRegistry<ExerciseActivityEntityMapperKey, ExerciseActivity, ExerciseActivityEntity> {
+
     public ExerciseActivityEntityToDomainMapperFactory(List<IExerciseActivityEntityToDomainMapper> exerciseActivityMappers) {
         super(exerciseActivityMappers);
     }
 
     public ExerciseActivity toExerciseActivity(ExerciseActivityEntity entity) {
-        var mapper = getMapperBaseOnDataTo(entity);
-        if (mapper != null) {
-            return mapper.reverseTransform(entity);
-        }
+        return this.reverseTransform(entity);
+    }
 
-        throw new IllegalArgumentException("Missing mapper to convert entity " + entity.getClass());
+    public ExerciseActivity toExerciseActivity(ExerciseActivityEntity entity, Class<? extends ExerciseActivity> sourceType) {
+        return this.reverseTransform(entity, sourceType);
     }
 
     public ExerciseActivityEntity toExerciseActivityEntity(ExerciseActivity domain) {
-        var mapper = getMapperBaseOnDataFrom(domain);
-        if (mapper != null) {
-            return mapper.transform(domain);
-        }
+        return this.transform(domain);
+    }
 
-        throw new IllegalArgumentException("Missing mapper to convert entity " + domain.getClass());
+    public ExerciseActivityEntity toExerciseActivityEntity(ExerciseActivity domain, Class<? extends ExerciseActivityEntity> targetType) {
+        return this.transform(domain, targetType);
     }
 }

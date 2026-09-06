@@ -19,6 +19,11 @@ public class CoolDownActivityEntityToDomainMapper implements IExerciseActivityEn
     }
 
     @Override
+    public ExerciseActivityEntityMapperKey getKey() {
+        return ExerciseActivityEntityMapperKey.COOL_DOWN;
+    }
+
+    @Override
     public ExerciseActivityEntity transform(ExerciseActivity exerciseActivity) {
         CoolDownRestActivity restingActivity = (CoolDownRestActivity) exerciseActivity;
         return new CoolDownRestActivityEntity(restingActivity.getPosition(), restingActivity.getRestAmountInSecond());
