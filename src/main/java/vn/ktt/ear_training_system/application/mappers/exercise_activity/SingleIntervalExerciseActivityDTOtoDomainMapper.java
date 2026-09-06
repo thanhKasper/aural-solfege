@@ -22,6 +22,11 @@ public class SingleIntervalExerciseActivityDTOtoDomainMapper implements Exercise
     }
 
     @Override
+    public ExerciseActivityMapperKey getKey() {
+        return ExerciseActivityMapperKey.SINGLE_INTERVAL;
+    }
+
+    @Override
     public ExerciseActivityDTO transform(ExerciseActivity dataFrom) {
         var f = (SingleIntervalExerciseActivity) dataFrom;
         return new SingleIntervalExerciseActivityDTO(

@@ -22,6 +22,11 @@ public class IntervalSoundComparisonExerciseActivityDTOtoDomainMapper implements
     }
 
     @Override
+    public ExerciseActivityMapperKey getKey() {
+        return ExerciseActivityMapperKey.INTERVAL_SOUND_COMPARISON;
+    }
+
+    @Override
     public ExerciseActivityDTO transform(ExerciseActivity dataFrom) {
         var f = (IntervalSoundComparison) dataFrom;
         return new IntervalSoundComparisonExerciseActivityDTO(

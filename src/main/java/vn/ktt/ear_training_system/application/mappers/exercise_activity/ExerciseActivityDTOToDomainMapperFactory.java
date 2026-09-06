@@ -8,27 +8,25 @@ import vn.ktt.shared.DataMapperRegistry;
 import java.util.List;
 
 @Component
-public class ExerciseActivityDTOToDomainMapperFactory extends DataMapperRegistry<ExerciseActivity, ExerciseActivityDTO, ExerciseActivityDTOtoDomainMapper> {
+public class ExerciseActivityDTOToDomainMapperFactory extends DataMapperRegistry<ExerciseActivityMapperKey, ExerciseActivity, ExerciseActivityDTO> {
+
     public ExerciseActivityDTOToDomainMapperFactory(List<ExerciseActivityDTOtoDomainMapper> exerciseActivityDTOtoDomainMappers) {
         super(exerciseActivityDTOtoDomainMappers);
     }
 
     public ExerciseActivityDTO toExerciseActivityDTO(ExerciseActivity domain) {
-        var mapper = getMapperBaseOnDataFrom(domain);
-        if (mapper == null && domain.getClass().getSuperclass() != null) {
-            mapper = dataFromMapper.get(domain.getClass().getSuperclass());
-        }
-        if (mapper == null) {
-            throw new IllegalArgumentException("No mapper for " + domain.getClass());
-        }
-        return mapper.transform(domain);
+        return this.transform(domain);
+    }
+
+    public ExerciseActivityDTO toExerciseActivityDTO(ExerciseActivity domain, Class<? extends ExerciseActivityDTO> targetType) {
+        return this.transform(domain, targetType);
     }
 
     public ExerciseActivity toExerciseActivityDomain(ExerciseActivityDTO dto) {
-        var mapper = getMapperBaseOnDataTo(dto);
-        if (mapper == null) {
-            throw new IllegalArgumentException("No mapper for format: " + dto.getClass().getSimpleName());
-        }
-        return mapper.reverseTransform(dto);
+        return this.reverseTransform(dto);
+    }
+
+    public ExerciseActivity toExerciseActivityDomain(ExerciseActivityDTO dto, Class<? extends ExerciseActivity> sourceType) {
+        return this.reverseTransform(dto, sourceType);
     }
 }

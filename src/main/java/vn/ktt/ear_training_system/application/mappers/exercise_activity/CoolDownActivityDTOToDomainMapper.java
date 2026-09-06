@@ -19,6 +19,11 @@ public class CoolDownActivityDTOToDomainMapper implements ExerciseActivityDTOtoD
     }
 
     @Override
+    public ExerciseActivityMapperKey getKey() {
+        return ExerciseActivityMapperKey.COOL_DOWN;
+    }
+
+    @Override
     public ExerciseActivityDTO transform(ExerciseActivity exerciseActivity) {
         CoolDownRestActivity restActivity = (CoolDownRestActivity) exerciseActivity;
         return new CoolDownRestActivityDTO(restActivity.getPosition(), restActivity.getRestAmountInSecond());
