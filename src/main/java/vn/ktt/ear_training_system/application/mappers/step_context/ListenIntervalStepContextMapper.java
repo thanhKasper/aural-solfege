@@ -22,6 +22,11 @@ public class ListenIntervalStepContextMapper implements StepContextMapper {
     }
 
     @Override
+    public StepContextMapperKey getKey() {
+        return StepContextMapperKey.SINGLE_INTERVAL;
+    }
+
+    @Override
     public PracticeStepDTO transform(StepContext dataFrom) {
         var context = (ListenIntervalContext) dataFrom;
         return new ListenIntervalStepDTO(

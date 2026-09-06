@@ -29,6 +29,11 @@ public class IntervalSoundComparisonStepContextMapper implements StepContextMapp
     }
 
     @Override
+    public StepContextMapperKey getKey() {
+        return StepContextMapperKey.HIGHER_LOWER_INTERVAL;
+    }
+
+    @Override
     public PracticeStepDTO transform(StepContext dataFrom) {
         var context = (IntervalSoundComparisonContext) dataFrom;
         return new IntervalSoundComparisonStepDTO(

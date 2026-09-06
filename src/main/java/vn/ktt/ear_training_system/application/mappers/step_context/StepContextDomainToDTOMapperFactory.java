@@ -4,28 +4,30 @@ import org.springframework.stereotype.Component;
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
 import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.StepContext;
 import vn.ktt.shared.DataMapperRegistry;
+import vn.ktt.shared.IDataMapper;
 
 import java.util.List;
 
 @Component
-public class StepContextDomainToDTOMapperFactory extends DataMapperRegistry<StepContext, PracticeStepDTO, StepContextMapper> {
-    public StepContextDomainToDTOMapperFactory(List<StepContextMapper> stepContextMappers) {
+public class StepContextDomainToDTOMapperFactory extends DataMapperRegistry<StepContextMapperKey, StepContext, PracticeStepDTO> {
+
+    public StepContextDomainToDTOMapperFactory(List<IDataMapper<StepContextMapperKey, StepContext, PracticeStepDTO>> stepContextMappers) {
         super(stepContextMappers);
     }
 
     public PracticeStepDTO toDto(StepContext domain) {
-        var mapper = getMapperBaseOnDataFrom(domain);
-        if (mapper == null) {
-            throw new IllegalArgumentException("No mapper for " + domain.getClass());
-        }
-        return mapper.transform(domain);
+        return this.transform(domain);
+    }
+
+    public PracticeStepDTO toDto(StepContext domain, Class<? extends PracticeStepDTO> targetType) {
+        return this.transform(domain, targetType);
     }
 
     public StepContext toDomain(PracticeStepDTO dto) {
-        var mapper = getMapperBaseOnDataTo(dto);
-        if (mapper == null) {
-            throw new IllegalArgumentException("No mapper for step: " + dto.getClass().getSimpleName());
-        }
-        return mapper.reverseTransform(dto);
+        return this.reverseTransform(dto);
+    }
+
+    public StepContext toDomain(PracticeStepDTO dto, Class<? extends StepContext> sourceType) {
+        return this.reverseTransform(dto, sourceType);
     }
 }

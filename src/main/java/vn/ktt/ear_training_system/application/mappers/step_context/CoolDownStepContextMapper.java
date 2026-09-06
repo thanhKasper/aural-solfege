@@ -20,6 +20,11 @@ public class CoolDownStepContextMapper implements StepContextMapper {
     }
 
     @Override
+    public StepContextMapperKey getKey() {
+        return StepContextMapperKey.COOL_DOWN;
+    }
+
+    @Override
     public PracticeStepDTO transform(StepContext dataFrom) {
         var context = (CoolDownContext) dataFrom;
         return new CoolDownStepDTO(
