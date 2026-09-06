@@ -20,6 +20,11 @@ public class ListenIntervalContextEntityToDomainMapper implements IStepContextEn
     }
 
     @Override
+    public StepContextEntityMapperKey getKey() {
+        return StepContextEntityMapperKey.SINGLE_INTERVAL;
+    }
+
+    @Override
     public StepContextEntity transform(StepContext dataFrom) {
         var ctx = (ListenIntervalContext) dataFrom;
         return new ListenIntervalContextEntity(ctx.interval(), ctx.direction(), ctx.texture());

@@ -4,5 +4,5 @@ import vn.ktt.ear_training_system.domain.practice_session.value_object.step_cont
 import vn.ktt.ear_training_system.infrastructure.repository.entities.step_context.StepContextEntity;
 import vn.ktt.shared.IDataMapper;
 
-public interface IStepContextEntityToDomainMapper extends IDataMapper<StepContext, StepContextEntity> {
+public interface IStepContextEntityToDomainMapper extends IDataMapper<StepContextEntityMapperKey, StepContext, StepContextEntity> {
 }

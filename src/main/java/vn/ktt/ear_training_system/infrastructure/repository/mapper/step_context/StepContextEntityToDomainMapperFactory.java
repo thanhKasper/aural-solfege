@@ -8,24 +8,25 @@ import vn.ktt.shared.DataMapperRegistry;
 import java.util.List;
 
 @Component
-public class StepContextEntityToDomainMapperFactory extends DataMapperRegistry<StepContext, StepContextEntity, IStepContextEntityToDomainMapper> {
+public class StepContextEntityToDomainMapperFactory extends DataMapperRegistry<StepContextEntityMapperKey, StepContext, StepContextEntity> {
+
     public StepContextEntityToDomainMapperFactory(List<IStepContextEntityToDomainMapper> mappers) {
         super(mappers);
     }
 
     public StepContextEntity toStepContextEntity(StepContext domain) {
-        var mapper = getMapperBaseOnDataFrom(domain);
-        if (mapper == null) {
-            throw new IllegalArgumentException("Missing mapper for " + domain.getClass());
-        }
-        return mapper.transform(domain);
+        return this.transform(domain);
+    }
+
+    public StepContextEntity toStepContextEntity(StepContext domain, Class<? extends StepContextEntity> targetType) {
+        return this.transform(domain, targetType);
     }
 
     public StepContext toStepContext(StepContextEntity entity) {
-        var mapper = getMapperBaseOnDataTo(entity);
-        if (mapper == null) {
-            throw new IllegalArgumentException("Missing mapper for entity " + entity.getClass());
-        }
-        return mapper.reverseTransform(entity);
+        return this.reverseTransform(entity);
+    }
+
+    public StepContext toStepContext(StepContextEntity entity, Class<? extends StepContext> sourceType) {
+        return this.reverseTransform(entity, sourceType);
     }
 }

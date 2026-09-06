@@ -20,6 +20,11 @@ public class CoolDownContextEntityToDomainMapper implements IStepContextEntityTo
     }
 
     @Override
+    public StepContextEntityMapperKey getKey() {
+        return StepContextEntityMapperKey.COOL_DOWN;
+    }
+
+    @Override
     public StepContextEntity transform(StepContext dataFrom) {
         var ctx = (CoolDownContext) dataFrom;
         return new CoolDownContextEntity(ctx.restingTimeInSecond());
