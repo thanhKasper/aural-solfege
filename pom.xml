@@ -4,10 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>vn.ktt</groupId>
-    <artifactId>aural-solfege</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -15,11 +11,22 @@
         <relativePath/>
     </parent>
 
+    <groupId>vn.ktt</groupId>
+    <artifactId>aural-solfege</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
     <properties>
-        <maven.compiler.source>26</maven.compiler.source>
-        <maven.compiler.target>26</maven.compiler.target>
+        <java.version>25</java.version>
+        <!--
+            maven.compiler.release is deliberately blank. javac refuses the
+            "add-exports" flag whenever the "release" flag is also present, and
+            Sf2BasedMidiRenderer needs the internal com.sun.media.sound.AudioSynthesizer
+            API. Blanking this makes the parent's release setting inert so the
+            source/target pair below takes effect instead.
+        -->
         <maven.compiler.release></maven.compiler.release>
-        <java.version>26</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <grpc.version>1.76.0</grpc.version>
         <protobuf.version>4.32.1</protobuf.version>
@@ -97,6 +104,26 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-java-25</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[25,)</version>
+                                    <message>This project requires JDK 25 or newer. Set JAVA_HOME to a JDK 25 installation.</message>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -107,8 +134,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>26</source>
-                    <target>26</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerArgs>
                         <arg>--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED</arg>
                     </compilerArgs>
