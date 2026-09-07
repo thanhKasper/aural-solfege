@@ -1,6 +1,6 @@
 package vn.ktt.eartraining.infrastructure.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -135,7 +135,7 @@ class PolymorphicDtoSerializationTest {
                 new SingleIntervalExerciseActivityDTO(List.of("MAJOR_2ND"), "ASCENDING", 0),
                 new CoolDownRestActivityDTO(1, 100));
 
-        String json = mapper.writerFor(new com.fasterxml.jackson.core.type.TypeReference<List<ExerciseActivityDTO>>() {})
+        String json = mapper.writerFor(new tools.jackson.core.type.TypeReference<List<ExerciseActivityDTO>>() {})
                 .writeValueAsString(activities);
         var tree = mapper.readTree(json);
 

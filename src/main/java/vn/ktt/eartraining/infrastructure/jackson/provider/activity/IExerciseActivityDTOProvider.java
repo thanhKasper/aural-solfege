@@ -1,6 +1,6 @@
 package vn.ktt.eartraining.infrastructure.jackson.provider.activity;
 
-import com.fasterxml.jackson.databind.jsontype.NamedType;
+import tools.jackson.databind.jsontype.NamedType;
 import vn.ktt.eartraining.application.dto.activity.ExerciseActivityDTO;
 
 public interface IExerciseActivityDTOProvider {
