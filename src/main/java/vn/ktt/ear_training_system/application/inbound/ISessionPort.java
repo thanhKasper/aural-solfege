@@ -5,7 +5,7 @@ import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
 
 import java.util.UUID;
 
-public interface SessionPort {
+public interface ISessionPort {
     SessionStepDTO startSession(UUID exerciseId);
     SessionStepDTO advanceToNextStep(UUID sessionId);
     SessionResultDTO concludeSession(UUID sessionId);

@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class ExerciseActivityDTOToDomainMapperFactory extends DataMapperRegistry<ExerciseActivityMapperKey, ExerciseActivity, ExerciseActivityDTO> {
 
-    public ExerciseActivityDTOToDomainMapperFactory(List<ExerciseActivityDTOtoDomainMapper> exerciseActivityDTOtoDomainMappers) {
+    public ExerciseActivityDTOToDomainMapperFactory(List<IExerciseActivityDTOToDomainMapper> exerciseActivityDTOtoDomainMappers) {
         super(exerciseActivityDTOtoDomainMappers);
     }
 

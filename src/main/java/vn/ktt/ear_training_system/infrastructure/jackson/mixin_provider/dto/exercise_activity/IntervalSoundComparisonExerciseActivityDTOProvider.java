@@ -6,7 +6,7 @@ import vn.ktt.ear_training_system.application.dtos.exercise_activities.ExerciseA
 import vn.ktt.ear_training_system.application.dtos.exercise_activities.IntervalSoundComparisonExerciseActivityDTO;
 
 @Component
-public class IntervalSoundComparisonExerciseActivityDTOProvider implements ExerciseActivityDTOProvider {
+public class IntervalSoundComparisonExerciseActivityDTOProvider implements IExerciseActivityDTOProvider {
     @Override
     public Class<? extends ExerciseActivityDTO> targetClass() {
         return IntervalSoundComparisonExerciseActivityDTO.class;

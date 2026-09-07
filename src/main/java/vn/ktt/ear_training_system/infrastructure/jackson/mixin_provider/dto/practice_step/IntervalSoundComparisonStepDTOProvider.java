@@ -6,7 +6,7 @@ import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepType;
 
 @Component
-public class IntervalSoundComparisonStepDTOProvider implements PracticeStepDTOProvider {
+public class IntervalSoundComparisonStepDTOProvider implements IPracticeStepDTOProvider {
     @Override
     public Class<? extends PracticeStepDTO> targetClass() {
         return IntervalDistanceComparisonStepDTO.class;

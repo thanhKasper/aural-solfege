@@ -6,7 +6,7 @@ import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepType;
 
 @Component
-public class CoolDownStepDTOProvider implements PracticeStepDTOProvider {
+public class CoolDownStepDTOProvider implements IPracticeStepDTOProvider {
     @Override
     public Class<? extends PracticeStepDTO> targetClass() {
         return CoolDownStepDTO.class;

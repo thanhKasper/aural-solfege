@@ -7,7 +7,7 @@ import vn.ktt.ear_training_system.domain.exercise.value_object.ExerciseActivity;
 import vn.ktt.ear_training_system.domain.exercise.value_object.exercise_activity.CoolDownRestActivity;
 
 @Component
-public class CoolDownActivityDTOToDomainMapper implements ExerciseActivityDTOtoDomainMapper {
+public class CoolDownActivityDTOToDomainMapper implements IExerciseActivityDTOToDomainMapper {
     @Override
     public Class<? extends ExerciseActivity> getDataFromClass() {
         return CoolDownRestActivity.class;

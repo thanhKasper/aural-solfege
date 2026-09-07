@@ -7,7 +7,7 @@ import vn.ktt.ear_training_system.domain.practice_session.value_object.step_cont
 import vn.ktt.ear_training_system.domain.practice_session.value_object.step_context.StepContext;
 
 @Component
-public class CoolDownStepContextMapper implements StepContextMapper {
+public class CoolDownStepContextMapper implements IStepContextMapper {
 
     @Override
     public Class<? extends StepContext> getDataFromClass() {

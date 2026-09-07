@@ -24,9 +24,9 @@ class StepContextDomainToDTOMapperFactoryTest {
     private final IIntervalComparisonPort sampleComparisonPort =
             (firstInterval, secondInterval) -> Integer.compare(firstInterval.ordinal(), secondInterval.ordinal());
 
-    private final StepContextMapper coolDownMapper = new CoolDownStepContextMapper();
-    private final StepContextMapper listenMapper = new ListenIntervalStepContextMapper();
-    private final StepContextMapper comparisonMapper = new IntervalDistanceComparisonStepContextMapper(sampleComparisonPort);
+    private final IStepContextMapper coolDownMapper = new CoolDownStepContextMapper();
+    private final IStepContextMapper listenMapper = new ListenIntervalStepContextMapper();
+    private final IStepContextMapper comparisonMapper = new IntervalDistanceComparisonStepContextMapper(sampleComparisonPort);
 
     private final StepContextDomainToDTOMapperFactory factory =
             new StepContextDomainToDTOMapperFactory(List.of(coolDownMapper, listenMapper, comparisonMapper));

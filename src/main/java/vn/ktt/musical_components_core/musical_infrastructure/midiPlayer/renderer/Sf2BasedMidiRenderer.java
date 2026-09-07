@@ -29,7 +29,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @Primary
-public class Sf2BasedMidiRenderer implements MidiRenderer {
+public class Sf2BasedMidiRenderer implements IMidiRenderer {
 
     private static final float SAMPLE_RATE = 44100.0f;
     private static final int BITS_PER_SAMPLE = 16;

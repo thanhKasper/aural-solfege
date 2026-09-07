@@ -8,7 +8,7 @@ import vn.ktt.ear_training_system.domain.practice_session.repository.IPracticeSe
 import vn.ktt.ear_training_system.domain.practice_session.service.CoolDownStepGeneration;
 import vn.ktt.ear_training_system.domain.practice_session.service.IntervalSoundComparisonStepGeneration;
 import vn.ktt.ear_training_system.domain.practice_session.service.SingleIntervalStepGeneration;
-import vn.ktt.ear_training_system.domain.practice_session.service.StepGeneration;
+import vn.ktt.ear_training_system.domain.practice_session.service.IStepGeneration;
 import vn.ktt.ear_training_system.domain.practice_session.service.StepGenerationService;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 import vn.ktt.musical_components_core.musical_domains.music_factory.MusicalEntityFactory;
@@ -27,22 +27,22 @@ public class DomainServiceConfig {
 
     @Bean
     public StepGenerationService stepGenerationService(
-            List<IServiceIndex<ExerciseActivity, StepGeneration>> generators) {
+            List<IServiceIndex<ExerciseActivity, IStepGeneration>> generators) {
         return new StepGenerationService(generators);
     }
 
     @Bean
-    public StepGeneration singleIntervalStepGeneration() {
+    public IStepGeneration singleIntervalStepGeneration() {
         return new SingleIntervalStepGeneration();
     }
 
     @Bean
-    public StepGeneration intervalSoundComparisonStepGeneration() {
+    public IStepGeneration intervalSoundComparisonStepGeneration() {
         return new IntervalSoundComparisonStepGeneration();
     }
 
     @Bean
-    public StepGeneration coolDownStepGeneration() {
+    public IStepGeneration coolDownStepGeneration() {
         return new CoolDownStepGeneration();
     }
 

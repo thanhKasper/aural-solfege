@@ -6,6 +6,6 @@ import vn.ktt.shared.IServiceIndex;
 
 import java.util.List;
 
-public interface StepGeneration extends IServiceIndex<ExerciseActivity, StepGeneration> {
+public interface IStepGeneration extends IServiceIndex<ExerciseActivity, IStepGeneration> {
     List<StepDefinition> generate(ExerciseActivity activity);
 }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class HarmonicMidiRenderer implements MidiRenderer {
+public class HarmonicMidiRenderer implements IMidiRenderer {
 
     private static final float SAMPLE_RATE_HZ = 44100.0f;
     private static final int CHANNELS = 1;

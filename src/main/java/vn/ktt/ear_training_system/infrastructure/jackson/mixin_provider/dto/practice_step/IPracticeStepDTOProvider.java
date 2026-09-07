@@ -3,7 +3,7 @@ package vn.ktt.ear_training_system.infrastructure.jackson.mixin_provider.dto.pra
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import vn.ktt.ear_training_system.application.dtos.practice_step.PracticeStepDTO;
 
-public interface PracticeStepDTOProvider {
+public interface IPracticeStepDTOProvider {
     Class<? extends PracticeStepDTO> targetClass();
     String typeName();
 

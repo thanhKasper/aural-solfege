@@ -9,7 +9,7 @@ import vn.ktt.ear_training_system.domain.exercise.value_object.MusicalInterval;
 import vn.ktt.ear_training_system.domain.exercise.value_object.exercise_activity.IntervalSoundComparison;
 
 @Component
-public class IntervalSoundComparisonExerciseActivityDTOtoDomainMapper implements ExerciseActivityDTOtoDomainMapper {
+public class IntervalSoundComparisonExerciseActivityDTOtoDomainMapper implements IExerciseActivityDTOToDomainMapper {
 
     @Override
     public Class<? extends ExerciseActivity> getDataFromClass() {

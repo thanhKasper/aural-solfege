@@ -1,14 +1,14 @@
 package vn.ktt.musical_components_core.musical_infrastructure.adapters;
 
 import org.springframework.stereotype.Repository;
-import vn.ktt.musical_components_core.musical_application.sound_configuration.outbound.InstrumentConfigurationPort;
+import vn.ktt.musical_components_core.musical_application.sound_configuration.outbound.IInstrumentConfigurationPort;
 import vn.ktt.musical_components_core.musical_domains.instruments.Instrument;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 import vn.ktt.musical_components_core.musical_infrastructure.repository.MusicalConfigurationRepository;
 import vn.ktt.musical_components_core.musical_infrastructure.repository.entities.InstrumentEntity;
 
 @Repository
-public class MusicalConfigurationDataSourceAdapter implements InstrumentConfigurationPort {
+public class MusicalConfigurationDataSourceAdapter implements IInstrumentConfigurationPort {
     private final IMusicalEntityFactory musicalEntityFactory;
     private final MusicalConfigurationRepository musicalConfigurationRepository;
 

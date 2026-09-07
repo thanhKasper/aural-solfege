@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExerciseActivityDTOToDomainMapperFactoryTest {
 
-    private final ExerciseActivityDTOtoDomainMapper singleMapper = new SingleIntervalExerciseActivityDTOtoDomainMapper();
-    private final ExerciseActivityDTOtoDomainMapper comparisonMapper = new IntervalSoundComparisonExerciseActivityDTOtoDomainMapper();
-    private final ExerciseActivityDTOtoDomainMapper coolDownMapper = new CoolDownActivityDTOToDomainMapper();
+    private final IExerciseActivityDTOToDomainMapper singleMapper = new SingleIntervalExerciseActivityDTOtoDomainMapper();
+    private final IExerciseActivityDTOToDomainMapper comparisonMapper = new IntervalSoundComparisonExerciseActivityDTOtoDomainMapper();
+    private final IExerciseActivityDTOToDomainMapper coolDownMapper = new CoolDownActivityDTOToDomainMapper();
 
     private final ExerciseActivityDTOToDomainMapperFactory factory =
             new ExerciseActivityDTOToDomainMapperFactory(List.of(singleMapper, comparisonMapper, coolDownMapper));

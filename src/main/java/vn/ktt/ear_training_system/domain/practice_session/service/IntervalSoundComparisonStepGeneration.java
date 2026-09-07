@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class IntervalSoundComparisonStepGeneration implements StepGeneration {
+public class IntervalSoundComparisonStepGeneration implements IStepGeneration {
     private static final int TOTAL_QUESTIONS = 10;
     private final Random random = new Random();
 
@@ -42,7 +42,7 @@ public class IntervalSoundComparisonStepGeneration implements StepGeneration {
     }
 
     @Override
-    public StepGeneration getService() {
+    public IStepGeneration getService() {
         return this;
     }
 }

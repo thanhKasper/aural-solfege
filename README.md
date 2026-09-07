@@ -14,7 +14,7 @@ A Spring Boot backend application for interval-based ear training. It generates 
 
 | Component         | Technology                                      |
 | ----------------- | ----------------------------------------------- |
-| Language          | Java 26                                         |
+| Language          | Java 25                                         |
 | Framework         | Spring Boot 3.5.8 (Web MVC, Data JPA, Validation) |
 | Build Tool        | Maven                                           |
 | Database          | PostgreSQL 16                                   |
@@ -24,7 +24,7 @@ A Spring Boot backend application for interval-based ear training. It generates 
 
 ## Prerequisites
 
-- **Java 26** (JDK with `--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED`)
+- **Java 25** (JDK with `--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED`)
 - **Docker** (for PostgreSQL via Docker Compose)
 - **Maven 3.x**
 - A **SoundFont2 (.sf2) file** placed at `src/main/resources/soundfonts/grand_piano.sf2` (~266 MB, gitignored)
@@ -57,7 +57,7 @@ mvn clean package
 mvn spring-boot:run
 ```
 
-Or run `vn.ktt.Main` from your IDE (IntelliJ IDEA recommended).
+Or run `vn.ktt.AuralSolfegeApplication` from your IDE (IntelliJ IDEA recommended).
 
 The application starts on **http://localhost:8080** by default.
 
@@ -136,7 +136,7 @@ Each bounded context is organized into:
 **Planned evolution:** `musical_components_core` and `ear_training_system` are designed to be split into **two independent services** in the future to improve maintainability - a service for musical/audio processing and a service for the ear-training domain logic.
 
 **Key patterns:**
-- Dependency inversion via interfaces (`IExerciseRepository`, `SoundGeneratorPort`, etc.)
+- Dependency inversion via interfaces (`IExerciseRepository`, `ISoundGeneratorPort`, etc.)
 - Shared abstractions (`ServiceRegistry`, `DataMapperRegistry`)
 - Jackson polymorphic serialization for exercise activities and practice steps
 - State machine for practice steps (PENDING → ACTIVE → COMPLETED → SKIPPED)
@@ -150,7 +150,7 @@ aural-solfege/
 ├── src/
 │   ├── main/
 │   │   ├── java/vn/ktt/
-│   │   │   ├── Main.java
+│   │   │   ├── AuralSolfegeApplication.java
 │   │   │   ├── shared/                           # Generic registries & mappers
 │   │   │   ├── musical_components_core/          # Music domain & sound generation
 │   │   │   │   ├── musical_domains/

@@ -8,7 +8,7 @@ import vn.ktt.ear_training_system.domain.practice_session.value_object.step_cont
 import java.util.List;
 import java.util.stream.Stream;
 
-public class SingleIntervalStepGeneration implements StepGeneration {
+public class SingleIntervalStepGeneration implements IStepGeneration {
 
     @Override
     public List<StepDefinition> generate(ExerciseActivity activity) {
@@ -29,7 +29,7 @@ public class SingleIntervalStepGeneration implements StepGeneration {
     }
 
     @Override
-    public StepGeneration getService() {
+    public IStepGeneration getService() {
         return this;
     }
 }

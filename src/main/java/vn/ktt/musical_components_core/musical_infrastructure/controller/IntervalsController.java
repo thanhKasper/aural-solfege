@@ -5,17 +5,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.musical_components_core.musical_application.sound_controller.dtos.AudioContent;
-import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IntervalGeneratorPort;
+import vn.ktt.musical_components_core.musical_application.sound_controller.inbound.IIntervalGeneratorPort;
 import vn.ktt.musical_components_core.musical_domains.music_compositions.Interval;
 import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
 
-@RestController("IntervalsController")
+@RestController
 @RequestMapping("/api/intervals")
 public class IntervalsController {
-    private final IntervalGeneratorPort intervalGenerator;
+    private final IIntervalGeneratorPort intervalGenerator;
     private final IMusicalEntityFactory musicalEntityFactory;
 
-    public IntervalsController(IntervalGeneratorPort intervalGenerator, IMusicalEntityFactory musicalEntityFactory) {
+    public IntervalsController(IIntervalGeneratorPort intervalGenerator, IMusicalEntityFactory musicalEntityFactory) {
         this.intervalGenerator = intervalGenerator;
         this.musicalEntityFactory = musicalEntityFactory;
     }

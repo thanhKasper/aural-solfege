@@ -2,7 +2,7 @@ package vn.ktt.musical_components_core.musical_infrastructure.midiPlayer.rendere
 
 import javax.sound.midi.Sequence;
 
-public interface MidiRenderer {
+public interface IMidiRenderer {
 
     PcmSamples render(Sequence sequence);
 }

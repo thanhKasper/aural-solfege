@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.ear_training_system.application.dtos.SessionResultDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
-import vn.ktt.ear_training_system.application.inbound.SessionPort;
+import vn.ktt.ear_training_system.application.inbound.ISessionPort;
 import vn.ktt.ear_training_system.infrastructure.dto.PracticeStepResponse;
 
 import java.util.UUID;
@@ -12,9 +12,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "api/sessions")
 public class SessionController {
-    private final SessionPort sessionPort;
+    private final ISessionPort sessionPort;
 
-    public SessionController(SessionPort sessionPort) {
+    public SessionController(ISessionPort sessionPort) {
         this.sessionPort = sessionPort;
     }
 

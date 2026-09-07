@@ -8,9 +8,9 @@ import vn.ktt.shared.ServiceRegistry;
 import java.util.Collections;
 import java.util.List;
 
-public class StepGenerationService extends ServiceRegistry<ExerciseActivity, StepGeneration> {
+public class StepGenerationService extends ServiceRegistry<ExerciseActivity, IStepGeneration> {
 
-    public StepGenerationService(List<IServiceIndex<ExerciseActivity, StepGeneration>> generatorList) {
+    public StepGenerationService(List<IServiceIndex<ExerciseActivity, IStepGeneration>> generatorList) {
         super(generatorList);
     }
 
@@ -20,7 +20,7 @@ public class StepGenerationService extends ServiceRegistry<ExerciseActivity, Ste
                     var generator = this.getService(activity);
                     if (generator == null) {
                         throw new IllegalArgumentException(
-                                "No StepGeneration registered for " + activity.getClass().getSimpleName());
+                                "No IStepGeneration registered for " + activity.getClass().getSimpleName());
                     }
                     return generator.generate(activity).stream();
                 })

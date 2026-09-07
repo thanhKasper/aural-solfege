@@ -3,7 +3,7 @@ package vn.ktt.ear_training_system.application;
 import org.springframework.stereotype.Service;
 import vn.ktt.ear_training_system.application.dtos.SessionResultDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
-import vn.ktt.ear_training_system.application.inbound.SessionPort;
+import vn.ktt.ear_training_system.application.inbound.ISessionPort;
 import vn.ktt.ear_training_system.application.mappers.SessionMapper;
 import vn.ktt.ear_training_system.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.ear_training_system.domain.guard.ExerciseModificationGuard;
@@ -17,7 +17,7 @@ import java.time.Duration;
 import java.util.UUID;
 
 @Service
-public class SessionUseCase implements SessionPort {
+public class SessionUseCase implements ISessionPort {
     private final IExerciseRepository exerciseRepository;
     private final IPracticeSessionRepository sessionRepository;
     private final StepGenerationService stepGenerationService;

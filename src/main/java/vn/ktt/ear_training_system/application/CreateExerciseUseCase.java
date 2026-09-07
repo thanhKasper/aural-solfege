@@ -2,7 +2,7 @@ package vn.ktt.ear_training_system.application;
 
 import org.springframework.stereotype.Service;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
-import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
+import vn.ktt.ear_training_system.application.inbound.IExerciseCreationPort;
 import vn.ktt.ear_training_system.application.mappers.ExerciseMapper;
 import vn.ktt.ear_training_system.domain.exercise.entity.Exercise;
 import vn.ktt.ear_training_system.domain.exercise.value_object.exercise_activity.CoolDownRestActivity;
@@ -12,7 +12,7 @@ import vn.ktt.ear_training_system.domain.exercise.value_object.TrainingMethodolo
 import java.util.ArrayList;
 
 @Service
-public class CreateExerciseUseCase implements ExerciseCreationPort {
+public class CreateExerciseUseCase implements IExerciseCreationPort {
     private final IExerciseRepository exerciseRepository;
     private final ExerciseMapper exerciseMapper;
 

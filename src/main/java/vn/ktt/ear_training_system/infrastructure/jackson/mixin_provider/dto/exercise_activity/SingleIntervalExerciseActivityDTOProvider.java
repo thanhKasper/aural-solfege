@@ -6,7 +6,7 @@ import vn.ktt.ear_training_system.application.dtos.exercise_activities.ExerciseA
 import vn.ktt.ear_training_system.application.dtos.exercise_activities.SingleIntervalExerciseActivityDTO;
 
 @Component
-public class SingleIntervalExerciseActivityDTOProvider implements ExerciseActivityDTOProvider {
+public class SingleIntervalExerciseActivityDTOProvider implements IExerciseActivityDTOProvider {
     @Override
     public Class<? extends ExerciseActivityDTO> targetClass() {
         return SingleIntervalExerciseActivityDTO.class;

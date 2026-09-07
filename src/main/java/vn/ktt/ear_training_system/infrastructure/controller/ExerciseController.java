@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.ear_training_system.application.dtos.ExerciseDTO;
 import vn.ktt.ear_training_system.application.dtos.SessionStepDTO;
-import vn.ktt.ear_training_system.application.inbound.ExerciseCreationPort;
-import vn.ktt.ear_training_system.application.inbound.ExerciseRetrievalPort;
-import vn.ktt.ear_training_system.application.inbound.SessionPort;
+import vn.ktt.ear_training_system.application.inbound.IExerciseCreationPort;
+import vn.ktt.ear_training_system.application.inbound.IExerciseRetrievalPort;
+import vn.ktt.ear_training_system.application.inbound.ISessionPort;
 import vn.ktt.ear_training_system.application.services.Page;
 import vn.ktt.ear_training_system.infrastructure.dto.PracticeStepResponse;
 
@@ -15,13 +15,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "api/exercises")
 public class ExerciseController {
-    private final ExerciseCreationPort exerciseCreationService;
-    private final ExerciseRetrievalPort exerciseRetrievalService;
-    private final SessionPort sessionPort;
+    private final IExerciseCreationPort exerciseCreationService;
+    private final IExerciseRetrievalPort exerciseRetrievalService;
+    private final ISessionPort sessionPort;
 
-    public ExerciseController(ExerciseCreationPort exerciseCreationService,
-                              ExerciseRetrievalPort exerciseRetrievalService,
-                              SessionPort sessionPort) {
+    public ExerciseController(IExerciseCreationPort exerciseCreationService,
+                              IExerciseRetrievalPort exerciseRetrievalService,
+                              ISessionPort sessionPort) {
         this.exerciseCreationService = exerciseCreationService;
         this.exerciseRetrievalService = exerciseRetrievalService;
         this.sessionPort = sessionPort;

@@ -8,7 +8,7 @@ import vn.ktt.ear_training_system.domain.practice_session.value_object.StepType;
 
 import java.util.List;
 
-public class CoolDownStepGeneration implements StepGeneration {
+public class CoolDownStepGeneration implements IStepGeneration {
 
     @Override
     public List<StepDefinition> generate(ExerciseActivity activity) {
@@ -23,7 +23,7 @@ public class CoolDownStepGeneration implements StepGeneration {
     }
 
     @Override
-    public StepGeneration getService() {
+    public IStepGeneration getService() {
         return this;
     }
 }
