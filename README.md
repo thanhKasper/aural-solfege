@@ -115,13 +115,13 @@ Key properties in `src/main/resources/application.properties`:
 The project follows **Clean/Hexagonal Architecture** with two bounded contexts:
 
 ```
-music/                                  ear_training_system/
+music/                                  eartraining/
 ├── domain/                             ├── domain/
-├── application/                        │   ├── exercise/          (root aggregate)
-└── infrastructure/                     │   ├── practice_session/  (root aggregate)
+├── application/                        │   ├── exercise/  (root aggregate)
+└── infrastructure/                     │   ├── session/   (root aggregate)
                                         │   └── guard/
-                                        ├── application/          (shared ports, use-cases)
-                                        └── infrastructure/       (shared REST, JPA)
+                                        ├── application/   (shared ports, use-cases)
+                                        └── infrastructure/(shared REST, JPA)
 ```
 
 Each bounded context is organized into:
@@ -131,9 +131,9 @@ Each bounded context is organized into:
 
 **Bounded contexts:**
 - `music` - Music domain, sound generation, and audio output
-- `ear_training_system` - Ear-training domain logic; its `domain` layer contains the two root aggregates `Exercise` and `PracticeSession` (each with its own entity, value objects, and repository), sharing the `application` and `infrastructure` layers above them
+- `eartraining` - Ear-training domain logic; its `domain` layer contains the two root aggregates `Exercise` and `PracticeSession` (each with its own entity, value objects, and repository), sharing the `application` and `infrastructure` layers above them
 
-**Planned evolution:** `music` and `ear_training_system` are designed to be split into **two independent services** in the future to improve maintainability - a service for musical/audio processing and a service for the ear-training domain logic.
+**Planned evolution:** `music` and `eartraining` are designed to be split into **two independent services** in the future to improve maintainability - a service for musical/audio processing and a service for the ear-training domain logic.
 
 **Key patterns:**
 - Dependency inversion via interfaces (`IExerciseRepository`, `ISoundGeneratorPort`, etc.)
@@ -156,18 +156,18 @@ aural-solfege/
 │   │   │   │   ├── domain/                       # atom, composition, instrument, factory, service
 │   │   │   │   ├── application/                  # sound, instrument (ports + use cases)
 │   │   │   │   └── infrastructure/               # controller, grpc, audio, persistence, config
-│   │   │   └── ear_training_system/              # Ear-training domain logic
+│   │   │   └── eartraining/                      # Ear-training domain logic
 │   │   │       ├── domain/
 │   │   │       │   ├── exercise/                 # Root aggregate: exercises
-│   │   │       │   ├── practice_session/         # Root aggregate: sessions
+│   │   │       │   ├── session/                  # Root aggregate: practice sessions
 │   │   │       │   └── guard/
-│   │   │       ├── application/                  # Shared ports & use-cases
-│   │   │       └── infrastructure/               # Shared REST & persistence
+│   │   │       ├── application/                  # dto, mapper, inbound/outbound ports, use cases
+│   │   │       └── infrastructure/               # controller, persistence, jackson, grpc, config
 │   │   └── resources/
 │   │       ├── application.properties
 │   │       ├── import.sql                        # Seed data
 │   │       └── soundfonts/
-│   └── test/                                     # (empty)
+│   └── test/                                     # Mapper-registry unit tests (41)
 └── target/
 ```
 
