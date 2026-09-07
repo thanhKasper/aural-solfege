@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public final class IntervalDistanceComparisonStepDTO implements PracticeStepDTO {
+public final class IntervalSoundComparisonStepDTO implements PracticeStepDTO {
     private int activityPosition;
     private String status;
     private String firstInterval;
@@ -17,7 +17,7 @@ public final class IntervalDistanceComparisonStepDTO implements PracticeStepDTO 
     private int totalQuestions;
     private int currentQuestionNumber;
 
-    public IntervalDistanceComparisonStepDTO(int activityPosition, String status, String firstInterval,
+    public IntervalSoundComparisonStepDTO(int activityPosition, String status, String firstInterval,
                                              String secondInterval, String texture, int calculatedComparison, int totalQuestions, int currentQuestionNumber) {
         this.activityPosition = activityPosition;
         this.status = status;

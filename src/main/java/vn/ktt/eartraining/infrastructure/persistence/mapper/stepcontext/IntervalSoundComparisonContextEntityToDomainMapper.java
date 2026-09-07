@@ -21,7 +21,7 @@ public class IntervalSoundComparisonContextEntityToDomainMapper implements IStep
 
     @Override
     public StepContextEntityMapperKey getKey() {
-        return StepContextEntityMapperKey.HIGHER_LOWER_INTERVAL;
+        return StepContextEntityMapperKey.INTERVAL_SOUND_COMPARISON;
     }
 
     @Override

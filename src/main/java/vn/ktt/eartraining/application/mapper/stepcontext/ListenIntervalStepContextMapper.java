@@ -23,7 +23,7 @@ public class ListenIntervalStepContextMapper implements IStepContextMapper {
 
     @Override
     public StepContextMapperKey getKey() {
-        return StepContextMapperKey.SINGLE_INTERVAL;
+        return StepContextMapperKey.LISTEN_INTERVAL;
     }
 
     @Override
