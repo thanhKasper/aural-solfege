@@ -1,6 +1,7 @@
 package vn.ktt.eartraining.infrastructure.persistence.converter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,7 @@ import vn.ktt.eartraining.infrastructure.persistence.entity.stepcontext.StepCont
 @Component
 public class StepContextEntityConverter implements AttributeConverter<StepContextEntity, String> {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = JsonMapper.builder().build();
 
     @Override
     public String convertToDatabaseColumn(StepContextEntity entity) {
