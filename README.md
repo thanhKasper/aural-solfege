@@ -15,10 +15,10 @@ A Spring Boot backend application for interval-based ear training. It generates 
 | Component         | Technology                                      |
 | ----------------- | ----------------------------------------------- |
 | Language          | Java 25                                         |
-| Framework         | Spring Boot 3.5.8 (Web MVC, Data JPA, Validation) |
+| Framework         | Spring Boot 4.1.1 (Web MVC, Data JPA, Validation, gRPC) |
 | Build Tool        | Maven                                           |
 | Database          | PostgreSQL 16                                   |
-| Object Mapping    | Lombok + Jackson (with mixins & polymorphism)   |
+| Object Mapping    | Lombok + Jackson 3 (with mixins & polymorphism) |
 | Audio Engine      | Java Sound API (MIDI → WAV pipeline)            |
 | ORM               | Hibernate (JPA)                                 |
 
