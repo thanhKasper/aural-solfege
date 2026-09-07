@@ -10,8 +10,8 @@ import vn.ktt.ear_training_system.domain.practice_session.service.IntervalSoundC
 import vn.ktt.ear_training_system.domain.practice_session.service.SingleIntervalStepGeneration;
 import vn.ktt.ear_training_system.domain.practice_session.service.IStepGeneration;
 import vn.ktt.ear_training_system.domain.practice_session.service.StepGenerationService;
-import vn.ktt.musical_components_core.musical_domains.music_factory.IMusicalEntityFactory;
-import vn.ktt.musical_components_core.musical_domains.music_factory.MusicalEntityFactory;
+import vn.ktt.music.domain.factory.IMusicalEntityFactory;
+import vn.ktt.music.domain.factory.MusicalEntityFactory;
 import vn.ktt.shared.IServiceIndex;
 
 import java.util.List;
