@@ -1,4 +1,4 @@
-package vn.ktt.eartraining.infrastructure.persistence.repository;
+package vn.ktt.eartraining.infrastructure.persistence.gateway;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;

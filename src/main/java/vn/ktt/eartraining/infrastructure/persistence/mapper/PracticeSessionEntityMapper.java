@@ -5,7 +5,7 @@ import vn.ktt.eartraining.domain.session.entity.PracticeSession;
 import vn.ktt.eartraining.domain.session.entity.PracticeStep;
 import vn.ktt.eartraining.infrastructure.persistence.entity.PracticeSessionEntity;
 import vn.ktt.eartraining.infrastructure.persistence.entity.PracticeStepEntity;
-import vn.ktt.eartraining.infrastructure.persistence.repository.ExerciseJpaRepository;
+import vn.ktt.eartraining.infrastructure.persistence.gateway.ExerciseJpaRepository;
 import vn.ktt.eartraining.infrastructure.persistence.mapper.stepcontext.StepContextEntityToDomainMapperFactory;
 
 import java.util.ArrayList;

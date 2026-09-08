@@ -1,4 +1,4 @@
-package vn.ktt.eartraining.infrastructure.persistence.repository;
+package vn.ktt.eartraining.infrastructure.persistence.gateway;
 
 import org.springframework.stereotype.Repository;
 import vn.ktt.eartraining.domain.session.entity.PracticeSession;
