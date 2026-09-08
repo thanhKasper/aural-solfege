@@ -1,7 +1,8 @@
 package vn.ktt.eartraining.infrastructure.persistence.converter;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import java.util.List;
 @Converter
 @Component
 public class ExerciseActivitiesConverter implements AttributeConverter<List<ExerciseActivityEntity>, String> {
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = JsonMapper.builder().build();
 
     @Override
     public String convertToDatabaseColumn(List<ExerciseActivityEntity> entities) {
