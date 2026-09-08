@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package vn.ktt.grpc.sound;
+
+option java_package = "vn.ktt.grpc.sound";
+option java_multiple_files = true;
+
+message CompareIntervalsRequest {
+  string first_interval_notation = 1;
+  string second_interval_notation = 2;
+}
+
+message CompareIntervalsResponse {
+  int32 comparison = 1;
+}
+
+service SoundService {
+  rpc CompareIntervals(CompareIntervalsRequest) returns (CompareIntervalsResponse);
+}
