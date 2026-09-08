@@ -14,7 +14,7 @@ A Spring Boot backend application for interval-based ear training. It generates 
 
 | Component         | Technology                                      |
 | ----------------- | ----------------------------------------------- |
-| Language          | Java 26                                         |
+| Language          | Java 25                                         |
 | Framework         | Spring Boot 3.5.8 (Web MVC, Data JPA, Validation) |
 | Build Tool        | Maven                                           |
 | Database          | PostgreSQL 16                                   |
@@ -24,7 +24,7 @@ A Spring Boot backend application for interval-based ear training. It generates 
 
 ## Prerequisites
 
-- **Java 26** (JDK with `--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED`)
+- **Java 25** (JDK with `--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED`)
 - **Docker** (for PostgreSQL via Docker Compose)
 - **Maven 3.x**
 - A **SoundFont2 (.sf2) file** placed at `src/main/resources/soundfonts/grand_piano.sf2` (~266 MB, gitignored)
@@ -57,7 +57,7 @@ mvn clean package
 mvn spring-boot:run
 ```
 
-Or run `vn.ktt.Main` from your IDE (IntelliJ IDEA recommended).
+Or run `vn.ktt.AuralSolfegeApplication` from your IDE (IntelliJ IDEA recommended).
 
 The application starts on **http://localhost:8080** by default.
 
@@ -115,13 +115,13 @@ Key properties in `src/main/resources/application.properties`:
 The project follows **Clean/Hexagonal Architecture** with two bounded contexts:
 
 ```
-musical_components_core/                ear_training_system/
-├── musical_domains/                    ├── domain/
-├── musical_application/                │   ├── exercise/          (root aggregate)
-└── musical_infrastructure/             │   ├── practice_session/  (root aggregate)
+music/                                  eartraining/
+├── domain/                             ├── domain/
+├── application/                        │   ├── exercise/  (root aggregate)
+└── infrastructure/                     │   ├── session/   (root aggregate)
                                         │   └── guard/
-                                        ├── application/          (shared ports, use-cases)
-                                        └── infrastructure/       (shared REST, JPA)
+                                        ├── application/   (shared ports, use-cases)
+                                        └── infrastructure/(shared REST, JPA)
 ```
 
 Each bounded context is organized into:
@@ -130,13 +130,13 @@ Each bounded context is organized into:
 - **infrastructure** - Controllers, JPA entities/adapters, Spring configuration
 
 **Bounded contexts:**
-- `musical_components_core` - Music domain, sound generation, and audio output
-- `ear_training_system` - Ear-training domain logic; its `domain` layer contains the two root aggregates `Exercise` and `PracticeSession` (each with its own entity, value objects, and repository), sharing the `application` and `infrastructure` layers above them
+- `music` - Music domain, sound generation, and audio output
+- `eartraining` - Ear-training domain logic; its `domain` layer contains the two root aggregates `Exercise` and `PracticeSession` (each with its own entity, value objects, and repository), sharing the `application` and `infrastructure` layers above them
 
-**Planned evolution:** `musical_components_core` and `ear_training_system` are designed to be split into **two independent services** in the future to improve maintainability - a service for musical/audio processing and a service for the ear-training domain logic.
+**Planned evolution:** `music` and `eartraining` are designed to be split into **two independent services** in the future to improve maintainability - a service for musical/audio processing and a service for the ear-training domain logic.
 
 **Key patterns:**
-- Dependency inversion via interfaces (`IExerciseRepository`, `SoundGeneratorPort`, etc.)
+- Dependency inversion via interfaces (`IExerciseRepository`, `ISoundGeneratorPort`, etc.)
 - Shared abstractions (`ServiceRegistry`, `DataMapperRegistry`)
 - Jackson polymorphic serialization for exercise activities and practice steps
 - State machine for practice steps (PENDING → ACTIVE → COMPLETED → SKIPPED)
@@ -150,24 +150,24 @@ aural-solfege/
 ├── src/
 │   ├── main/
 │   │   ├── java/vn/ktt/
-│   │   │   ├── Main.java
+│   │   │   ├── AuralSolfegeApplication.java
 │   │   │   ├── shared/                           # Generic registries & mappers
-│   │   │   ├── musical_components_core/          # Music domain & sound generation
-│   │   │   │   ├── musical_domains/
-│   │   │   │   ├── musical_application/
-│   │   │   │   └── musical_infrastructure/
-│   │   │   └── ear_training_system/              # Ear-training domain logic
+│   │   │   ├── music/                            # Music domain & sound generation
+│   │   │   │   ├── domain/                       # atom, composition, instrument, factory, service
+│   │   │   │   ├── application/                  # sound, instrument (ports + use cases)
+│   │   │   │   └── infrastructure/               # controller, grpc, audio, persistence, config
+│   │   │   └── eartraining/                      # Ear-training domain logic
 │   │   │       ├── domain/
 │   │   │       │   ├── exercise/                 # Root aggregate: exercises
-│   │   │       │   ├── practice_session/         # Root aggregate: sessions
+│   │   │       │   ├── session/                  # Root aggregate: practice sessions
 │   │   │       │   └── guard/
-│   │   │       ├── application/                  # Shared ports & use-cases
-│   │   │       └── infrastructure/               # Shared REST & persistence
+│   │   │       ├── application/                  # dto, mapper, inbound/outbound ports, use cases
+│   │   │       └── infrastructure/               # controller, persistence, jackson, grpc, config
 │   │   └── resources/
 │   │       ├── application.properties
 │   │       ├── import.sql                        # Seed data
 │   │       └── soundfonts/
-│   └── test/                                     # (empty)
+│   └── test/                                     # Mapper-registry unit tests (41)
 └── target/
 ```
 

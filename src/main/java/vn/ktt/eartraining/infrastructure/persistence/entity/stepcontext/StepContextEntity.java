@@ -1,0 +1,15 @@
+package vn.ktt.eartraining.infrastructure.persistence.entity.stepcontext;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ListenIntervalContextEntity.class, name = "LISTEN_INTERVAL"),
+        @JsonSubTypes.Type(value = IntervalSoundComparisonContextEntity.class, name = "INTERVAL_SOUND_COMPARISON"),
+        @JsonSubTypes.Type(value = CoolDownContextEntity.class, name = "COOL_DOWN")
+})
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class StepContextEntity {
+}
