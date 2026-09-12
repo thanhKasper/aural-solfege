@@ -24,7 +24,7 @@ A Spring Boot backend application for interval-based ear training. It generates 
 
 ## Prerequisites
 
-- **Java 25** (JDK with `--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED`)
+- **Java 25** (runtime JVM flag `--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED`; not needed for compilation)
 - **Docker** (for PostgreSQL via Docker Compose)
 - **Maven 3.x**
 - A **SoundFont2 (.sf2) file** placed at `src/main/resources/soundfonts/grand_piano.sf2` (~266 MB, gitignored)
@@ -57,7 +57,7 @@ mvn clean package
 mvn spring-boot:run
 ```
 
-Or run `vn.ktt.AuralSolfegeApplication` from your IDE (IntelliJ IDEA recommended).
+Or run `vn.ktt.AuralSolfegeApplication` from your IDE (IntelliJ IDEA recommended). When running from an IDE, add the VM option `--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED` to the run configuration.
 
 The application starts on **http://localhost:8080** by default.
 

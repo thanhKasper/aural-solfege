@@ -1,6 +1,5 @@
 package vn.ktt.music.infrastructure.audio.renderer;
 
-import com.sun.media.sound.AudioSynthesizer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
@@ -16,6 +15,7 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Soundbank;
+import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -23,6 +23,8 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,23 +40,36 @@ public class Sf2BasedMidiRenderer implements IMidiRenderer {
 
     private final ResourceLoader resourceLoader;
     private final String soundfontPath;
+    private final Method openStreamMethod;
 
     public Sf2BasedMidiRenderer(ResourceLoader resourceLoader,
                                 @Value("${soundfont.path:classpath:soundfonts/piano.sf2}") String soundfontPath) {
         this.resourceLoader = resourceLoader;
         this.soundfontPath = soundfontPath;
+        this.openStreamMethod = resolveOpenStreamMethod();
+    }
+
+    private static Method resolveOpenStreamMethod() {
+        try {
+            return Class.forName("com.sun.media.sound.AudioSynthesizer")
+                    .getMethod("openStream", AudioFormat.class, Map.class);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(
+                    "com.sun.media.sound.AudioSynthesizer is unavailable. Run with "
+                            + "--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED", e);
+        }
     }
 
     @Override
     public synchronized PcmSamples render(Sequence sequence) {
-        try (AudioSynthesizer synthesizer = (AudioSynthesizer) MidiSystem.getSynthesizer()) {
+        try (Synthesizer synthesizer = MidiSystem.getSynthesizer()) {
             Soundbank soundbank = loadSoundbank();
             AudioFormat format = new AudioFormat(SAMPLE_RATE, BITS_PER_SAMPLE, CHANNELS, true, false);
 
             Map<String, Object> properties = new HashMap<>();
             properties.put("interpolation", "linear");
 
-            AudioInputStream stream = synthesizer.openStream(format, properties);
+            AudioInputStream stream = openStream(synthesizer, format, properties);
             try (Receiver receiver = synthesizer.getReceiver()) {
                 Soundbank defaultSoundbank = synthesizer.getDefaultSoundbank();
                 if (defaultSoundbank != null) {
@@ -88,6 +103,15 @@ public class Sf2BasedMidiRenderer implements IMidiRenderer {
             }
         } catch (Exception e) {
             throw new IllegalStateException("Failed to render MIDI sequence with soundfont", e);
+        }
+    }
+
+    private AudioInputStream openStream(Synthesizer synthesizer, AudioFormat format,
+                                        Map<String, Object> properties) throws Exception {
+        try {
+            return (AudioInputStream) openStreamMethod.invoke(synthesizer, format, properties);
+        } catch (InvocationTargetException e) {
+            throw (Exception) e.getCause();
         }
     }
 

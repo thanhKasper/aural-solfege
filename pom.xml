@@ -17,14 +17,6 @@
 
     <properties>
         <java.version>25</java.version>
-        <!--
-            maven.compiler.release is deliberately blank. javac refuses the
-            "add-exports" flag whenever the "release" flag is also present, and
-            Sf2BasedMidiRenderer needs the internal com.sun.media.sound.AudioSynthesizer
-            API. Blanking this makes the parent's release setting inert so the
-            source/target pair below takes effect instead.
-        -->
-        <maven.compiler.release></maven.compiler.release>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -121,9 +113,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <compilerArgs>
-                        <arg>--add-exports=java.desktop/com.sun.media.sound=ALL-UNNAMED</arg>
-                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
