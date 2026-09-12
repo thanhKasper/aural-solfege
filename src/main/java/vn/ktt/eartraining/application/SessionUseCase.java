@@ -41,10 +41,9 @@ public class SessionUseCase implements ISessionPort {
         var existing = sessionRepository.findByExercise(exerciseId);
         var exercise = exerciseRepository.getExerciseById(exerciseId.toString());
         int repetitions = exercise.getRepetitions();
-        boolean isLoop = exercise.isLoop();
 
         if (existing.isPresent() && existing.get().getStatus() == SessionStatus.IN_PROGRESS) {
-            return sessionMapper.toDto(existing.get(), repetitions, isLoop);
+            return sessionMapper.toDto(existing.get(), repetitions);
         }
 
         guard.assertNoActiveSession(exercise);
@@ -53,7 +52,7 @@ public class SessionUseCase implements ISessionPort {
         var session = PracticeSession.create(exerciseId, definitions);
         session.start();
         session = sessionRepository.saveSession(session);
-        return sessionMapper.toDto(session, repetitions, isLoop);
+        return sessionMapper.toDto(session, repetitions);
     }
 
     @Override
@@ -74,9 +73,8 @@ public class SessionUseCase implements ISessionPort {
 
         var exercise = exerciseRepository.getExerciseById(session.getExerciseId().toString());
         var repetitions = exercise.getRepetitions();
-        var isLoop = exercise.isLoop();
 
-        return sessionMapper.toDto(session, repetitions, isLoop);
+        return sessionMapper.toDto(session, repetitions);
     }
 
     @Override

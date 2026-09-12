@@ -23,21 +23,19 @@ public class ExerciseEntityMapper {
         entity.setTrainingMethodology(domain.getTrainingMethodology());
         entity.setTitle(domain.getTitle());
         entity.setDescription(domain.getDescription());
-        entity.setRepetitions(domain.isLoop() ? null : domain.getRepetitions());
+        entity.setRepetitions(domain.getRepetitions());
         entity.setRest(domain.getRest());
         entity.setExerciseActivities(toEntityActivities(domain.getExerciseActivities()));
         return entity;
     }
 
     public Exercise toDomain(ExerciseEntity entity) {
-        var entityRepetitions = entity.getRepetitions();
         return Exercise.reconstruct(
                 entity.getExerciseId(),
                 entity.getTrainingMethodology(),
                 entity.getTitle(),
                 entity.getDescription(),
-                entityRepetitions == null,
-                entityRepetitions == null ? 0 : entityRepetitions,
+                entity.getRepetitions(),
                 entity.getRest(),
                 toDomainActivities(entity.getExerciseActivities())
         );

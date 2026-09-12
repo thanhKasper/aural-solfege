@@ -34,8 +34,8 @@ public class ExerciseEntity {
     @Column(name = "description", length = 3000)
     private String description;
 
-    @Check(constraints = "repetitions IS NULL OR (repetitions >= 1 AND repetitions <= 10)")
-    @Column(name = "repetitions")
+    @Check(constraints = "repetitions >= 1 AND repetitions <= 10")
+    @Column(name = "repetitions", nullable = false)
     private Integer repetitions;
 
     @Check(constraints = "rest >= 0 AND rest <= 1800")

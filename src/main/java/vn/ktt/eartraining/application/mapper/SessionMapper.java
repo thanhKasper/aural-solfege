@@ -13,14 +13,13 @@ public class SessionMapper {
         this.stepMapper = stepMapper;
     }
 
-    public SessionStepDTO toDto(PracticeSession session, int repetition, boolean isLoop) {
+    public SessionStepDTO toDto(PracticeSession session, int repetition) {
         return new SessionStepDTO(
                 new SessionStepDTO.Metadata(
                         session.getSessionId(),
                         session.getSteps().size(),
                         session.getCurrentStepIndex(),
                         repetition,
-                        isLoop,
                         session.getSteps().size() / repetition,
                         session.isNextStepAvailable()
                 ),

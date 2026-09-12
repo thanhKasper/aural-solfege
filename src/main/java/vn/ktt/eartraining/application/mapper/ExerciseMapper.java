@@ -21,10 +21,9 @@ public class ExerciseMapper {
                 exercise.getTitle(),
                 exercise.getDescription(),
                 exercise.getTrainingMethodology().name(),
-                exercise.isLoop() ? null : exercise.getRepetitions(),
+                exercise.getRepetitions(),
                 exercise.getExerciseActivities().stream().map(this::toExerciseActivityDTO).toList(),
                 exercise.getRest(),
-                exercise.isLoop(),
                 exercise.getIntervalNames()
         );
     }

@@ -13,28 +13,27 @@ public class Exercise {
     private TrainingMethodology trainingMethodology;
     private String title;
     private String description;
-    private boolean loop;
     private int repetitions;
     private int rest;
     private List<ExerciseActivity> exerciseActivities;
 
-    private Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
+    private Exercise(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
         this.exerciseId = exerciseId;
         assignTrainingMethodology(trainingMethodology);
         rename(title);
         rephraseDescription(description);
         replaceExerciseActivities(exerciseActivities);
         validateActivityPositions(this.exerciseActivities);
-        changeRepetitions(loop, repetitions);
+        changeRepetitions(repetitions);
         changeRestDuration(rest);
     }
 
-    public static Exercise create(TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
-        return new Exercise(null, trainingMethodology, title, description, loop, repetitions, rest, exerciseActivities);
+    public static Exercise create(TrainingMethodology trainingMethodology, String title, String description, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
+        return new Exercise(null, trainingMethodology, title, description, repetitions, rest, exerciseActivities);
     }
 
-    public static Exercise reconstruct(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, boolean loop, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
-        return new Exercise(exerciseId, trainingMethodology, title, description, loop, repetitions, rest, exerciseActivities);
+    public static Exercise reconstruct(UUID exerciseId, TrainingMethodology trainingMethodology, String title, String description, int repetitions, int rest, List<ExerciseActivity> exerciseActivities) {
+        return new Exercise(exerciseId, trainingMethodology, title, description, repetitions, rest, exerciseActivities);
     }
 
     public List<ExerciseActivity> getExerciseActivities() {
@@ -59,12 +58,9 @@ public class Exercise {
         this.description = description;
     }
 
-    public void changeRepetitions(boolean loop, int repetitions) {
-        if (!loop) {
-            validateRepetition(repetitions);
-        }
-        this.loop = loop;
-        this.repetitions = loop ? 0 : repetitions;
+    public void changeRepetitions(int repetitions) {
+        validateRepetition(repetitions);
+        this.repetitions = repetitions;
     }
 
     public void changeRestDuration(int rest) {

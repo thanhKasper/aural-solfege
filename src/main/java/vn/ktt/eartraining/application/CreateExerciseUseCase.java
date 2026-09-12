@@ -23,6 +23,11 @@ public class CreateExerciseUseCase implements IExerciseCreationPort {
     }
 
     public void createExercise(ExerciseDTO exerciseDTO) {
+        Integer reps = exerciseDTO.getReps();
+        if (reps == null) {
+            throw new IllegalArgumentException("Repetitions must be between 1 and 10");
+        }
+
         var domainExerciseActivities = new ArrayList<>(exerciseDTO.getExerciseActivities().stream()
                 .map(exerciseMapper::toDomain)
                 .toList());
@@ -32,8 +37,7 @@ public class CreateExerciseUseCase implements IExerciseCreationPort {
                 TrainingMethodology.valueOf(exerciseDTO.getTrainingMethodology()),
                 exerciseDTO.getTitle(),
                 exerciseDTO.getDescription(),
-                exerciseDTO.isLoop(),
-                exerciseDTO.isLoop() ? 0 : exerciseDTO.getReps(),
+                reps,
                 exerciseDTO.getRest(),
                 domainExerciseActivities);
 
