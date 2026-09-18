@@ -29,7 +29,10 @@ Hexagonal architecture with two bounded contexts under `vn.ktt`, each split into
 - **Cross-context calls go over gRPC, even though both contexts run in one process.** `eartraining` defines the outbound port `IIntervalComparisonPort`. `GrpcIntervalComparisonClient` implements it and calls `SoundGrpcService` on `localhost:9090` (contract: `src/main/proto/sound_service.proto`). The call happens inside `IntervalSoundComparisonStepContextMapper`, when a step is mapped to its DTO. So a gRPC failure shows up as an error from the session endpoints. The client maps `MusicalInterval` to notation with a `switch`, so that switch must be updated whenever the enum changes.
 - Known coupling leak: the `IMusicalEntityFactory` bean is declared in `eartraining`'s `DomainServiceConfig`, but only `music` classes use it. It belongs in `MusicalDomainServiceConfig`.
 - Domain classes have no Spring annotations. Domain services and guards are wired as `@Bean`s in `infrastructure/config`. `application/*UseCase` implements `application/inbound/I*Port`. Domain repository interfaces are implemented by `infrastructure/persistence/gateway/*Repository`, which wraps Spring Data `*JpaRepository`.
-- There is no `@ControllerAdvice` and no `@Transactional`. Domain `IllegalArgumentException`/`IllegalStateException`s reach the client as a 500.
+- Error handling and transactions are not implemented yet (no `@ControllerAdvice`, no `@Transactional`), so domain `IllegalArgumentException`/`IllegalStateException`s currently reach the client as a 500. Until that is fixed:
+  - Don't add per-controller `try/catch` or ad-hoc status mapping. The planned fix is one `@RestControllerAdvice` per context in `infrastructure/controller` (`IllegalArgumentException` → 400, `IllegalStateException` → 409).
+  - Keep throwing plain `IllegalArgumentException`/`IllegalStateException` from the domain. Don't put Spring exceptions or HTTP concerns there.
+  - If a use case writes to more than one repository, call it out: without `@Transactional` the writes are not atomic.
 
 ### Model layers and type-keyed registries
 
