@@ -57,7 +57,7 @@ These are the inputs most likely to bite a real client. Each one is pinned by th
 
 1. **Case variations in query parameters** (`texture=descending`, `direction=down`, `instrument=piano`, `format=Wav`) are accepted exactly as the upper-case forms are. Pinned in Task 1 (`fromString` tests) and Task 7 (`acceptsAnyCaseForEveryParameter`).
 2. **Legacy requests with no overrides and no `format`** keep working and return WAV built from the saved settings. Pinned in Task 7 (`nullOverridesAndFormatFallBackToSavedSettingsAndWav`) and Task 8 (`legacyRequestSendsEmptyOverridesAndNoFormat`).
-3. **A unison (`P0`) interval, especially `STACKED`**, renders without error, even though its two notes share a MIDI number. Pinned in Task 2 (`singleUnisonStackedGivesTwoIdenticalNotes`) and Task 5 (`unisonStackedNotesRender`).
+3. **A unison (`P0`) interval, especially `STACKED`**, renders without error and plays one audible note for the full stacked duration, even though its two notes share a MIDI number. `HarmonicMidiRenderer` tracks sounding notes by MIDI number, so it merges them; that is acceptable because a unison is the same pitch. Pinned in Task 2 (`singleUnisonStackedGivesTwoIdenticalNotes`) and Task 5 (`unisonStackedRendersOneFullLengthNote`).
 4. **A PATCH with explicit `null`s or only some fields** changes only the fields that are present and non-null. Pinned in Task 7 (`explicitNullsChangeNothing`, `partialPatchKeepsOtherFields`) and Task 8 (`patchBindsPartialBodyWithExplicitNull`).
 5. **An empty `musical_config` table** yields `SoundSettings.defaults()` instead of a 500. Pinned in Task 6 (`emptyTableGivesDefaults`).
 
@@ -1237,8 +1237,8 @@ EOF
 **Files:**
 - Create: `src/main/java/vn/ktt/music/infrastructure/audio/AudioGenerationException.java`
 - Modify: `src/main/java/vn/ktt/music/infrastructure/audio/renderer/IMidiRenderer.java`
-- Modify: `src/main/java/vn/ktt/music/infrastructure/audio/renderer/HarmonicMidiRenderer.java` (lines 33–52)
-- Modify: `src/main/java/vn/ktt/music/infrastructure/audio/renderer/Sf2BasedMidiRenderer.java` (the imports, lines 63–107, and a new static method)
+- Modify: `src/main/java/vn/ktt/music/infrastructure/audio/renderer/HarmonicMidiRenderer.java` (the `render` method, lines 32–52 including `@Override`)
+- Modify: `src/main/java/vn/ktt/music/infrastructure/audio/renderer/Sf2BasedMidiRenderer.java` (the imports, the `render` method at lines 63–107 including `@Override`, and a new static method)
 - Delete: `src/main/java/vn/ktt/music/infrastructure/audio/renderer/PcmSamples.java`
 - Modify: `src/main/java/vn/ktt/music/infrastructure/audio/MidiSoundGenerator.java` (types only; this is temporary, and Task 9 deletes the file)
 - Modify: `src/main/java/vn/ktt/music/infrastructure/audio/encoder/WavEncoder.java` (types only; this is temporary, and Task 5 deletes the file)
@@ -1327,7 +1327,7 @@ git rm src/main/java/vn/ktt/music/infrastructure/audio/renderer/PcmSamples.java
 
 In `HarmonicMidiRenderer.java`, make these changes:
 - Add the imports `vn.ktt.music.application.sound.audio.PcmAudio` and `vn.ktt.music.infrastructure.audio.AudioGenerationException`.
-- Replace the `render` method (lines 33–52) with:
+- Replace the whole `render` method, from its `@Override` (line 32) to its closing brace (line 52), with:
 
 ```java
     @Override
@@ -1358,7 +1358,7 @@ In `HarmonicMidiRenderer.java`, make these changes:
 In `Sf2BasedMidiRenderer.java`:
 - Remove the imports `javax.sound.sampled.AudioFileFormat`, `javax.sound.sampled.AudioSystem` and `java.io.ByteArrayOutputStream`.
 - Add the imports `vn.ktt.music.application.sound.audio.PcmAudio` and `vn.ktt.music.infrastructure.audio.AudioGenerationException`.
-- Replace the `render` method (lines 63–107) with the following. Only the block after `send(...)` and the `catch` change: the stream is now read as raw PCM instead of being written as a WAVE file and decoded from byte 0.
+- Replace the whole `render` method, from its `@Override` (line 63) to its closing brace (line 107), with the following. Only the block after `send(...)` and the `catch` change: the stream is now read as raw PCM instead of being written as a WAVE file and decoded from byte 0.
 
 ```java
     @Override
@@ -1635,14 +1635,19 @@ class MidiSoundSynthesizerTest {
         assertEquals(44101, pcm.samples().length, 1);
     }
 
+    // HarmonicMidiRenderer tracks sounding notes by MIDI number, so the two identical notes merge into one.
+    // That is acceptable for a unison: it must still sound, for the full 63 + 376 ms.
     @Test
-    void unisonStackedNotesRender() {
+    void unisonStackedRendersOneFullLengthNote() {
         Pitch c4 = Pitch.convertFromMidiNumber(60);
         Score score = new Score(List.of(new NoteEvent(c4, 63, 376, 71), new NoteEvent(c4, 63, 376, 71)));
 
         PcmAudio pcm = synthesizer.synthesize(score, InstrumentType.PIANO);
 
-        assertTrue(pcm.samples().length > 0);
+        assertEquals(19361, pcm.samples().length, 1);
+        int middleOfNote = Math.round((63 + 188) * 44.1f);
+        assertTrue(Math.abs(pcm.samples()[middleOfNote]) > 0f
+                || Math.abs(pcm.samples()[middleOfNote + 1]) > 0f, "the note is audible mid-way");
     }
 }
 ```
@@ -3510,7 +3515,7 @@ If the spec was edited under the note in Step 2, include `docs/superpowers/specs
 **Interfaces:**
 - Consumes: all earlier tasks.
 - Produces:
-  - The `@Bean IMusicalEntityFactory musicalEntityFactory()` in `MusicalDomainServiceConfig`. The bean name is unchanged.
+  - The `@Bean IMusicalEntityFactory musicalEntityFactory()` in `MusicalDomainServiceConfig`. The bean name is unchanged. The method becomes `public` instead of `protected` to match the other `@Bean`s there; Spring treats both the same.
   - No `vn.ktt.music` imports anywhere under `vn.ktt.eartraining`.
 
 - [ ] **Step 1: Confirm the old classes are unused**
