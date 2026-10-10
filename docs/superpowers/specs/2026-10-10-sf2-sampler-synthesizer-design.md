@@ -126,7 +126,7 @@ Each `VoiceSpec` becomes a `Voice` that renders one sample per output frame into
 **Pitch:**
 
 - Key = the `keynum` generator if it's set, otherwise the note's key.
-- Root = `overridingRootKey` if it's ≥ 0, otherwise `originalPitch`. If `originalPitch` is 255, the root is 60.
+- Root = `overridingRootKey` if it's ≥ 0, otherwise `originalPitch`. If `originalPitch` is above 127 (SF2 uses 255 for unpitched samples), the root is 60.
 - `cents = (key − root) × scaleTuning + 100 × coarseTune + fineTune + pitchCorrection`
 - Playback step = `2^(cents/1200) × sample.sampleRate / output.sampleRate`, in samples per output frame, tracked as a `double` phase.
 - Velocity = the `velocity` generator if it's set, otherwise the note's velocity.
@@ -168,7 +168,7 @@ Each `VoiceSpec` becomes a `Voice` that renders one sample per output frame into
 
 - Frames are counted as `round(ms × sampleRate / 1000)`.
 - A note's **release time** is `onsetMs + durationMs`. Phase 3 extends this with the sustain pedal.
-- Buffer length = `max(release time) + tailMs`. It's deterministic and doesn't depend on how long voices actually ring.
+- Buffer length = `max(release time) + tailMs`. It's deterministic and doesn't depend on how long voices actually ring. A request longer than `Mixer.MAX_DURATION_MS = 600000` ms (10 minutes) throws `IllegalArgumentException`, so a bad onset can't allocate gigabytes.
 - Voices that finish early stop rendering. Voices still sounding at the end of the buffer are cut, and a 5 ms linear fade-out is applied to the last frames of the whole buffer.
 - `masterGainDb` is applied, then a **soft limiter**: `|x| ≤ 0.8` passes through unchanged, and above that `y = sign(x)·(0.8 + 0.2·tanh((|x| − 0.8)/0.2))`. The output stays within −1…1 and has a continuous slope.
 - `STEREO` output interleaves L and R. `MONO` outputs `(L + R) / 2`.
@@ -266,7 +266,7 @@ None of these are referenced from `src/test/java`. After this change nothing in 
 
 | Situation | Thrown | HTTP today | HTTP once the planned advice lands |
 |---|---|---|---|
-| Invalid `NoteSpec`/options, unknown preset, unmapped instrument, interval that doesn't fit | `IllegalArgumentException` | 500 | 400 |
+| Invalid `NoteSpec`/options, unknown preset, unmapped instrument, interval that doesn't fit, render longer than 10 minutes | `IllegalArgumentException` | 500 | 400 |
 | Malformed SoundFont | `SoundFontFormatException` at startup | startup fails | startup fails |
 | SoundFont resource missing | `IllegalStateException` at startup | startup fails | startup fails |
 
@@ -340,6 +340,7 @@ Everything runs under `mvn test` with no database and no SF2 file. The style fol
   - Address offsets work, including coarse offsets.
   - A ROM sample gives no voice.
   - Velocity attenuation is 0 cB at 127, 59.8 cB at 90 (±0.1) and 842 cB at 1 (±1).
+  - The pitch in cents combines key, root, `scaleTuning`, `coarseTune`, `fineTune` and `pitchCorrection`; `overridingRootKey` and an unpitched `originalPitch` are handled.
 - **`UnitsTest`:** timecents to seconds, cB to amplitude, and absolute cents to Hz (`13500 → 19912 Hz ± 1`, `6900 → 440 Hz`).
 - **`InterpolatorTest`:** `LINEAR` on a ramp gives exact midpoints, and reads past the end give 0.
 - **`VolumeEnvelopeTest`:**
@@ -357,7 +358,6 @@ Everything runs under `mvn test` with no database and no SF2 file. The style fol
   - With root = key, the step is exactly 1.0 at 44.1 kHz.
   - One octave up gives step 2.0.
   - A 22050 Hz sample rendered at 44.1 kHz gives step 0.5.
-  - `pitchCorrection` and `scaleTuning` are applied.
   - Loop modes 0, 1 and 3 behave as specified.
   - The pan gains are (1, 0), (0.707, 0.707) and (0, 1).
 - **`SynthesizerTest`** (end to end on the fixture):
@@ -368,6 +368,8 @@ Everything runs under `mvn test` with no database and no SF2 file. The style fol
   - A key with no zone gives silence.
   - The limiter keeps loud overlapping notes within −1…1.
   - The last 5 ms fade to 0.
+  - A request longer than 10 minutes throws `IllegalArgumentException`.
+  - Concurrent renders of the same request on several threads give identical output.
 - **`GrandPianoSmokeTest`:**
   - It runs only when `src/main/resources/soundfonts/grand_piano.sf2` exists (`assumeTrue`).
   - It loads the real file and renders C4 at velocity 90.
@@ -386,5 +388,7 @@ Everything runs under `mvn test` with no database and no SF2 file. The style fol
   - `PIANO` maps to preset `(0, 0)`.
   - Default options are used, and the output maps to `PcmAudio`. The test runs on the fixture SoundFont.
 - **`WavAudioEncoderTest`:** the header fields for mono and stereo, a data length of `samples × 2`, clamping and rounding, the MIME type and the extension.
+
+**`SynthesizerConfigTest`:** loads from a file location, fails with `IllegalStateException` naming a missing path, and copies a non-file resource (as inside a jar) to a temp file before loading.
 
 **Manual verification (end of Phase 1):** start the app with the real SoundFont and `curl` both endpoints for each texture. Listen to the results and compare them with the Gervill output from `main`: velocity brightness, the stereo image and the release should all be audible.
