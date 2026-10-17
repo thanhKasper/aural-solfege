@@ -1,16 +1,4 @@
-services:
-  postgres:
-    image: postgres:16
-    container_name: aural-solfege-db
-    environment:
-      POSTGRES_DB: solfege-db
-      POSTGRES_USER: solfege
-      POSTGRES_PASSWORD: 123456
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    restart: unless-stopped
-
-volumes:
-  pgdata:
+# Whole local stack. Each sub-project can also be started on its own from its folder.
+include:
+  - aural-solfege-service/docker-compose.yml
+  - auth-server/docker-compose.yml
