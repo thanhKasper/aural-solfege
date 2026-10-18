@@ -1,0 +1,26 @@
+{
+  "realm": "aural-solfege",
+  "enabled": true,
+  "registrationAllowed": false,
+  "sslRequired": "external",
+  "roles": {
+    "realm": [
+      { "name": "learner", "description": "Regular ear-training user" },
+      { "name": "admin", "description": "Can manage exercises" }
+    ]
+  },
+  "defaultRoles": ["learner"],
+  "clients": [
+    {
+      "clientId": "aural-solfege-web",
+      "name": "Aural Solfege front-end",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": ["http://localhost:3000/*"],
+      "webOrigins": ["http://localhost:3000"],
+      "attributes": { "pkce.code.challenge.method": "S256" }
+    }
+  ]
+}
