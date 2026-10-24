@@ -1,6 +1,7 @@
 package vn.ktt.eartraining.infrastructure.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.eartraining.application.dto.SessionResultDTO;
 import vn.ktt.eartraining.application.dto.SessionStepDTO;
@@ -10,6 +11,7 @@ import vn.ktt.eartraining.infrastructure.dto.PracticeStepResponse;
 import java.util.UUID;
 
 @RestController
+@PreAuthorize("hasRole('learner')")
 @RequestMapping(path = "api/sessions")
 public class SessionController {
     private final ISessionPort sessionPort;

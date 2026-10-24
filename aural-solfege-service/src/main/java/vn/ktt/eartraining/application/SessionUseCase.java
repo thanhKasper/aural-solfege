@@ -1,6 +1,7 @@
 package vn.ktt.eartraining.application;
 
 import org.springframework.stereotype.Service;
+import vn.ktt.eartraining.application.access.NotFoundException;
 import vn.ktt.eartraining.application.dto.SessionResultDTO;
 import vn.ktt.eartraining.application.dto.SessionStepDTO;
 import vn.ktt.eartraining.application.inbound.ISessionPort;
@@ -58,7 +59,7 @@ public class SessionUseCase implements ISessionPort {
     @Override
     public SessionStepDTO advanceToNextStep(UUID sessionId) {
         var session = sessionRepository.getSessionById(sessionId)
-                .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
+                .orElseThrow(() -> new NotFoundException("Session not found: " + sessionId));
 
         session.completeCurrentStep();
 
@@ -80,7 +81,7 @@ public class SessionUseCase implements ISessionPort {
     @Override
     public SessionResultDTO concludeSession(UUID sessionId) {
         var session = sessionRepository.getSessionById(sessionId)
-                .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
+                .orElseThrow(() -> new NotFoundException("Session not found: " + sessionId));
 
         session.completeCurrentStep();
         session.conclude();

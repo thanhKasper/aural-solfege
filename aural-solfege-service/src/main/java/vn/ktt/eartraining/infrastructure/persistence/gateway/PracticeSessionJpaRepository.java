@@ -8,13 +8,14 @@ import vn.ktt.eartraining.infrastructure.persistence.entity.PracticeSessionEntit
 import java.util.Optional;
 import java.util.UUID;
 
+/** Every lookup is scoped by learner: a session owned by someone else is never returned. */
 public interface PracticeSessionJpaRepository extends JpaRepository<PracticeSessionEntity, UUID> {
 
     @EntityGraph(attributePaths = {"steps", "exercise"})
-    Optional<PracticeSessionEntity> findBySessionId(UUID id);
+    Optional<PracticeSessionEntity> findBySessionIdAndLearnerId(UUID id, String learnerId);
 
     @EntityGraph(attributePaths = {"steps", "exercise"})
-    Optional<PracticeSessionEntity> findTopByExerciseExerciseIdOrderByCreatedAtDesc(UUID exerciseId);
+    Optional<PracticeSessionEntity> findTopByLearnerIdAndExerciseExerciseIdOrderByCreatedAtDesc(String learnerId, UUID exerciseId);
 
-    boolean existsByExerciseExerciseIdAndStatus(UUID exerciseId, SessionStatus status);
+    boolean existsByLearnerIdAndExerciseExerciseIdAndStatus(String learnerId, UUID exerciseId, SessionStatus status);
 }

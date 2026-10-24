@@ -25,6 +25,9 @@ public class PracticeSessionEntity {
     @Column(name = "id")
     private UUID sessionId;
 
+    @Column(name = "learner_id", nullable = false, updatable = false, length = 64)
+    private String learnerId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_id", nullable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
