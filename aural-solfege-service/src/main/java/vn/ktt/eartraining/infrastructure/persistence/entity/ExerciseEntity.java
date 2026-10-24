@@ -24,6 +24,9 @@ public class ExerciseEntity {
     @Column(name = "id")
     private UUID exerciseId;
 
+    @Column(name = "owner_id", nullable = false, updatable = false, length = 64)
+    private String ownerId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "training_methodology")
     private TrainingMethodology trainingMethodology;

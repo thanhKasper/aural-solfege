@@ -5,11 +5,28 @@
   "sslRequired": "external",
   "roles": {
     "realm": [
-      { "name": "learner", "description": "Regular ear-training user" },
-      { "name": "admin", "description": "Can manage exercises" }
+      { "name": "learner", "description": "Regular ear-training user" }
     ]
   },
   "defaultRoles": ["learner"],
+  "users": [
+    {
+      "id": "11111111-1111-4111-8111-111111111111",
+      "username": "learner1",
+      "enabled": true,
+      "emailVerified": true,
+      "realmRoles": ["learner"],
+      "credentials": [{ "type": "password", "value": "learner1", "temporary": false }]
+    },
+    {
+      "id": "22222222-2222-4222-8222-222222222222",
+      "username": "learner2",
+      "enabled": true,
+      "emailVerified": true,
+      "realmRoles": ["learner"],
+      "credentials": [{ "type": "password", "value": "learner2", "temporary": false }]
+    }
+  ],
   "clients": [
     {
       "clientId": "aural-solfege-web",

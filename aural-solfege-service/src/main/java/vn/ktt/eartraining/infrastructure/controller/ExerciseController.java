@@ -1,6 +1,7 @@
 package vn.ktt.eartraining.infrastructure.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.eartraining.application.dto.ExerciseDTO;
 import vn.ktt.eartraining.application.dto.SessionStepDTO;
@@ -13,6 +14,7 @@ import vn.ktt.eartraining.infrastructure.dto.PracticeStepResponse;
 import java.util.UUID;
 
 @RestController
+@PreAuthorize("hasRole('learner')")
 @RequestMapping(path = "api/exercises")
 public class ExerciseController {
     private final IExerciseCreationPort exerciseCreationService;

@@ -29,10 +29,19 @@ Hexagonal architecture with two bounded contexts under `vn.ktt`, each split into
 - **Cross-context calls go over gRPC, even though both contexts run in one process.** `eartraining` defines the outbound port `IIntervalComparisonPort`. `GrpcIntervalComparisonClient` implements it and calls `SoundGrpcService` on `localhost:9090` (contract: `src/main/proto/sound_service.proto`). The call happens inside `IntervalSoundComparisonStepContextMapper`, when a step is mapped to its DTO. So a gRPC failure shows up as an error from the session endpoints. The client maps `MusicalInterval` to notation with a `switch`, so that switch must be updated whenever the enum changes.
 - Known coupling leak: the `IMusicalEntityFactory` bean is declared in `eartraining`'s `DomainServiceConfig`, but only `music` classes use it. It belongs in `MusicalDomainServiceConfig`.
 - Domain classes have no Spring annotations. Domain services and guards are wired as `@Bean`s in `infrastructure/config`. `application/*UseCase` implements `application/inbound/I*Port`. Domain repository interfaces are implemented by `infrastructure/persistence/gateway/*Repository`, which wraps Spring Data `*JpaRepository`.
-- Error handling and transactions are not implemented yet (no `@ControllerAdvice`, no `@Transactional`), so domain `IllegalArgumentException`/`IllegalStateException`s currently reach the client as a 500. Until that is fixed:
-  - Don't add per-controller `try/catch` or ad-hoc status mapping. The planned fix is one `@RestControllerAdvice` per context in `infrastructure/controller` (`IllegalArgumentException` → 400, `IllegalStateException` → 409).
+- Error handling: `eartraining`'s `ApiExceptionHandler` (`@RestControllerAdvice`) maps `NotFoundException` → 404, `IllegalArgumentException` → 400, `IllegalStateException` → 409. Transactions are still not implemented (no `@Transactional`).
+  - Don't add per-controller `try/catch` or ad-hoc status mapping; extend the advice.
   - Keep throwing plain `IllegalArgumentException`/`IllegalStateException` from the domain. Don't put Spring exceptions or HTTP concerns there.
   - If a use case writes to more than one repository, call it out: without `@Transactional` the writes are not atomic.
+
+### Authorization
+
+- The service is an OAuth2 resource server for the Keycloak realm (`SecurityConfig`). Everything requires a valid JWT; controllers also require the `learner` role (`@PreAuthorize`).
+- Ownership is **not** in the domain. `exercises.owner_id` and `practice_sessions.learner_id` (Keycloak `sub`) exist only on the JPA entities. `ICurrentUserPort` (impl: `SecurityContextCurrentUser`) gives the current user to the persistence adapters.
+- **Repositories are user-scoped.** `ExerciseRepository` and `PracticeSessionRepository` only read and write the current user's rows, stamp the owner on insert and keep it on update. Someone else's row looks like a missing one (`NotFoundException` → 404). Every new repository query must be scoped by hand, and `UserScopedRepositoryTest` should cover it.
+- `PracticeSessionEntityMapper` uses `exerciseJpaRepository.getReferenceById` (unscoped). That is safe only because `startSession` loads the exercise through the scoped repository first.
+- The partial unique index `uq_active_session` (one `IN_PROGRESS` session per learner and exercise) lives in `import.sql`; JPA cannot express it. A violation becomes `IllegalStateException` → 409.
+- `import.sql` seed exercises are owned by dev user `learner1` (fixed id in `auth-server/realm`). Change both together.
 
 ### Model layers and type-keyed registries
 
