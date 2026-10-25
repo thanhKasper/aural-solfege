@@ -3,25 +3,38 @@ package vn.ktt.eartraining.domain.session.entity;
 import lombok.Getter;
 import vn.ktt.eartraining.domain.session.valueobject.stepcontext.StepContext;
 import vn.ktt.eartraining.domain.session.valueobject.StepStatus;
-import vn.ktt.eartraining.domain.session.valueobject.StepType;
 
-// @TODO: Need more refinement, the state machine of this PracticeStep is questionable
+import java.util.Objects;
+
 @Getter
 public class PracticeStep {
-    private final int activityPosition;
-    private final StepType stepType;
+    private final int stepGroup;
+    private final int repetitionIndex;
     private StepStatus status;
     private final StepContext context;
 
-    PracticeStep(int activityPosition, StepType stepType, StepContext context) {
-        this(activityPosition, stepType, StepStatus.PENDING, context);
+    private PracticeStep(int stepGroup, int repetitionIndex, StepStatus status, StepContext context) {
+        if (stepGroup < 0 || repetitionIndex < 0) {
+            throw new IllegalArgumentException("Step group and repetition index cannot be negative");
+        }
+        this.stepGroup = stepGroup;
+        this.repetitionIndex = repetitionIndex;
+        this.status = Objects.requireNonNull(status);
+        this.context = Objects.requireNonNull(context);
     }
 
-    public PracticeStep(int activityPosition, StepType stepType, StepStatus status, StepContext context) {
-        this.activityPosition = activityPosition;
-        this.stepType = stepType;
-        this.status = status;
-        this.context = context;
+    /** A step that has not been played yet. */
+    public static PracticeStep planned(int stepGroup, int repetitionIndex, StepContext context) {
+        return new PracticeStep(stepGroup, repetitionIndex, StepStatus.PENDING, context);
+    }
+
+    public static PracticeStep reconstruct(int stepGroup, int repetitionIndex, StepStatus status, StepContext context) {
+        return new PracticeStep(stepGroup, repetitionIndex, status, context);
+    }
+
+    /** A rest between two repetitions, as opposed to a step of the exercise itself. */
+    public boolean isRest() {
+        return context.isRest();
     }
 
     public void activate() {
