@@ -9,7 +9,6 @@ import vn.ktt.eartraining.application.inbound.IExerciseCreationPort;
 import vn.ktt.eartraining.application.inbound.IExerciseRetrievalPort;
 import vn.ktt.eartraining.application.inbound.ISessionPort;
 import vn.ktt.eartraining.application.services.Page;
-import vn.ktt.eartraining.infrastructure.dto.PracticeStepResponse;
 
 import java.util.List;
 import java.util.UUID;
