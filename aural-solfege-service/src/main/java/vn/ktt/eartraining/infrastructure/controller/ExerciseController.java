@@ -4,13 +4,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vn.ktt.eartraining.application.dto.ExerciseDTO;
-import vn.ktt.eartraining.application.dto.SessionStepDTO;
+import vn.ktt.eartraining.application.dto.SessionDTO;
 import vn.ktt.eartraining.application.inbound.IExerciseCreationPort;
 import vn.ktt.eartraining.application.inbound.IExerciseRetrievalPort;
 import vn.ktt.eartraining.application.inbound.ISessionPort;
 import vn.ktt.eartraining.application.services.Page;
 import vn.ktt.eartraining.infrastructure.dto.PracticeStepResponse;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -45,9 +46,15 @@ public class ExerciseController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{exerciseId}/sessions")
+    public ResponseEntity<List<SessionDTO>> getSessions(@PathVariable String exerciseId) {
+        List<SessionDTO> sessions = sessionPort.getAvailableSessions(UUID.fromString(exerciseId));
+        return ResponseEntity.ok(sessions);
+    }
+
     @PostMapping("/{exerciseId}/sessions")
-    public ResponseEntity<PracticeStepResponse> startSession(@PathVariable String exerciseId) {
-        SessionStepDTO response = sessionPort.startSession(UUID.fromString(exerciseId));
-        return ResponseEntity.ok(new PracticeStepResponse(response.metadata(), response.currentStep()));
+    public ResponseEntity<SessionDTO> startSession(@PathVariable String exerciseId) {
+        SessionDTO session = sessionPort.startSession(UUID.fromString(exerciseId));
+        return ResponseEntity.ok(session);
     }
 }

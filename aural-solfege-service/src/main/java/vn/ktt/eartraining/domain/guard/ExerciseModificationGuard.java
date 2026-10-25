@@ -17,12 +17,4 @@ public class ExerciseModificationGuard {
                             + " while active practice sessions exist");
         }
     }
-
-    public void assertNoActiveSession(Exercise exercise) {
-        if (sessionRepository.existsActiveSessionForExercise(exercise.getExerciseId())) {
-            throw new IllegalStateException(
-                    "Exercise " + exercise.getExerciseId()
-                            + " already has an active practice session");
-        }
-    }
 }
