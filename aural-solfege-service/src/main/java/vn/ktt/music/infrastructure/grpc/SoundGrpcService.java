@@ -1,14 +1,14 @@
 package vn.ktt.music.infrastructure.grpc;
 
 import io.grpc.stub.StreamObserver;
-import org.springframework.stereotype.Service;
+import org.springframework.grpc.server.service.GrpcService;
 import vn.ktt.grpc.sound.CompareIntervalsRequest;
 import vn.ktt.grpc.sound.CompareIntervalsResponse;
 import vn.ktt.grpc.sound.SoundServiceGrpc;
 import vn.ktt.music.domain.composition.Interval;
 import vn.ktt.music.domain.factory.IMusicalEntityFactory;
 
-@Service
+@GrpcService
 public class SoundGrpcService extends SoundServiceGrpc.SoundServiceImplBase {
     private final IMusicalEntityFactory factory;
 
