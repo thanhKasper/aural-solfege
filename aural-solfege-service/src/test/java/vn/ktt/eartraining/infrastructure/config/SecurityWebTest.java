@@ -103,6 +103,20 @@ class SecurityWebTest {
     }
 
     @Test
+    void getActiveStepRequiresAuthenticationAndMapsErrors() throws Exception {
+        var open = UUID.randomUUID();
+        var foreign = UUID.randomUUID();
+        var finished = UUID.randomUUID();
+        when(sessionPort.getActiveStep(foreign)).thenThrow(new NotFoundException("Session not found: " + foreign));
+        when(sessionPort.getActiveStep(finished)).thenThrow(new IllegalStateException("Session is not in progress"));
+
+        mvc.perform(get("/api/sessions/{id}", open)).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/sessions/{id}", open).with(learner())).andExpect(status().isOk());
+        mvc.perform(get("/api/sessions/{id}", foreign).with(learner())).andExpect(status().isNotFound());
+        mvc.perform(get("/api/sessions/{id}", finished).with(learner())).andExpect(status().isConflict());
+    }
+
+    @Test
     void exerciseOwnedBySomeoneElseSurfacesAs404() throws Exception {
         when(exerciseRetrievalPort.getExerciseById(any())).thenThrow(new NotFoundException("Exercise not found"));
         mvc.perform(get("/api/exercises/{id}", UUID.randomUUID()).with(learner())).andExpect(status().isNotFound());

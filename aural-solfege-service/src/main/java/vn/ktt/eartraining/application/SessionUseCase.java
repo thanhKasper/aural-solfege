@@ -105,4 +105,12 @@ public class SessionUseCase implements ISessionPort {
             throw new NotFoundException("Session not found: " + sessionId);
         }
     }
+
+    @Override
+    public SessionStepDTO getActiveStep(UUID sessionId) {
+        var session = sessionRepository.getSessionById(sessionId)
+                .orElseThrow(() -> new NotFoundException("Session not found: " + sessionId));
+        var exercise = exerciseRepository.getExerciseById(session.getExerciseId().toString());
+        return sessionMapper.mapToSessionStepDTO(session, exercise.getRepetitions());
+    }
 }

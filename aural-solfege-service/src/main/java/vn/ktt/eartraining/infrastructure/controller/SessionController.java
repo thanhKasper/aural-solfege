@@ -35,8 +35,8 @@ public class SessionController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/{sessionId}")
-//    public ResponseEntity<?> getSessionStep(@PathVariable String sessionId, @RequestParam(required = false) Integer step) {
-//
-//    }
+    @GetMapping("/{sessionId}")
+    public ResponseEntity<SessionStepDTO> getActiveStep(@PathVariable String sessionId) {
+        return ResponseEntity.ok(sessionPort.getActiveStep(UUID.fromString(sessionId)));
+    }
 }

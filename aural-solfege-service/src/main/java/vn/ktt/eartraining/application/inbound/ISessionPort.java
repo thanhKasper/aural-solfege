@@ -13,4 +13,5 @@ public interface ISessionPort {
     SessionResultDTO concludeSession(UUID sessionId);
     List<SessionDTO> getAvailableSessions(UUID exerciseId);
     void deleteSession(UUID sessionId);
+    SessionStepDTO getActiveStep(UUID sessionId);
 }
