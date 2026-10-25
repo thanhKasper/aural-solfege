@@ -117,6 +117,18 @@ class UserScopedRepositoryTest {
     }
 
     @Test
+    void deleteOnlyRemovesTheCurrentLearnersSession() {
+        var id = UUID.randomUUID();
+        when(sessionJpa.deleteBySessionIdAndLearnerId(id, ALICE)).thenReturn(0L);
+        assertFalse(sessionRepository.deleteSession(id));      // someone else's or missing
+
+        when(sessionJpa.deleteBySessionIdAndLearnerId(id, ALICE)).thenReturn(1L);
+        assertTrue(sessionRepository.deleteSession(id));
+
+        verify(sessionJpa, never()).deleteById(any());
+    }
+
+    @Test
     void newSessionIsStampedWithCurrentUser() {
         var domain = mock(PracticeSession.class);
         when(domain.getSessionId()).thenReturn(null);

@@ -30,4 +30,15 @@ public class SessionController {
         SessionStepDTO response = sessionPort.advanceToNextStep(UUID.fromString(sessionId));
         return ResponseEntity.ok(new PracticeStepResponse(response.metadata(), response.currentStep()));
     }
+
+    @DeleteMapping("/{sessionId}")
+    public ResponseEntity<Void> deleteSession(@PathVariable String sessionId) {
+        sessionPort.deleteSession(UUID.fromString(sessionId));
+        return ResponseEntity.noContent().build();
+    }
+
+//    @GetMapping("/{sessionId}")
+//    public ResponseEntity<?> getSessionStep(@PathVariable String sessionId, @RequestParam(required = false) Integer step) {
+//
+//    }
 }

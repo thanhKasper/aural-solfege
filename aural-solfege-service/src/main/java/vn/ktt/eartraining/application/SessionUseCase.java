@@ -98,4 +98,11 @@ public class SessionUseCase implements ISessionPort {
         }
         return List.of();
     }
+
+    @Override
+    public void deleteSession(UUID sessionId) {
+        if (!sessionRepository.deleteSession(sessionId)) {
+            throw new NotFoundException("Session not found: " + sessionId);
+        }
+    }
 }

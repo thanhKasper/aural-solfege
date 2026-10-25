@@ -26,9 +26,11 @@ import vn.ktt.eartraining.infrastructure.controller.SessionController;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -87,6 +89,17 @@ class SecurityWebTest {
 
         mvc.perform(post("/api/sessions/{id}/advance", sessionId).with(learner())).andExpect(status().isNotFound());
         mvc.perform(post("/api/sessions/{id}/conclude", sessionId).with(learner())).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteSessionRequiresAuthenticationAndMapsTo204Or404() throws Exception {
+        var mine = UUID.randomUUID();
+        var theirs = UUID.randomUUID();
+        doThrow(new NotFoundException("Session not found: " + theirs)).when(sessionPort).deleteSession(theirs);
+
+        mvc.perform(delete("/api/sessions/{id}", mine)).andExpect(status().isUnauthorized());
+        mvc.perform(delete("/api/sessions/{id}", mine).with(learner())).andExpect(status().isNoContent());
+        mvc.perform(delete("/api/sessions/{id}", theirs).with(learner())).andExpect(status().isNotFound());
     }
 
     @Test
