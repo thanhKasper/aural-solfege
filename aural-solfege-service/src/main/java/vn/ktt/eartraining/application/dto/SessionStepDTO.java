@@ -13,7 +13,6 @@ public record SessionStepDTO(
             int totalSteps,
             int currentStepIndex,
             int repetitions,
-            int stepsPerRepetition,
             boolean hasNext
     ) {}
 }

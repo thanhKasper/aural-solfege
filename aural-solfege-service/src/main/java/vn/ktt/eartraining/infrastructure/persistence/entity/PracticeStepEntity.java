@@ -33,8 +33,11 @@ public class PracticeStepEntity {
     @Column(name = "step_number", nullable = false)
     private int stepNumber;
 
-    @Column(name = "activity_position", nullable = false)
-    private int activityPosition;
+    @Column(name = "step_group", nullable = false)
+    private int stepGroup;
+
+    @Column(name = "repetition_index", nullable = false)
+    private int repetitionIndex;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "step_type", nullable = false)

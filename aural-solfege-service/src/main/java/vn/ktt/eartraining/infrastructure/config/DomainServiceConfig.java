@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import vn.ktt.eartraining.domain.exercise.valueobject.ExerciseActivity;
 import vn.ktt.eartraining.domain.guard.ExerciseModificationGuard;
+import vn.ktt.eartraining.domain.session.factory.PracticeSessionFactory;
 import vn.ktt.eartraining.domain.session.repository.IPracticeSessionRepository;
 import vn.ktt.eartraining.domain.session.service.IntervalSoundComparisonStepGeneration;
 import vn.ktt.eartraining.domain.session.service.SingleIntervalStepGeneration;
@@ -28,6 +29,11 @@ public class DomainServiceConfig {
     public StepGenerationService stepGenerationService(
             List<IServiceIndex<ExerciseActivity, IStepGeneration>> generators) {
         return new StepGenerationService(generators);
+    }
+
+    @Bean
+    public PracticeSessionFactory practiceSessionFactory(StepGenerationService stepGenerationService) {
+        return new PracticeSessionFactory(stepGenerationService);
     }
 
     @Bean

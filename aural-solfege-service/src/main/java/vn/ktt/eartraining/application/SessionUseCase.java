@@ -10,9 +10,8 @@ import vn.ktt.eartraining.application.mapper.SessionMapper;
 import vn.ktt.eartraining.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.eartraining.domain.session.entity.PracticeSession;
 import vn.ktt.eartraining.domain.session.repository.IPracticeSessionRepository;
-import vn.ktt.eartraining.domain.session.service.StepGenerationService;
+import vn.ktt.eartraining.domain.session.factory.PracticeSessionFactory;
 import vn.ktt.eartraining.domain.session.valueobject.SessionStatus;
-import vn.ktt.eartraining.domain.session.valueobject.StepStatus;
 
 import java.time.Duration;
 import java.util.List;
@@ -22,16 +21,16 @@ import java.util.UUID;
 public class SessionUseCase implements ISessionPort {
     private final IExerciseRepository exerciseRepository;
     private final IPracticeSessionRepository sessionRepository;
-    private final StepGenerationService stepGenerationService;
+    private final PracticeSessionFactory sessionFactory;
     private final SessionMapper sessionMapper;
 
     public SessionUseCase(IExerciseRepository exerciseRepository,
                           IPracticeSessionRepository sessionRepository,
-                          StepGenerationService stepGenerationService,
+                          PracticeSessionFactory sessionFactory,
                           SessionMapper sessionMapper) {
         this.exerciseRepository = exerciseRepository;
         this.sessionRepository = sessionRepository;
-        this.stepGenerationService = stepGenerationService;
+        this.sessionFactory = sessionFactory;
         this.sessionMapper = sessionMapper;
     }
 
@@ -44,8 +43,8 @@ public class SessionUseCase implements ISessionPort {
             return sessionMapper.mapToSessionDTO(existing.get());
         }
 
-        var definitions = stepGenerationService.generate(exercise.getExerciseActivities(), exercise.getRepetitions());
-        var session = PracticeSession.create(exerciseId, definitions);
+        var session = sessionFactory.create(exerciseId, exercise.getExerciseActivities(),
+                exercise.getRepetitions(), exercise.getRest());
         session.start();
         session = sessionRepository.saveSession(session);
         return sessionMapper.mapToSessionDTO(session);
@@ -67,10 +66,7 @@ public class SessionUseCase implements ISessionPort {
         session.advanceToNextStep();
         session = sessionRepository.saveSession(session);
 
-        var exercise = exerciseRepository.getExerciseById(session.getExerciseId().toString());
-        var repetitions = exercise.getRepetitions();
-
-        return sessionMapper.mapToSessionStepDTO(session, repetitions);
+        return sessionMapper.mapToSessionStepDTO(session);
     }
 
     @Override
@@ -82,12 +78,9 @@ public class SessionUseCase implements ISessionPort {
         session.conclude();
         sessionRepository.saveSession(session);
 
-        long completed = session.getSteps().stream()
-                .filter(s -> s.getStatus() == StepStatus.COMPLETED)
-                .count();
         long duration = Duration.between(session.getStartedAt(), session.getCompletedAt()).getSeconds();
 
-        return new SessionResultDTO(session.getSteps().size(), (int) completed, duration);
+        return new SessionResultDTO(session.viewTotalSteps(), session.viewCompletedSteps(), duration);
     }
 
     @Override
@@ -110,7 +103,6 @@ public class SessionUseCase implements ISessionPort {
     public SessionStepDTO getActiveStep(UUID sessionId) {
         var session = sessionRepository.getSessionById(sessionId)
                 .orElseThrow(() -> new NotFoundException("Session not found: " + sessionId));
-        var exercise = exerciseRepository.getExerciseById(session.getExerciseId().toString());
-        return sessionMapper.mapToSessionStepDTO(session, exercise.getRepetitions());
+        return sessionMapper.mapToSessionStepDTO(session);
     }
 }

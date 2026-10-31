@@ -38,8 +38,9 @@ public class PracticeSessionEntityMapper {
             var stepEntity = new PracticeStepEntity();
             stepEntity.setSession(entity);
             stepEntity.setStepNumber(i);
-            stepEntity.setActivityPosition(step.getActivityPosition());
-            stepEntity.setStepType(step.getStepType());
+            stepEntity.setStepGroup(step.getStepGroup());
+            stepEntity.setRepetitionIndex(step.getRepetitionIndex());
+            stepEntity.setStepType(step.getContext().getStepType());
             stepEntity.setStatus(step.getStatus());
             stepEntity.setContext(stepContextMapperFactory.toStepContextEntity(step.getContext()));
             stepEntities.add(stepEntity);
@@ -51,9 +52,9 @@ public class PracticeSessionEntityMapper {
 
     public PracticeSession toDomain(PracticeSessionEntity entity) {
         var steps = entity.getSteps().stream()
-                .map(stepEntity -> new PracticeStep(
-                        stepEntity.getActivityPosition(),
-                        stepEntity.getStepType(),
+                .map(stepEntity -> PracticeStep.reconstruct(
+                        stepEntity.getStepGroup(),
+                        stepEntity.getRepetitionIndex(),
                         stepEntity.getStatus(),
                         stepContextMapperFactory.toStepContext(stepEntity.getContext())))
                 .toList();

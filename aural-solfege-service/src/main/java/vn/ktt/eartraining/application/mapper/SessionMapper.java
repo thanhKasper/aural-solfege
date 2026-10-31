@@ -14,25 +14,25 @@ public class SessionMapper {
         this.stepMapper = stepMapper;
     }
 
-    public SessionStepDTO mapToSessionStepDTO(PracticeSession session, int repetition) {
+    public SessionStepDTO mapToSessionStepDTO(PracticeSession session) {
+        var currentStep = session.getCurrentStep();
         return new SessionStepDTO(
                 new SessionStepDTO.Metadata(
                         session.getSessionId(),
-                        session.getSteps().size(),
-                        session.getCurrentStepIndex(),
-                        repetition,
-                        session.getSteps().size() / repetition,
+                        session.viewTotalSteps(),
+                        session.viewCurrentStepIndex(),
+                        session.getRepeat(),
                         session.isNextStepAvailable()
                 ),
-                stepMapper.toDTO(session.getCurrentStep())
+                stepMapper.toDTO(currentStep, session.groupPositionInRepetition(currentStep))
         );
     }
 
     public SessionDTO mapToSessionDTO(PracticeSession session) {
         return new SessionDTO(
                 session.getSessionId().toString(),
-                session.getSteps().size(),
-                session.getCurrentStepIndex(),
+                session.viewTotalSteps(),
+                session.viewCurrentStepIndex(),
                 session.getCreatedAt()
         );
     }
