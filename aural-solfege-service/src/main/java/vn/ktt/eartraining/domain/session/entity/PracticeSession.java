@@ -69,22 +69,22 @@ public class PracticeSession {
     }
 
     public PracticeStep getCurrentStep() {
-        assertStatus(SessionStatus.IN_PROGRESS, "Session is not in progress");
+        assertInProgress("Session is not in progress");
         return steps.get(currentStepIndex);
     }
 
     public void completeCurrentStep() {
-        assertStatus(SessionStatus.IN_PROGRESS, "Session is not in progress");
+        assertInProgress("Session is not in progress");
         steps.get(currentStepIndex).markCompleted();
     }
 
     public void skipCurrentStep() {
-        assertStatus(SessionStatus.IN_PROGRESS, "Session is not in progress");
+        assertInProgress("Session is not in progress");
         steps.get(currentStepIndex).skip();
     }
 
     public void advanceToNextStep() {
-        assertStatus(SessionStatus.IN_PROGRESS, "Session is not in progress");
+        assertInProgress("Session is not in progress");
         if (!isSufficientToAdvance()) {
             throw new IllegalStateException("Current step is not complete");
         }
@@ -104,7 +104,7 @@ public class PracticeSession {
     }
 
     public void conclude() {
-        assertStatus(SessionStatus.IN_PROGRESS, "Only IN_PROGRESS sessions can be concluded");
+        assertInProgress("Only IN_PROGRESS sessions can be concluded");
         this.status = SessionStatus.COMPLETED;
         this.completedAt = Instant.now();
     }
@@ -169,8 +169,8 @@ public class PracticeSession {
                 .indexOf(step.getStepGroup());
     }
 
-    private void assertStatus(SessionStatus expected, String message) {
-        if (this.status != expected) {
+    private void assertInProgress(String message) {
+        if (this.status != SessionStatus.IN_PROGRESS) {
             throw new IllegalStateException(message + " (current: " + this.status + ")");
         }
     }
