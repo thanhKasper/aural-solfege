@@ -1,14 +1,12 @@
 package vn.ktt.eartraining.application.mapper.activity;
 
 import org.junit.jupiter.api.Test;
-import vn.ktt.eartraining.application.dto.activity.CoolDownRestActivityDTO;
 import vn.ktt.eartraining.application.dto.activity.ExerciseActivityDTO;
 import vn.ktt.eartraining.application.dto.activity.IntervalSoundComparisonExerciseActivityDTO;
 import vn.ktt.eartraining.application.dto.activity.SingleIntervalExerciseActivityDTO;
 import vn.ktt.eartraining.domain.exercise.valueobject.ExerciseActivity;
 import vn.ktt.eartraining.domain.exercise.valueobject.IntervalTexture;
 import vn.ktt.eartraining.domain.exercise.valueobject.MusicalInterval;
-import vn.ktt.eartraining.domain.exercise.valueobject.activity.CoolDownRestActivity;
 import vn.ktt.eartraining.domain.exercise.valueobject.activity.IntervalSoundComparison;
 import vn.ktt.eartraining.domain.exercise.valueobject.activity.SingleIntervalExerciseActivity;
 
@@ -22,10 +20,9 @@ class ExerciseActivityDTOToDomainMapperFactoryTest {
 
     private final IExerciseActivityDTOToDomainMapper singleMapper = new SingleIntervalExerciseActivityDTOtoDomainMapper();
     private final IExerciseActivityDTOToDomainMapper comparisonMapper = new IntervalSoundComparisonExerciseActivityDTOtoDomainMapper();
-    private final IExerciseActivityDTOToDomainMapper coolDownMapper = new CoolDownActivityDTOToDomainMapper();
 
     private final ExerciseActivityDTOToDomainMapperFactory factory =
-            new ExerciseActivityDTOToDomainMapperFactory(List.of(singleMapper, comparisonMapper, coolDownMapper));
+            new ExerciseActivityDTOToDomainMapperFactory(List.of(singleMapper, comparisonMapper));
 
     @Test
     void transformSingleIntervalActivityToDto() {
@@ -53,18 +50,6 @@ class ExerciseActivityDTOToDomainMapperFactoryTest {
         assertEquals(List.of("PERFECT_5TH", "MINOR_3RD"), comparisonDto.getIntervals());
         assertEquals("STACKED", comparisonDto.getTexture());
         assertEquals(2, comparisonDto.getPosition());
-    }
-
-    @Test
-    void transformCoolDownActivityToDto() {
-        var activity = new CoolDownRestActivity(3, 30);
-
-        ExerciseActivityDTO dto = factory.toExerciseActivityDTO(activity);
-
-        assertInstanceOf(CoolDownRestActivityDTO.class, dto);
-        var coolDownDto = (CoolDownRestActivityDTO) dto;
-        assertEquals(3, coolDownDto.getPosition());
-        assertEquals(30, coolDownDto.getRestTime());
     }
 
     @Test
@@ -105,18 +90,6 @@ class ExerciseActivityDTOToDomainMapperFactoryTest {
     }
 
     @Test
-    void reverseTransformCoolDownDtoToDomain() {
-        var dto = new CoolDownRestActivityDTO(7, 45);
-
-        ExerciseActivity domain = factory.toExerciseActivityDomain(dto);
-
-        assertInstanceOf(CoolDownRestActivity.class, domain);
-        var coolDown = (CoolDownRestActivity) domain;
-        assertEquals(7, coolDown.getPosition());
-        assertEquals(45, coolDown.getRestAmountInSecond());
-    }
-
-    @Test
     void activityToDtoRoundTripPreservesDomainValues() {
         var original = IntervalSoundComparison.construct(
                 8, IntervalTexture.ASCENDING, MusicalInterval.MAJOR_2ND, MusicalInterval.PERFECT_4TH);
@@ -129,7 +102,8 @@ class ExerciseActivityDTOToDomainMapperFactoryTest {
 
     @Test
     void transformWithMismatchedTargetThrows() {
-        var activity = new CoolDownRestActivity(1, 10);
+        var activity = IntervalSoundComparison.construct(
+                1, IntervalTexture.ASCENDING, MusicalInterval.MAJOR_2ND, MusicalInterval.PERFECT_4TH);
 
         assertThrows(IllegalArgumentException.class,
                 () -> factory.toExerciseActivityDTO(activity, SingleIntervalExerciseActivityDTO.class));
@@ -137,7 +111,7 @@ class ExerciseActivityDTOToDomainMapperFactoryTest {
 
     @Test
     void reverseTransformWithMismatchedSourceThrows() {
-        var dto = new CoolDownRestActivityDTO(1, 10);
+        var dto = new IntervalSoundComparisonExerciseActivityDTO(List.of("MAJOR_2ND", "PERFECT_4TH"), "ASCENDING", 1);
 
         assertThrows(IllegalArgumentException.class,
                 () -> factory.toExerciseActivityDomain(dto, SingleIntervalExerciseActivity.class));

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import vn.ktt.eartraining.application.dto.SessionResultDTO;
 import vn.ktt.eartraining.application.dto.SessionStepDTO;
 import vn.ktt.eartraining.application.inbound.ISessionPort;
-import vn.ktt.eartraining.infrastructure.dto.PracticeStepResponse;
 
 import java.util.UUID;
 
@@ -26,8 +25,18 @@ public class SessionController {
     }
 
     @PostMapping("/{sessionId}/advance")
-    public ResponseEntity<PracticeStepResponse> advanceToNextStep(@PathVariable String sessionId) {
-        SessionStepDTO response = sessionPort.advanceToNextStep(UUID.fromString(sessionId));
-        return ResponseEntity.ok(new PracticeStepResponse(response.metadata(), response.currentStep()));
+    public ResponseEntity<SessionStepDTO> advanceToNextStep(@PathVariable String sessionId) {
+        return ResponseEntity.ok(sessionPort.advanceToNextStep(UUID.fromString(sessionId)));
+    }
+
+    @DeleteMapping("/{sessionId}")
+    public ResponseEntity<Void> deleteSession(@PathVariable String sessionId) {
+        sessionPort.deleteSession(UUID.fromString(sessionId));
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{sessionId}")
+    public ResponseEntity<SessionStepDTO> getActiveStep(@PathVariable String sessionId) {
+        return ResponseEntity.ok(sessionPort.getActiveStep(UUID.fromString(sessionId)));
     }
 }

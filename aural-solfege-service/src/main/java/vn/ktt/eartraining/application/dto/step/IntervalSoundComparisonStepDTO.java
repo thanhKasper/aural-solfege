@@ -8,8 +8,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public final class IntervalSoundComparisonStepDTO implements PracticeStepDTO {
-    private int activityPosition;
-    private String status;
     private String firstInterval;
     private String secondInterval;
     private String texture;
@@ -17,10 +15,8 @@ public final class IntervalSoundComparisonStepDTO implements PracticeStepDTO {
     private int totalQuestions;
     private int currentQuestionNumber;
 
-    public IntervalSoundComparisonStepDTO(int activityPosition, String status, String firstInterval,
-                                             String secondInterval, String texture, int calculatedComparison, int totalQuestions, int currentQuestionNumber) {
-        this.activityPosition = activityPosition;
-        this.status = status;
+    public IntervalSoundComparisonStepDTO(String firstInterval, String secondInterval, String texture,
+                                          int calculatedComparison, int totalQuestions, int currentQuestionNumber) {
         this.firstInterval = firstInterval;
         this.secondInterval = secondInterval;
         this.texture = texture;
@@ -28,10 +24,4 @@ public final class IntervalSoundComparisonStepDTO implements PracticeStepDTO {
         this.totalQuestions = totalQuestions;
         this.currentQuestionNumber = currentQuestionNumber;
     }
-
-    @Override
-    public int activityPosition() { return activityPosition; }
-
-    @Override
-    public String status() { return status; }
 }

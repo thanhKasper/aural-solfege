@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import vn.ktt.eartraining.domain.exercise.valueobject.ExerciseActivity;
 import vn.ktt.eartraining.domain.guard.ExerciseModificationGuard;
+import vn.ktt.eartraining.domain.session.factory.PracticeSessionFactory;
 import vn.ktt.eartraining.domain.session.repository.IPracticeSessionRepository;
-import vn.ktt.eartraining.domain.session.service.CoolDownStepGeneration;
 import vn.ktt.eartraining.domain.session.service.IntervalSoundComparisonStepGeneration;
 import vn.ktt.eartraining.domain.session.service.SingleIntervalStepGeneration;
 import vn.ktt.eartraining.domain.session.service.IStepGeneration;
@@ -32,6 +32,11 @@ public class DomainServiceConfig {
     }
 
     @Bean
+    public PracticeSessionFactory practiceSessionFactory(StepGenerationService stepGenerationService) {
+        return new PracticeSessionFactory(stepGenerationService);
+    }
+
+    @Bean
     public IStepGeneration singleIntervalStepGeneration() {
         return new SingleIntervalStepGeneration();
     }
@@ -39,11 +44,6 @@ public class DomainServiceConfig {
     @Bean
     public IStepGeneration intervalSoundComparisonStepGeneration() {
         return new IntervalSoundComparisonStepGeneration();
-    }
-
-    @Bean
-    public IStepGeneration coolDownStepGeneration() {
-        return new CoolDownStepGeneration();
     }
 
     @Bean

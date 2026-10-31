@@ -2,58 +2,51 @@ package vn.ktt.eartraining.application;
 
 import org.springframework.stereotype.Service;
 import vn.ktt.eartraining.application.access.NotFoundException;
+import vn.ktt.eartraining.application.dto.SessionDTO;
 import vn.ktt.eartraining.application.dto.SessionResultDTO;
 import vn.ktt.eartraining.application.dto.SessionStepDTO;
 import vn.ktt.eartraining.application.inbound.ISessionPort;
 import vn.ktt.eartraining.application.mapper.SessionMapper;
 import vn.ktt.eartraining.domain.exercise.repository.IExerciseRepository;
-import vn.ktt.eartraining.domain.guard.ExerciseModificationGuard;
 import vn.ktt.eartraining.domain.session.entity.PracticeSession;
 import vn.ktt.eartraining.domain.session.repository.IPracticeSessionRepository;
-import vn.ktt.eartraining.domain.session.service.StepGenerationService;
+import vn.ktt.eartraining.domain.session.factory.PracticeSessionFactory;
 import vn.ktt.eartraining.domain.session.valueobject.SessionStatus;
-import vn.ktt.eartraining.domain.session.valueobject.StepStatus;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class SessionUseCase implements ISessionPort {
     private final IExerciseRepository exerciseRepository;
     private final IPracticeSessionRepository sessionRepository;
-    private final StepGenerationService stepGenerationService;
-    private final ExerciseModificationGuard guard;
+    private final PracticeSessionFactory sessionFactory;
     private final SessionMapper sessionMapper;
 
     public SessionUseCase(IExerciseRepository exerciseRepository,
                           IPracticeSessionRepository sessionRepository,
-                          StepGenerationService stepGenerationService,
-                          ExerciseModificationGuard guard,
+                          PracticeSessionFactory sessionFactory,
                           SessionMapper sessionMapper) {
         this.exerciseRepository = exerciseRepository;
         this.sessionRepository = sessionRepository;
-        this.stepGenerationService = stepGenerationService;
-        this.guard = guard;
+        this.sessionFactory = sessionFactory;
         this.sessionMapper = sessionMapper;
     }
 
     @Override
-    public SessionStepDTO startSession(UUID exerciseId) {
+    public SessionDTO startSession(UUID exerciseId) {
         var existing = sessionRepository.findByExercise(exerciseId);
         var exercise = exerciseRepository.getExerciseById(exerciseId.toString());
-        int repetitions = exercise.getRepetitions();
 
         if (existing.isPresent() && existing.get().getStatus() == SessionStatus.IN_PROGRESS) {
-            return sessionMapper.toDto(existing.get(), repetitions);
+            return sessionMapper.mapToSessionDTO(existing.get());
         }
 
-        guard.assertNoActiveSession(exercise);
-
-        var definitions = stepGenerationService.generate(exercise.getExerciseActivities(), exercise.getRepetitions());
-        var session = PracticeSession.create(exerciseId, definitions);
-        session.start();
+        var session = sessionFactory.create(exerciseId, exercise.getExerciseActivities(),
+                exercise.getRepetitions(), exercise.getRest());
         session = sessionRepository.saveSession(session);
-        return sessionMapper.toDto(session, repetitions);
+        return sessionMapper.mapToSessionDTO(session);
     }
 
     @Override
@@ -64,7 +57,7 @@ public class SessionUseCase implements ISessionPort {
         session.completeCurrentStep();
 
         if (!session.isNextStepAvailable()) {
-            session.complete();
+            session.conclude();
             sessionRepository.saveSession(session);
             throw new IllegalStateException("Session has been completed");
         }
@@ -72,10 +65,7 @@ public class SessionUseCase implements ISessionPort {
         session.advanceToNextStep();
         session = sessionRepository.saveSession(session);
 
-        var exercise = exerciseRepository.getExerciseById(session.getExerciseId().toString());
-        var repetitions = exercise.getRepetitions();
-
-        return sessionMapper.toDto(session, repetitions);
+        return sessionMapper.mapToSessionStepDTO(session);
     }
 
     @Override
@@ -87,11 +77,31 @@ public class SessionUseCase implements ISessionPort {
         session.conclude();
         sessionRepository.saveSession(session);
 
-        long completed = session.getSteps().stream()
-                .filter(s -> s.getStatus() == StepStatus.COMPLETED)
-                .count();
-        long duration = Duration.between(session.getStartedAt(), session.getCompletedAt()).getSeconds();
+        long duration = Duration.between(session.getCreatedAt(), session.getCompletedAt()).getSeconds();
 
-        return new SessionResultDTO(session.getSteps().size(), (int) completed, duration);
+        return new SessionResultDTO(session.viewTotalSteps(), session.viewCompletedSteps(), duration);
+    }
+
+    @Override
+    public List<SessionDTO> getAvailableSessions(UUID exerciseId) {
+        PracticeSession foundSession = sessionRepository.findByExercise(exerciseId).orElse(null);
+        if (foundSession != null) {
+            return List.of(sessionMapper.mapToSessionDTO(foundSession));
+        }
+        return List.of();
+    }
+
+    @Override
+    public void deleteSession(UUID sessionId) {
+        if (!sessionRepository.deleteSession(sessionId)) {
+            throw new NotFoundException("Session not found: " + sessionId);
+        }
+    }
+
+    @Override
+    public SessionStepDTO getActiveStep(UUID sessionId) {
+        var session = sessionRepository.getSessionById(sessionId)
+                .orElseThrow(() -> new NotFoundException("Session not found: " + sessionId));
+        return sessionMapper.mapToSessionStepDTO(session);
     }
 }

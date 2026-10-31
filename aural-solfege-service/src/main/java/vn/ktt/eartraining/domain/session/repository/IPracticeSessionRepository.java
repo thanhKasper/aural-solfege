@@ -10,4 +10,6 @@ public interface IPracticeSessionRepository {
     Optional<PracticeSession> getSessionById(UUID sessionId);
     Optional<PracticeSession> findByExercise(UUID exerciseId);
     boolean existsActiveSessionForExercise(UUID exerciseId);
+    /** @return true if a session was deleted, false if there was none to delete */
+    boolean deleteSession(UUID sessionId);
 }

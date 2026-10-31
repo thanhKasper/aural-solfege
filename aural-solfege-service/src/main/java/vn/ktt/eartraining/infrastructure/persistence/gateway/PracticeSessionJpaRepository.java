@@ -2,6 +2,7 @@ package vn.ktt.eartraining.infrastructure.persistence.gateway;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import vn.ktt.eartraining.domain.session.valueobject.SessionStatus;
 import vn.ktt.eartraining.infrastructure.persistence.entity.PracticeSessionEntity;
 
@@ -18,4 +19,8 @@ public interface PracticeSessionJpaRepository extends JpaRepository<PracticeSess
     Optional<PracticeSessionEntity> findTopByLearnerIdAndExerciseExerciseIdOrderByCreatedAtDesc(String learnerId, UUID exerciseId);
 
     boolean existsByLearnerIdAndExerciseExerciseIdAndStatus(String learnerId, UUID exerciseId, SessionStatus status);
+
+    /** Loads then removes the entity, so the steps are removed through the cascade. */
+    @Transactional
+    long deleteBySessionIdAndLearnerId(UUID sessionId, String learnerId);
 }

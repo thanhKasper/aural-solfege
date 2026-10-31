@@ -3,7 +3,6 @@ package vn.ktt.eartraining.infrastructure.persistence.converter;
 import org.junit.jupiter.api.Test;
 import vn.ktt.eartraining.domain.exercise.valueobject.IntervalTexture;
 import vn.ktt.eartraining.domain.exercise.valueobject.MusicalInterval;
-import vn.ktt.eartraining.infrastructure.persistence.entity.activity.CoolDownRestActivityEntity;
 import vn.ktt.eartraining.infrastructure.persistence.entity.activity.ExerciseActivityEntity;
 import vn.ktt.eartraining.infrastructure.persistence.entity.activity.IntervalSoundComparisonExerciseActivityEntity;
 import vn.ktt.eartraining.infrastructure.persistence.entity.activity.SingleIntervalExerciseActivityEntity;
@@ -33,13 +32,11 @@ class PersistedJsonCompatibilityTest {
 
     private static final String BASIC_INTERVAL_TRAINING_ACTIVITIES = """
             [{"type": "SINGLE_INTERVAL", "soundProperty": "ASCENDING", "intervals": ["MAJOR_2ND"], "position": 0},\
-             {"type": "SINGLE_INTERVAL", "soundProperty": "ASCENDING", "intervals": ["PERFECT_5TH"], "position": 1},\
-             {"type": "COOL_DOWN", "position": 2, "restAmountInSecond": 100}]""";
+             {"type": "SINGLE_INTERVAL", "soundProperty": "ASCENDING", "intervals": ["PERFECT_5TH"], "position": 1}]""";
 
     private static final String INTERVAL_COMPARISON_ACTIVITIES = """
             [{"type": "INTERVAL_SOUND_COMPARISON", "texture": "ASCENDING", "firstInterval": "PERFECT_4TH",\
-             "secondInterval": "PERFECT_5TH", "position": 0},\
-             {"type": "COOL_DOWN", "position": 1, "restAmountInSecond": 100}]""";
+             "secondInterval": "PERFECT_5TH", "position": 0}]""";
 
     private final ExerciseActivitiesConverter activitiesConverter = new ExerciseActivitiesConverter();
     private final StepContextEntityConverter contextConverter = new StepContextEntityConverter();
@@ -49,16 +46,16 @@ class PersistedJsonCompatibilityTest {
         List<ExerciseActivityEntity> activities =
                 activitiesConverter.convertToEntityAttribute(BASIC_INTERVAL_TRAINING_ACTIVITIES);
 
-        assertEquals(3, activities.size());
+        assertEquals(2, activities.size());
 
         var first = assertInstanceOf(SingleIntervalExerciseActivityEntity.class, activities.get(0));
         assertEquals(IntervalTexture.ASCENDING, first.getSoundProperty());
         assertEquals(List.of(MusicalInterval.MAJOR_2ND), first.getIntervals());
         assertEquals(0, first.getPosition());
 
-        var cooldown = assertInstanceOf(CoolDownRestActivityEntity.class, activities.get(2));
-        assertEquals(100, cooldown.getRestAmountInSecond());
-        assertEquals(2, cooldown.getPosition());
+        var second = assertInstanceOf(SingleIntervalExerciseActivityEntity.class, activities.get(1));
+        assertEquals(List.of(MusicalInterval.PERFECT_5TH), second.getIntervals());
+        assertEquals(1, second.getPosition());
     }
 
     @Test
@@ -66,7 +63,7 @@ class PersistedJsonCompatibilityTest {
         List<ExerciseActivityEntity> activities =
                 activitiesConverter.convertToEntityAttribute(INTERVAL_COMPARISON_ACTIVITIES);
 
-        assertEquals(2, activities.size());
+        assertEquals(1, activities.size());
 
         var comparison = assertInstanceOf(IntervalSoundComparisonExerciseActivityEntity.class, activities.get(0));
         assertEquals(IntervalTexture.ASCENDING, comparison.getTexture());
@@ -78,12 +75,13 @@ class PersistedJsonCompatibilityTest {
     @Test
     void activitiesAreWrittenWithTheDiscriminatorTheSeedDataUses() {
         String json = activitiesConverter.convertToDatabaseColumn(
-                List.of(new CoolDownRestActivityEntity(2, 100)));
+                List.of(new SingleIntervalExerciseActivityEntity(
+                        IntervalTexture.ASCENDING, List.of(MusicalInterval.MAJOR_2ND), 2)));
 
         assertEquals(List.of(2), List.of(
                 activitiesConverter.convertToEntityAttribute(json).getFirst().getPosition()));
-        org.junit.jupiter.api.Assertions.assertTrue(json.contains("\"type\":\"COOL_DOWN\""),
-                () -> "expected a COOL_DOWN discriminator in " + json);
+        org.junit.jupiter.api.Assertions.assertTrue(json.contains("\"type\":\"SINGLE_INTERVAL\""),
+                () -> "expected a SINGLE_INTERVAL discriminator in " + json);
     }
 
     @Test

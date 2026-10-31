@@ -1,6 +1,7 @@
 package vn.ktt.eartraining.application.mapper;
 
 import org.springframework.stereotype.Component;
+import vn.ktt.eartraining.application.dto.SessionDTO;
 import vn.ktt.eartraining.application.dto.SessionStepDTO;
 import vn.ktt.eartraining.domain.session.entity.PracticeSession;
 
@@ -13,17 +14,30 @@ public class SessionMapper {
         this.stepMapper = stepMapper;
     }
 
-    public SessionStepDTO toDto(PracticeSession session, int repetition) {
+    public SessionStepDTO mapToSessionStepDTO(PracticeSession session) {
+        var currentStep = session.getCurrentStep();
         return new SessionStepDTO(
                 new SessionStepDTO.Metadata(
                         session.getSessionId(),
-                        session.getSteps().size(),
-                        session.getCurrentStepIndex(),
-                        repetition,
-                        session.getSteps().size() / repetition,
+                        session.getExerciseId(),
+                        session.viewTotalSteps(),
+                        session.viewCurrentStepIndex(),
+                        session.getRepeat(),
+                        session.viewCurrentRepetition(),
+                        session.groupPositionInRepetition(currentStep),
+                        session.viewGroupsPerRepetition(),
                         session.isNextStepAvailable()
                 ),
-                stepMapper.toDTO(session.getCurrentStep())
+                stepMapper.toDTO(currentStep)
+        );
+    }
+
+    public SessionDTO mapToSessionDTO(PracticeSession session) {
+        return new SessionDTO(
+                session.getSessionId().toString(),
+                session.viewTotalSteps(),
+                session.viewCurrentStepIndex(),
+                session.getCreatedAt()
         );
     }
 }

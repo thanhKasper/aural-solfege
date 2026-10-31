@@ -30,8 +30,6 @@ public class ListenIntervalStepContextMapper implements IStepContextMapper {
     public PracticeStepDTO transform(StepContext dataFrom) {
         var context = (ListenIntervalContext) dataFrom;
         return new ListenIntervalStepDTO(
-                0,
-                "",
                 context.interval().name(),
                 context.direction(),
                 context.texture().name()

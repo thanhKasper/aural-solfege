@@ -101,7 +101,6 @@ Key properties in `src/main/resources/application.properties`:
 **Exercise Activity Types:**
 - `SINGLE_INTERVAL` - Listen to a single interval
 - `INTERVAL_SOUND_COMPARISON` - Compare two intervals
-- `COOL_DOWN` - Rest period between activities
 
 ### Practice Sessions
 

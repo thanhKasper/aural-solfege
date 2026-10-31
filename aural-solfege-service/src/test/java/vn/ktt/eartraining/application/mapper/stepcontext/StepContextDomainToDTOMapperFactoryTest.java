@@ -40,8 +40,6 @@ class StepContextDomainToDTOMapperFactoryTest {
         assertInstanceOf(CoolDownStepDTO.class, dto);
         var coolDownDto = (CoolDownStepDTO) dto;
         assertEquals(30, coolDownDto.getRestingTimeInSecond());
-        assertEquals(0, dto.activityPosition());
-        assertEquals("", dto.status());
     }
 
     @Test
@@ -85,7 +83,7 @@ class StepContextDomainToDTOMapperFactoryTest {
 
     @Test
     void reverseTransformCoolDownDtoToDomain() {
-        var dto = new CoolDownStepDTO(3, "COMPLETED", 15);
+        var dto = new CoolDownStepDTO(15);
 
         StepContext context = factory.toDomain(dto);
 
@@ -94,7 +92,7 @@ class StepContextDomainToDTOMapperFactoryTest {
 
     @Test
     void reverseTransformListenIntervalDtoToDomain() {
-        var dto = new ListenIntervalStepDTO(2, "PENDING", "MINOR_6TH", "DESC", "ASCENDING");
+        var dto = new ListenIntervalStepDTO("MINOR_6TH", "DESC", "ASCENDING");
 
         StepContext context = factory.toDomain(dto);
 
@@ -103,7 +101,7 @@ class StepContextDomainToDTOMapperFactoryTest {
 
     @Test
     void reverseTransformIntervalSoundComparisonDtoToDomain() {
-        var dto = new IntervalSoundComparisonStepDTO(1, "PENDING", "TRITONE", "MAJOR_2ND", "STACKED", -3, 10, 7);
+        var dto = new IntervalSoundComparisonStepDTO("TRITONE", "MAJOR_2ND", "STACKED", -3, 10, 7);
 
         StepContext context = factory.toDomain(dto);
 
@@ -113,7 +111,7 @@ class StepContextDomainToDTOMapperFactoryTest {
 
     @Test
     void reverseTransformWithExplicitSourceClassDisambiguates() {
-        var dto = new ListenIntervalStepDTO(0, "PENDING", "UNISON", "ASC", "ASCENDING");
+        var dto = new ListenIntervalStepDTO("UNISON", "ASC", "ASCENDING");
 
         StepContext context = factory.toDomain(dto, ListenIntervalContext.class);
 
@@ -140,7 +138,7 @@ class StepContextDomainToDTOMapperFactoryTest {
 
     @Test
     void reverseTransformWithMismatchedSourceThrows() {
-        var dto = new CoolDownStepDTO(0, "PENDING", 5);
+        var dto = new CoolDownStepDTO(5);
 
         assertThrows(IllegalArgumentException.class,
                 () -> factory.toDomain(dto, ListenIntervalContext.class));

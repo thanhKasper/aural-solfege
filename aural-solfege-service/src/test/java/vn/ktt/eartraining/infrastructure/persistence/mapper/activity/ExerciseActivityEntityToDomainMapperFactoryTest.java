@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Test;
 import vn.ktt.eartraining.domain.exercise.valueobject.ExerciseActivity;
 import vn.ktt.eartraining.domain.exercise.valueobject.IntervalTexture;
 import vn.ktt.eartraining.domain.exercise.valueobject.MusicalInterval;
-import vn.ktt.eartraining.domain.exercise.valueobject.activity.CoolDownRestActivity;
 import vn.ktt.eartraining.domain.exercise.valueobject.activity.IntervalSoundComparison;
 import vn.ktt.eartraining.domain.exercise.valueobject.activity.SingleIntervalExerciseActivity;
-import vn.ktt.eartraining.infrastructure.persistence.entity.activity.CoolDownRestActivityEntity;
 import vn.ktt.eartraining.infrastructure.persistence.entity.activity.ExerciseActivityEntity;
 import vn.ktt.eartraining.infrastructure.persistence.entity.activity.IntervalSoundComparisonExerciseActivityEntity;
 import vn.ktt.eartraining.infrastructure.persistence.entity.activity.SingleIntervalExerciseActivityEntity;
@@ -22,10 +20,9 @@ class ExerciseActivityEntityToDomainMapperFactoryTest {
 
     private final IExerciseActivityEntityToDomainMapper singleMapper = new SingleIntervalEntityToDomainMapper();
     private final IExerciseActivityEntityToDomainMapper comparisonMapper = new IntervalSoundComparisonEntityToDomainMapper();
-    private final IExerciseActivityEntityToDomainMapper coolDownMapper = new CoolDownActivityEntityToDomainMapper();
 
     private final ExerciseActivityEntityToDomainMapperFactory factory =
-            new ExerciseActivityEntityToDomainMapperFactory(List.of(singleMapper, comparisonMapper, coolDownMapper));
+            new ExerciseActivityEntityToDomainMapperFactory(List.of(singleMapper, comparisonMapper));
 
     @Test
     void transformSingleIntervalActivityToEntity() {
@@ -54,18 +51,6 @@ class ExerciseActivityEntityToDomainMapperFactoryTest {
         assertEquals(MusicalInterval.PERFECT_5TH, comparisonEntity.getFirstInterval());
         assertEquals(MusicalInterval.MINOR_3RD, comparisonEntity.getSecondInterval());
         assertEquals(2, comparisonEntity.getPosition());
-    }
-
-    @Test
-    void transformCoolDownActivityToEntity() {
-        var activity = new CoolDownRestActivity(3, 30);
-
-        ExerciseActivityEntity entity = factory.toExerciseActivityEntity(activity);
-
-        assertInstanceOf(CoolDownRestActivityEntity.class, entity);
-        var coolDownEntity = (CoolDownRestActivityEntity) entity;
-        assertEquals(3, coolDownEntity.getPosition());
-        assertEquals(30, coolDownEntity.getRestAmountInSecond());
     }
 
     @Test
@@ -108,18 +93,6 @@ class ExerciseActivityEntityToDomainMapperFactoryTest {
     }
 
     @Test
-    void reverseTransformCoolDownEntityToDomain() {
-        var entity = new CoolDownRestActivityEntity(7, 45);
-
-        ExerciseActivity domain = factory.toExerciseActivity(entity);
-
-        assertInstanceOf(CoolDownRestActivity.class, domain);
-        var coolDown = (CoolDownRestActivity) domain;
-        assertEquals(7, coolDown.getPosition());
-        assertEquals(45, coolDown.getRestAmountInSecond());
-    }
-
-    @Test
     void activityToEntityRoundTripPreservesDomainValues() {
         var original = IntervalSoundComparison.construct(
                 8, IntervalTexture.ASCENDING, MusicalInterval.MAJOR_2ND, MusicalInterval.PERFECT_4TH);
@@ -132,7 +105,8 @@ class ExerciseActivityEntityToDomainMapperFactoryTest {
 
     @Test
     void transformWithMismatchedTargetThrows() {
-        var activity = new CoolDownRestActivity(1, 10);
+        var activity = IntervalSoundComparison.construct(
+                1, IntervalTexture.ASCENDING, MusicalInterval.MAJOR_2ND, MusicalInterval.PERFECT_4TH);
 
         assertThrows(IllegalArgumentException.class,
                 () -> factory.toExerciseActivityEntity(activity, SingleIntervalExerciseActivityEntity.class));
@@ -140,7 +114,8 @@ class ExerciseActivityEntityToDomainMapperFactoryTest {
 
     @Test
     void reverseTransformWithMismatchedSourceThrows() {
-        var entity = new CoolDownRestActivityEntity(1, 10);
+        var entity = new IntervalSoundComparisonExerciseActivityEntity(
+                IntervalTexture.ASCENDING, MusicalInterval.MAJOR_2ND, MusicalInterval.PERFECT_4TH, 1);
 
         assertThrows(IllegalArgumentException.class,
                 () -> factory.toExerciseActivity(entity, SingleIntervalExerciseActivity.class));

@@ -37,6 +37,7 @@ Hexagonal architecture with two bounded contexts under `vn.ktt`, each split into
 ### Authorization
 
 - The service is an OAuth2 resource server for the Keycloak realm (`SecurityConfig`). Everything requires a valid JWT; controllers also require the `learner` role (`@PreAuthorize`).
+- `MusicSecurityConfig` (music context) adds two things. A higher-priority HTTP chain makes the music REST endpoints public (`/api/intervals/**`, `/api/interval-range/**`; in a path pattern `**` must be a whole trailing segment). A `@GlobalServerInterceptor` `AuthenticationProcessInterceptor` permits all gRPC calls, because Boot would otherwise secure the gRPC server with the OAuth2 resource server and the internal client sends no token. `SoundGrpcService` must be `@GrpcService` for the interceptor to apply. gRPC is therefore unauthenticated: revisit it (forward the JWT or use a service token) before `music` becomes its own service.
 - Ownership is **not** in the domain. `exercises.owner_id` and `practice_sessions.learner_id` (Keycloak `sub`) exist only on the JPA entities. `ICurrentUserPort` (impl: `SecurityContextCurrentUser`) gives the current user to the persistence adapters.
 - **Repositories are user-scoped.** `ExerciseRepository` and `PracticeSessionRepository` only read and write the current user's rows, stamp the owner on insert and keep it on update. Someone else's row looks like a missing one (`NotFoundException` → 404). Every new repository query must be scoped by hand, and `UserScopedRepositoryTest` should cover it.
 - `PracticeSessionEntityMapper` uses `exerciseJpaRepository.getReferenceById` (unscoped). That is safe only because `startSession` loads the exercise through the scoped repository first.
@@ -48,7 +49,7 @@ Hexagonal architecture with two bounded contexts under `vn.ktt`, each split into
 Every polymorphic concept exists in three parallel forms: a domain value object, an application DTO, and a persistence entity. Examples: `SingleIntervalExerciseActivity` / `…DTO` / `…Entity`, and `ListenIntervalContext` / `ListenIntervalStepDTO` / `ListenIntervalContextEntity`. Nothing uses `instanceof` or `switch` to dispatch on these types. Dispatch goes through the generic registries in `vn.ktt.shared`, which collect beans by type:
 
 - `DataMapperRegistry<Key, From, To>` indexes `IDataMapper` beans by source and target class. It resolves the one mapper that matches an object's runtime class, and throws on duplicate keys, no match, or ambiguous matches. Its subclasses are the four `*MapperFactory` classes: activity and step-context, each for DTO↔domain and entity↔domain.
-- `ServiceRegistry<Key, Service>` looks up a service by the key's exact runtime class. `StepGenerationService` uses it to pick an `IStepGeneration` for each `ExerciseActivity` subtype, then expands the activities into `StepDefinition`s × repetitions.
+- `ServiceRegistry<Key, Service>` looks up a service by the key's exact runtime class. `StepGenerationService` uses it to pick an `IStepGeneration` for each `ExerciseActivity` subtype, then returns one pass: a `StepGroupBlueprint` (the steps of one activity) per activity. `PracticeSessionFactory` lays out the whole session: the pass once per repetition, with a rest step (`CoolDownContext`, duration must be positive) between two repetitions, and none after the last or when the exercise's `rest` is 0. Every step carries a unique sequential `stepGroup` and its `repetition`; `PracticeSession` only validates and holds the finished steps. `StepType` is derived from the step's context (`StepContext.getStepType()`).
 
 ### Polymorphic JSON (two independent mechanisms)
 
@@ -66,7 +67,7 @@ Every polymorphic concept exists in three parallel forms: a domain value object,
 - An entity, a `@JsonSubTypes` entry on `ExerciseActivityEntity`, and an `IExerciseActivityEntityToDomainMapper` with an `ExerciseActivityEntityMapperKey` constant.
 
 **New step context:** the same shape.
-- A `StepContext` VO and a `StepType` constant.
+- A `StepContext` VO and a `StepType` constant; the VO returns it from `getStepType()` (the type is derived from the context, never passed in separately).
 - A `PracticeStepDTO` subclass, a `PracticeStepType` constant, and an `IPracticeStepDTOProvider`.
 - An `IStepContextMapper` with a `StepContextMapperKey` constant.
 - An entity, a `@JsonSubTypes` entry on `StepContextEntity`, and an `IStepContextEntityToDomainMapper` with a `StepContextEntityMapperKey` constant.

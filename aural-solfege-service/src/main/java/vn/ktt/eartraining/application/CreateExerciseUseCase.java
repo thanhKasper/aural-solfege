@@ -5,11 +5,8 @@ import vn.ktt.eartraining.application.dto.ExerciseDTO;
 import vn.ktt.eartraining.application.inbound.IExerciseCreationPort;
 import vn.ktt.eartraining.application.mapper.ExerciseMapper;
 import vn.ktt.eartraining.domain.exercise.entity.Exercise;
-import vn.ktt.eartraining.domain.exercise.valueobject.activity.CoolDownRestActivity;
 import vn.ktt.eartraining.domain.exercise.repository.IExerciseRepository;
 import vn.ktt.eartraining.domain.exercise.valueobject.TrainingMethodology;
-
-import java.util.ArrayList;
 
 @Service
 public class CreateExerciseUseCase implements IExerciseCreationPort {
@@ -28,10 +25,9 @@ public class CreateExerciseUseCase implements IExerciseCreationPort {
             throw new IllegalArgumentException("Repetitions must be between 1 and 10");
         }
 
-        var domainExerciseActivities = new ArrayList<>(exerciseDTO.getExerciseActivities().stream()
+        var domainExerciseActivities = exerciseDTO.getExerciseActivities().stream()
                 .map(exerciseMapper::toDomain)
-                .toList());
-        domainExerciseActivities.add(new CoolDownRestActivity(domainExerciseActivities.size(), exerciseDTO.getRest()));
+                .toList();
 
         var domainExercise = Exercise.create(
                 TrainingMethodology.valueOf(exerciseDTO.getTrainingMethodology()),

@@ -61,4 +61,9 @@ public class PracticeSessionRepository implements IPracticeSessionRepository {
         return jpaRepository.existsByLearnerIdAndExerciseExerciseIdAndStatus(
                 currentUser.userId(), exerciseId, SessionStatus.IN_PROGRESS);
     }
+
+    @Override
+    public boolean deleteSession(UUID sessionId) {
+        return jpaRepository.deleteBySessionIdAndLearnerId(sessionId, currentUser.userId()) > 0;
+    }
 }

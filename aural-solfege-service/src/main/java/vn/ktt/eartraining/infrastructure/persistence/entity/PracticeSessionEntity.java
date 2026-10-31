@@ -47,9 +47,6 @@ public class PracticeSessionEntity {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    @Column(name = "started_at")
-    private Instant startedAt;
-
     @Column(name = "completed_at")
     private Instant completedAt;
 }

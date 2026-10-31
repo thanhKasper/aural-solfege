@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.context.annotation.Import;
-import vn.ktt.eartraining.application.dto.activity.CoolDownRestActivityDTO;
 import vn.ktt.eartraining.application.dto.activity.ExerciseActivityDTO;
 import vn.ktt.eartraining.application.dto.activity.IntervalSoundComparisonExerciseActivityDTO;
 import vn.ktt.eartraining.application.dto.activity.SingleIntervalExerciseActivityDTO;
@@ -15,7 +14,6 @@ import vn.ktt.eartraining.application.dto.step.CoolDownStepDTO;
 import vn.ktt.eartraining.application.dto.step.IntervalSoundComparisonStepDTO;
 import vn.ktt.eartraining.application.dto.step.ListenIntervalStepDTO;
 import vn.ktt.eartraining.application.dto.step.PracticeStepDTO;
-import vn.ktt.eartraining.infrastructure.jackson.provider.activity.CoolDownActivityDTOProvider;
 import vn.ktt.eartraining.infrastructure.jackson.provider.activity.IntervalSoundComparisonExerciseActivityDTOProvider;
 import vn.ktt.eartraining.infrastructure.jackson.provider.activity.SingleIntervalExerciseActivityDTOProvider;
 import vn.ktt.eartraining.infrastructure.jackson.provider.step.CoolDownStepDTOProvider;
@@ -42,7 +40,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 @JsonTest
 @Import({
         JacksonConfiguration.class,
-        CoolDownActivityDTOProvider.class,
         SingleIntervalExerciseActivityDTOProvider.class,
         IntervalSoundComparisonExerciseActivityDTOProvider.class,
         CoolDownStepDTOProvider.class,
@@ -56,8 +53,6 @@ class PolymorphicDtoSerializationTest {
 
     static Stream<Arguments> exerciseActivities() {
         return Stream.of(
-                arguments("COOL_DOWN",
-                        new CoolDownRestActivityDTO(2, 30)),
                 arguments("SINGLE_INTERVAL",
                         new SingleIntervalExerciseActivityDTO(List.of("MAJOR_2ND"), "ASCENDING", 0)),
                 arguments("INTERVAL_SOUND_COMPARISON",
@@ -69,12 +64,12 @@ class PolymorphicDtoSerializationTest {
     static Stream<Arguments> practiceSteps() {
         return Stream.of(
                 arguments("COOL_DOWN",
-                        new CoolDownStepDTO(2, "ACTIVE", 30)),
+                        new CoolDownStepDTO(30)),
                 arguments("LISTEN_INTERVAL",
-                        new ListenIntervalStepDTO(0, "ACTIVE", "MAJOR_2ND", "UP", "ASCENDING")),
+                        new ListenIntervalStepDTO("MAJOR_2ND", "UP", "ASCENDING")),
                 arguments("INTERVAL_SOUND_COMPARISON",
                         new IntervalSoundComparisonStepDTO(
-                                1, "PENDING", "PERFECT_4TH", "PERFECT_5TH", "ASCENDING", -1, 10, 3))
+                                "PERFECT_4TH", "PERFECT_5TH", "ASCENDING", -1, 10, 3))
         );
     }
 
@@ -120,8 +115,7 @@ class PolymorphicDtoSerializationTest {
         PracticeStepDTO read = mapper.readValue(json, PracticeStepDTO.class);
 
         assertInstanceOf(dto.getClass(), read);
-        assertEquals(dto.activityPosition(), read.activityPosition());
-        assertEquals(dto.status(), read.status());
+        assertEquals(json, mapper.writerFor(PracticeStepDTO.class).writeValueAsString(read));
     }
 
     /**
@@ -133,13 +127,13 @@ class PolymorphicDtoSerializationTest {
     void activitiesNestedInAListKeepTheirDiscriminators() throws Exception {
         List<ExerciseActivityDTO> activities = List.of(
                 new SingleIntervalExerciseActivityDTO(List.of("MAJOR_2ND"), "ASCENDING", 0),
-                new CoolDownRestActivityDTO(1, 100));
+                new IntervalSoundComparisonExerciseActivityDTO(List.of("PERFECT_4TH", "PERFECT_5TH"), "ASCENDING", 1));
 
         String json = mapper.writerFor(new tools.jackson.core.type.TypeReference<List<ExerciseActivityDTO>>() {})
                 .writeValueAsString(activities);
         var tree = mapper.readTree(json);
 
         assertEquals("SINGLE_INTERVAL", tree.get(0).path("type").asText());
-        assertEquals("COOL_DOWN", tree.get(1).path("type").asText());
+        assertEquals("INTERVAL_SOUND_COMPARISON", tree.get(1).path("type").asText());
     }
 }
