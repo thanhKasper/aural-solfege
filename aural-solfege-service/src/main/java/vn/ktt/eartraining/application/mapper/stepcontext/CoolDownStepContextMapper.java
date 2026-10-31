@@ -27,11 +27,7 @@ public class CoolDownStepContextMapper implements IStepContextMapper {
     @Override
     public PracticeStepDTO transform(StepContext dataFrom) {
         var context = (CoolDownContext) dataFrom;
-        return new CoolDownStepDTO(
-                0, // Dummy data
-                "", // Dummy data
-                context.restingTimeInSecond()
-        );
+        return new CoolDownStepDTO(context.restingTimeInSecond());
     }
 
     @Override

@@ -13,11 +13,7 @@ public class StepMapper {
         this.stepContextMapperFactory = stepContextMapperFactory;
     }
 
-    public PracticeStepDTO toDTO(PracticeStep domain, int activityPosition) {
-        PracticeStepDTO dto = stepContextMapperFactory.toDto(domain.getContext());
-        dto.setActivityPosition(activityPosition);
-        dto.setStatus(domain.getStatus().toString());
-
-        return dto;
+    public PracticeStepDTO toDTO(PracticeStep domain) {
+        return stepContextMapperFactory.toDto(domain.getContext());
     }
 }

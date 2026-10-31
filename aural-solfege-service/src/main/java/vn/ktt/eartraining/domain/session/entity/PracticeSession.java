@@ -150,6 +150,20 @@ public class PracticeSession {
         return (int) steps.subList(0, currentStepIndex).stream().filter(s -> !s.isRest()).count();
     }
 
+    /** Repetition of the current step (0-based). A rest belongs to the repetition it follows. */
+    public int viewCurrentRepetition() {
+        return steps.get(currentStepIndex).getRepetitionIndex();
+    }
+
+    /** Activity groups in one repetition, the rest group excluded. */
+    public int viewGroupsPerRepetition() {
+        return (int) steps.stream()
+                .filter(s -> s.getRepetitionIndex() == 0 && !s.isRest())
+                .map(PracticeStep::getStepGroup)
+                .distinct()
+                .count();
+    }
+
     /** How many times the exercise is played: the highest repetition among the steps, plus one. */
     public int getRepeat() {
         return steps.stream().mapToInt(PracticeStep::getRepetitionIndex).max().orElse(-1) + 1;

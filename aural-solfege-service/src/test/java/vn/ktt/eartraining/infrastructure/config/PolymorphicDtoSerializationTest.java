@@ -64,12 +64,12 @@ class PolymorphicDtoSerializationTest {
     static Stream<Arguments> practiceSteps() {
         return Stream.of(
                 arguments("COOL_DOWN",
-                        new CoolDownStepDTO(2, "ACTIVE", 30)),
+                        new CoolDownStepDTO(30)),
                 arguments("LISTEN_INTERVAL",
-                        new ListenIntervalStepDTO(0, "ACTIVE", "MAJOR_2ND", "UP", "ASCENDING")),
+                        new ListenIntervalStepDTO("MAJOR_2ND", "UP", "ASCENDING")),
                 arguments("INTERVAL_SOUND_COMPARISON",
                         new IntervalSoundComparisonStepDTO(
-                                1, "PENDING", "PERFECT_4TH", "PERFECT_5TH", "ASCENDING", -1, 10, 3))
+                                "PERFECT_4TH", "PERFECT_5TH", "ASCENDING", -1, 10, 3))
         );
     }
 
@@ -115,8 +115,7 @@ class PolymorphicDtoSerializationTest {
         PracticeStepDTO read = mapper.readValue(json, PracticeStepDTO.class);
 
         assertInstanceOf(dto.getClass(), read);
-        assertEquals(dto.activityPosition(), read.activityPosition());
-        assertEquals(dto.status(), read.status());
+        assertEquals(json, mapper.writerFor(PracticeStepDTO.class).writeValueAsString(read));
     }
 
     /**

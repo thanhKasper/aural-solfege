@@ -19,12 +19,16 @@ public class SessionMapper {
         return new SessionStepDTO(
                 new SessionStepDTO.Metadata(
                         session.getSessionId(),
+                        session.getExerciseId(),
                         session.viewTotalSteps(),
                         session.viewCurrentStepIndex(),
                         session.getRepeat(),
+                        session.viewCurrentRepetition(),
+                        session.groupPositionInRepetition(currentStep),
+                        session.viewGroupsPerRepetition(),
                         session.isNextStepAvailable()
                 ),
-                stepMapper.toDTO(currentStep, session.groupPositionInRepetition(currentStep))
+                stepMapper.toDTO(currentStep)
         );
     }
 

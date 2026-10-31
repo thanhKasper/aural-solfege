@@ -37,8 +37,6 @@ public class IntervalSoundComparisonStepContextMapper implements IStepContextMap
     public PracticeStepDTO transform(StepContext dataFrom) {
         var context = (IntervalSoundComparisonContext) dataFrom;
         return new IntervalSoundComparisonStepDTO(
-                0,
-                "",
                 context.firstInterval().name(),
                 context.secondInterval().name(),
                 context.texture().name(),

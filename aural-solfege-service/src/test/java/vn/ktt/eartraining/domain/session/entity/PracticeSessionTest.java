@@ -72,6 +72,61 @@ class PracticeSessionTest {
     }
 
     @Test
+    void repetitionOfTheCurrentStepFollowsTheLayoutAndAnActiveRestBelongsToThePreviousRepetition() {
+        var session = sessionWithARest();
+
+        var repetitions = new java.util.ArrayList<Integer>();
+        for (int i = 0; i < 5; i++) {
+            repetitions.add(session.viewCurrentRepetition());
+            if (session.isNextStepAvailable()) {
+                session.completeCurrentStep();
+                session.advanceToNextStep();
+            }
+        }
+
+        // steps: listen, listen, rest, listen, listen
+        assertEquals(List.of(0, 0, 0, 1, 1), repetitions);
+    }
+
+    @Test
+    void activityMapPositionIsConsecutiveAcrossGroupsRestsAndRepetitions() {
+        var session = sessionWithARest();
+        int groups = session.viewGroupsPerRepetition();
+        boolean hasRests = session.getSteps().stream().anyMatch(PracticeStep::isRest);
+        int stride = groups + (hasRests ? 1 : 0);
+
+        var positions = new java.util.ArrayList<Integer>();
+        for (int i = 0; i < 5; i++) {
+            var current = session.getCurrentStep();
+            positions.add(session.viewCurrentRepetition() * stride + session.groupPositionInRepetition(current));
+            if (session.isNextStepAvailable()) {
+                session.completeCurrentStep();
+                session.advanceToNextStep();
+            }
+        }
+
+        // two groups and a rest per repetition: 0, 1, rest = 2, then 3, 4 in the second repetition
+        assertEquals(2, groups);
+        assertEquals(List.of(0, 1, 2, 3, 4), positions);
+    }
+
+    @Test
+    void groupsPerRepetitionExcludesTheRest() {
+        var session = sessionWithARest();
+
+        assertEquals(2, session.viewGroupsPerRepetition());
+    }
+
+    @Test
+    void groupsPerRepetitionWithoutRests() {
+        var session = PracticeSession.create(UUID.randomUUID(), List.of(
+                listen(0, 0), listen(1, 0), listen(2, 1), listen(3, 1)));
+
+        assertEquals(2, session.viewGroupsPerRepetition());
+        assertEquals(2, session.getRepeat());
+    }
+
+    @Test
     void createdSessionIsInProgressOnItsFirstStep() {
         var session = sessionWithARest();
 
