@@ -41,7 +41,6 @@ class PracticeSessionTest {
     @Test
     void restsAreNeverCounted() {
         var session = sessionWithARest();
-        session.start();
 
         assertEquals(5, session.getSteps().size());
         assertEquals(4, session.viewTotalSteps());
@@ -58,7 +57,6 @@ class PracticeSessionTest {
     @Test
     void currentStepPositionSkipsRestsAndPointsAtTheNextStepWhileResting() {
         var session = sessionWithARest();
-        session.start();
 
         var positions = new java.util.ArrayList<Integer>();
         for (int i = 0; i < 5; i++) {
@@ -71,6 +69,16 @@ class PracticeSessionTest {
 
         // steps: listen, listen, rest, listen, listen
         assertEquals(List.of(0, 1, 2, 2, 3), positions);
+    }
+
+    @Test
+    void createdSessionIsInProgressOnItsFirstStep() {
+        var session = sessionWithARest();
+
+        assertEquals(SessionStatus.IN_PROGRESS, session.getStatus());
+        assertEquals(0, session.getCurrentStepIndex());
+        assertEquals(StepStatus.ACTIVE, session.getCurrentStep().getStatus());
+        assertEquals(StepStatus.PENDING, session.getSteps().get(1).getStatus());
     }
 
     @Test
@@ -94,7 +102,7 @@ class PracticeSessionTest {
         var id = UUID.randomUUID();
         var steps = List.of(step(2, 0), step(1, 0));
         assertThrows(IllegalArgumentException.class, () -> PracticeSession.reconstruct(
-                UUID.randomUUID(), id, SessionStatus.CREATED, 0, steps, null, null, null));
+                UUID.randomUUID(), id, SessionStatus.IN_PROGRESS, 0, steps, null, null));
     }
 
     @Test
@@ -111,7 +119,6 @@ class PracticeSessionTest {
         var session = PracticeSession.create(UUID.randomUUID(), List.of(
                 step(0, 0), step(0, 0), step(1, 0),
                 step(2, 1), step(2, 1), step(3, 1)));
-        session.start();
 
         assertEquals(0, session.getCurrentStepGroup());
         assertEquals(2, session.getStepsInGroup(0).size());
@@ -152,7 +159,7 @@ class PracticeSessionTest {
                 PracticeStep.reconstruct(1, 0, StepStatus.ACTIVE, new CoolDownContext(1)));
 
         var session = PracticeSession.reconstruct(
-                UUID.randomUUID(), UUID.randomUUID(), SessionStatus.IN_PROGRESS, 1, steps, null, null, null);
+                UUID.randomUUID(), UUID.randomUUID(), SessionStatus.IN_PROGRESS, 1, steps, null, null);
 
         assertEquals(StepStatus.ACTIVE, session.getCurrentStep().getStatus());
     }

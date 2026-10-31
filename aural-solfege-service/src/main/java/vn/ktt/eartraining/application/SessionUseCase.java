@@ -45,7 +45,6 @@ public class SessionUseCase implements ISessionPort {
 
         var session = sessionFactory.create(exerciseId, exercise.getExerciseActivities(),
                 exercise.getRepetitions(), exercise.getRest());
-        session.start();
         session = sessionRepository.saveSession(session);
         return sessionMapper.mapToSessionDTO(session);
     }
@@ -58,7 +57,7 @@ public class SessionUseCase implements ISessionPort {
         session.completeCurrentStep();
 
         if (!session.isNextStepAvailable()) {
-            session.complete();
+            session.conclude();
             sessionRepository.saveSession(session);
             throw new IllegalStateException("Session has been completed");
         }
@@ -78,7 +77,7 @@ public class SessionUseCase implements ISessionPort {
         session.conclude();
         sessionRepository.saveSession(session);
 
-        long duration = Duration.between(session.getStartedAt(), session.getCompletedAt()).getSeconds();
+        long duration = Duration.between(session.getCreatedAt(), session.getCompletedAt()).getSeconds();
 
         return new SessionResultDTO(session.viewTotalSteps(), session.viewCompletedSteps(), duration);
     }

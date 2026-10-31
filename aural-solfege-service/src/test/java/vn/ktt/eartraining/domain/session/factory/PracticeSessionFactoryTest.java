@@ -65,7 +65,6 @@ class PracticeSessionFactoryTest {
     @Test
     void walkingTheWholeSessionKeepsTheCountsConsistent() {
         var session = factory.create(UUID.randomUUID(), twoActivities(), 3, 60);
-        session.start();
         assertEquals(12, session.viewTotalSteps());
 
         int previousPosition = 0;

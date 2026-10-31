@@ -14,18 +14,20 @@ public class PracticeSession {
     private int currentStepIndex;
     private final List<PracticeStep> steps;
     private Instant createdAt;
-    private Instant startedAt;
     private Instant completedAt;
 
     /**
      * Wraps steps that were already laid out, normally by {@code PracticeSessionFactory}.
      * The session only protects what it holds: at least one step, ordered by repetition and group.
+     * A new session is already in progress, on its first step.
      */
     public static PracticeSession create(UUID exerciseId, List<PracticeStep> steps) {
         if (steps == null || steps.isEmpty()) {
             throw new IllegalArgumentException("A session needs at least one step");
         }
-        return new PracticeSession(null, exerciseId, steps);
+        var session = new PracticeSession(null, exerciseId, steps);
+        session.steps.getFirst().activate();
+        return session;
     }
 
     public static PracticeSession reconstruct(
@@ -35,13 +37,11 @@ public class PracticeSession {
             int currentStepIndex,
             List<PracticeStep> steps,
             Instant createdAt,
-            Instant startedAt,
             Instant completedAt) {
         var session = new PracticeSession(sessionId, exerciseId, steps);
         session.status = status;
         session.currentStepIndex = currentStepIndex;
         session.createdAt = createdAt;
-        session.startedAt = startedAt;
         session.completedAt = completedAt;
         return session;
     }
@@ -51,7 +51,7 @@ public class PracticeSession {
         this.exerciseId = Objects.requireNonNull(exerciseId);
         assertOrdered(steps);
         this.steps = new ArrayList<>(steps);
-        this.status = SessionStatus.CREATED;
+        this.status = SessionStatus.IN_PROGRESS;
         this.currentStepIndex = 0;
         this.createdAt = Instant.now();
     }
@@ -65,15 +65,6 @@ public class PracticeSession {
             }
             group = step.getStepGroup();
             repetitionIndex = step.getRepetitionIndex();
-        }
-    }
-
-    public void start() {
-        assertStatus(SessionStatus.CREATED, "Only CREATED sessions can be started");
-        this.status = SessionStatus.IN_PROGRESS;
-        this.startedAt = Instant.now();
-        if (!steps.isEmpty()) {
-            steps.get(currentStepIndex).activate();
         }
     }
 
@@ -110,12 +101,6 @@ public class PracticeSession {
 
     public boolean isNextStepAvailable() {
         return currentStepIndex < steps.size() - 1;
-    }
-
-    public void complete() {
-        assertStatus(SessionStatus.IN_PROGRESS, "Only IN_PROGRESS sessions can be completed");
-        this.status = SessionStatus.COMPLETED;
-        this.completedAt = Instant.now();
     }
 
     public void conclude() {

@@ -29,7 +29,6 @@ public class PracticeSessionEntityMapper {
         entity.setStatus(domain.getStatus());
         entity.setCurrentStepIndex(domain.getCurrentStepIndex());
         entity.setCreatedAt(domain.getCreatedAt());
-        entity.setStartedAt(domain.getStartedAt());
         entity.setCompletedAt(domain.getCompletedAt());
 
         var stepEntities = new ArrayList<PracticeStepEntity>();
@@ -66,7 +65,6 @@ public class PracticeSessionEntityMapper {
                 entity.getCurrentStepIndex(),
                 steps,
                 entity.getCreatedAt(),
-                entity.getStartedAt(),
                 entity.getCompletedAt()
         );
     }
